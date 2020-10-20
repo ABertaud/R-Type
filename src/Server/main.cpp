@@ -1,0 +1,42 @@
+/*
+** EPITECH PROJECT, 2020
+** B-CPP-501-NAN-5-1-rtype-arthur.bertaud
+** File description:
+** main.cpp
+*/
+
+#include "IMonster.hpp"
+#include "Error.hpp"
+#include <iostream>
+#include "pathHandler.hpp"
+#include "DLLoader.hpp"
+#include "dirReader.hpp"
+
+int main(int ac, char **av)
+{
+    (void)ac;
+    (void)av;
+
+    try {
+        pathHandler hdl(pathType::DIR);
+        // DLLoader loader("lib/libsample_monster.so");
+        if (ac > 2)
+            throw ErrorNbArgs();
+        else if (ac == 2)
+            hdl.setPath(av[1]);
+        if (hdl.isDirValid() == false)
+            throw ErrorDirPath();
+        dirReader dir(hdl.getPath());
+        dir.findLibraries();
+        // IMonster *monster = loader.getInstance<IMonster>("entryPoint");
+        // std::cout << monster->getAttack() << std::endl;
+        // delete(monster);
+        // Server serv();
+        //serv.run();
+    } catch (Error const &err) {
+        std::cerr << err.what() << std::endl;
+        return (84);
+    }
+    // findLoader(lib)->getInstance<IMonster>("entryPoint");
+    return (0);    
+}
