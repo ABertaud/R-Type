@@ -9,6 +9,7 @@
 #include <criterion/redirect.h>
 #include "ECSEngine.hpp"
 #include "movementSystem.hpp"
+#include "Error.hpp"
 
 Test(testECSEngineSimpleUsage, ECSEngine)
 {
@@ -57,4 +58,16 @@ Test(testECSRemoveEntity, ECSEngine)
     engine.getNewEntity();
     engine.removeEntity(engine.getNewEntity());
     cr_assert_eq(engine.getEntites().front(), 0);
+}
+
+Test(testECSErrorNbEntities, ECSEngine)
+{
+    ECSEngine engine;
+
+    try {
+        for (int i = 0; i != 505; i++)
+            engine.removeEntity(engine.getNewEntity());
+    } catch (Error &err) {
+        cr_assert_eq(std::strcmp(err.what(), "Error: invalid number of entities has been reached."), 0);
+    }
 }

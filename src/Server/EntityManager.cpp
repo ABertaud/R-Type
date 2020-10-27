@@ -8,16 +8,19 @@
 #include "EntityManager.hpp"
 #include <algorithm>
 #include <iostream>
+#include "Error.hpp"
 
 EntityManager::EntityManager() : _nbEntities(0)
 {
-    for (Entity entity = 0; entity < 500; ++entity) {
+    for (Entity entity = 0; entity < MAX_ENTITIES; ++entity) {
 		_entities.push(entity);
 	}
 }
 
 Entity EntityManager::createEntity()
 {
+	if (_nbEntities == MAX_ENTITIES)
+		throw ErrorEntitiesNumber();
 	Entity id = _entities.front();
 	_entities.pop();
 	_nbEntities++;

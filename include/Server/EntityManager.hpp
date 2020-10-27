@@ -9,6 +9,7 @@
 #define ENTITYMANAGER_HPP_
 
 #include <queue>
+#define MAX_ENTITIES 500
 
 typedef size_t Entity;
 

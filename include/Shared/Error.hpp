@@ -77,4 +77,22 @@ public:
     ~ErrorNoMonsters() = default;
 };
 
+class ErrorECS : public Error
+{
+public:
+    ErrorECS(const std::string &);
+    ErrorECS(const ErrorECS &other) = default;
+    ErrorECS &operator=(const ErrorECS &other) = default;
+    ~ErrorECS() = default;
+};
+
+class ErrorEntitiesNumber : public ErrorECS
+{
+public:
+    ErrorEntitiesNumber();
+    ErrorEntitiesNumber(const ErrorEntitiesNumber &other) = default;
+    ErrorEntitiesNumber &operator=(const ErrorEntitiesNumber &other) = default;
+    ~ErrorEntitiesNumber() = default;
+};
+
 #endif /*ERROR_HPP_*/
