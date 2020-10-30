@@ -11,6 +11,7 @@
 
 #include <SFML/Graphics.hpp>
 
+namespace Graphic {
 enum Object
 {
     // Graphic element
@@ -28,5 +29,5 @@ class IEntity {
     protected:
     private:
 };
-
+};
 #endif
