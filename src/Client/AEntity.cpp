@@ -8,15 +8,15 @@
 #include "AEntity.hpp"
 
 
-AEntity::AEntity(const Object &type, bool bonus, const sf::Vector2f &test) : _type(type), 
+Graphic::AEntity::AEntity(const Object &type, bool bonus, const sf::Vector2f &test) : _type(type), 
 _pos(test), _bonus(bonus)
 {
 }
 
-AEntity::~AEntity()
+Graphic::AEntity::~AEntity()
 {}
 
-Object AEntity::getObject() const
+Graphic::Object Graphic::AEntity::getObject() const
 {
     return (_type);
 }

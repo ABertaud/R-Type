@@ -8,20 +8,20 @@
 #include "Wall.hpp"
 #include <iostream>
 
-Wall::Wall(const Object &type, bool bonus, const sf::Vector2f &test) : 
-AEntity(type, bonus, test)
+Graphic::Wall::Wall(const Graphic::Object &type, bool bonus, const sf::Vector2f &test) : 
+Graphic::AEntity(type, bonus, test)
 {
 }
 
-Wall::~Wall()
+Graphic::Wall::~Wall()
 {}
 
-void Wall::update()
+void Graphic::Wall::update()
 {
     std::cout << "update" << std::endl;
 }
 
-Object Wall::getObject() const
+Graphic::Object Graphic::Wall::getObject() const
 {
     return _type;
 }
