@@ -14,11 +14,19 @@
 namespace Graphic {
 enum Object
 {
-    // Graphic element
+    BACKGROUND,
     WALL,
-    ENEMY,
-    BULLET,
-    PLAYER
+    OBSTACLE,
+    PLAYER,
+    PLAYER_SHOOT,
+    ALIEN,
+    ALIEN_SHOOT,
+    UFO,
+    UFO_SHOOT,
+    SPACESHIP,
+    SPACESHIP_SHOOT,
+    PIRATE,
+    PIRATE_SHOOT,
 };
 
 class IEntity {
