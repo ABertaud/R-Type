@@ -5,7 +5,9 @@
 ** Components.hpp
 */
 
-enum componentType {
-    POSITION,
-    VELOCITY,
-};
+namespace ECS {
+    enum componentType {
+        POSITION,
+        VELOCITY,
+    };
+    }

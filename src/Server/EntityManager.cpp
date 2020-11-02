@@ -10,14 +10,14 @@
 #include <iostream>
 #include "Error.hpp"
 
-EntityManager::EntityManager() : _nbEntities(0)
+ECS::EntityManager::EntityManager() : _nbEntities(0)
 {
     for (Entity entity = 0; entity < MAX_ENTITIES; ++entity) {
 		_entities.push(entity);
 	}
 }
 
-Entity EntityManager::createEntity()
+Entity ECS::EntityManager::createEntity()
 {
 	if (_nbEntities == MAX_ENTITIES)
 		throw ErrorEntitiesNumber();
@@ -28,7 +28,7 @@ Entity EntityManager::createEntity()
 	return (id);
 }
 
-void EntityManager::destroyEntity(const Entity entity)
+void ECS::EntityManager::destroyEntity(const Entity entity)
 {
 	std::vector<Entity>::iterator it = std::find(_ids.begin(), _ids.end(), entity);
 	if (it != _ids.end())
@@ -41,7 +41,7 @@ void EntityManager::destroyEntity(const Entity entity)
 	_nbEntities--;
 }
 
-std::vector<Entity> &EntityManager::getEntities()
+std::vector<Entity>& ECS::EntityManager::getEntities()
 {
 	return (_ids);
 }

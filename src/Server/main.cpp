@@ -11,6 +11,7 @@
 #include "pathHandler.hpp"
 #include "DLLoader.hpp"
 #include "dirReader.hpp"
+#include "udpServer.hpp"
 
 int main(int ac, char **av)
 {
@@ -31,8 +32,9 @@ int main(int ac, char **av)
         // IMonster *monster = loader.getInstance<IMonster>("entryPoint");
         // std::cout << monster->getAttack() << std::endl;
         // delete(monster);
-        // Server serv();
-        //serv.run();
+        boost::asio::io_context ioContext;
+        udpServer server(ioContext);
+        server.run();
     } catch (Error const &err) {
         std::cerr << err.what() << std::endl;
         return (84);

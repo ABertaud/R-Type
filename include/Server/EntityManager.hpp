@@ -13,20 +13,22 @@
 
 typedef size_t Entity;
 
-class EntityManager {
-    public:
-        EntityManager();
-        Entity createEntity();
-        void destroyEntity(const Entity entity);
-        EntityManager(const EntityManager &other) = default;
-        EntityManager &operator=(const EntityManager &other) = default;
-        std::vector<Entity> &getEntities();
-        ~EntityManager() = default;
-    protected:
-    private:
-        std::queue<Entity> _entities;
-        std::vector<Entity> _ids;
-        unsigned int _nbEntities;
-};
+namespace ECS {
+    class EntityManager {
+        public:
+            EntityManager();
+            Entity createEntity();
+            void destroyEntity(const Entity entity);
+            EntityManager(const EntityManager& other) = default;
+            EntityManager& operator=(const EntityManager& other) = default;
+            std::vector<Entity>& getEntities();
+            ~EntityManager() = default;
+        protected:
+        private:
+            std::queue<Entity> _entities;
+            std::vector<Entity> _ids;
+            unsigned int _nbEntities;
+    };
+}
 
 #endif /* !ENTITYMANAGER_HPP_ */

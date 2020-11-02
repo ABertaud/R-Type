@@ -7,6 +7,6 @@
 
 #include "Velocity.hpp"
 
-Velocity::Velocity(const int vx, const int vy) : _vx(vx), _vy(vy)
+ECS::Velocity::Velocity(const int vx, const int vy) : _vx(vx), _vy(vy)
 {
 }

@@ -7,16 +7,16 @@
 
 #include "StorageManager.hpp"
 
-StorageManager::StorageManager()
+ECS::StorageManager::StorageManager()
 {
 }
 
-std::unordered_map<componentType, std::shared_ptr<IStorage>> &StorageManager::getStorages()
+std::unordered_map<ECS::componentType, std::shared_ptr<ECS::IStorage>>& ECS::StorageManager::getStorages()
 {
     return (_storages);
 }
 
-std::shared_ptr<IStorage> &StorageManager::getStorage(const componentType type)
+std::shared_ptr<ECS::IStorage>& ECS::StorageManager::getStorage(const ECS::componentType type)
 {
     return (_storages[type]);
 }

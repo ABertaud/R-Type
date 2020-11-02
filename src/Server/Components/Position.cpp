@@ -7,7 +7,7 @@
 
 #include "Position.hpp"
 
-Position::Position(const int x, const int y) : _x(x), _y(y)
+ECS::Position::Position(const int x, const int y) : _x(x), _y(y)
 {
 }
 

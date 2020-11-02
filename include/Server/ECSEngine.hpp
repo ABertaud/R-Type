@@ -12,48 +12,48 @@
 #include "SystemManager.hpp"
 
 // class SystemManager;
+namespace ECS {
+    class ECSEngine {
+        public:
+            ECSEngine();
+            ECSEngine(const ECSEngine& other) = default;
+            ECSEngine& operator=(const ECSEngine& other) = default;
+            void update(float dt);
+            Entity getNewEntity() const;
+            void removeEntity(const Entity entity);
+            template<typename T>
+            void registerComponent(const componentType type)
+            {
+                _storageM->registerStorage<T>(type);
+            }
 
-class ECSEngine {
-    public:
-        ECSEngine();
-        ECSEngine(const ECSEngine &other) = default;
-        ECSEngine &operator=(const ECSEngine &other) = default;
-        void update(float dt);
-        Entity getNewEntity() const;
-        void removeEntity(const Entity entity);
-        template<typename T>
-        void registerComponent(const componentType type)
-        {
-            _storageM->registerStorage<T>(type);
-        }
+            template<typename T>
+            void registerSystem()
+            {
+                _systemM->addSystem(std::make_shared<T>());
+            }
 
-        template<typename T>
-        void registerSystem()
-        {
-            _systemM->addSystem(std::make_shared<T>());
-        }
+            template<typename T>
+            void addComponent(const Entity entity, const T& component, const componentType type)
+            {
+                _storageM->addComponent<T>(entity, component, type);
+            }
 
-        template<typename T>
-        void addComponent(const Entity entity, const T &component, const componentType type)
-        {
-            _storageM->addComponent<T>(entity, component, type);
-        }
-
-        template<typename T>
-        T& getComponent(const Entity entity, const componentType type)
-        {
-            Storage<T> &storage = _storageM->findStorage<Storage<T>>(type);
-            return (storage.getComponent(entity));
-        }
-        std::shared_ptr<IStorage> &getStorage(const componentType type);
-        std::vector<Entity> &getEntites();
-        ~ECSEngine() = default;
-    protected:
-    private:
-        std::unique_ptr<StorageManager> _storageM;
-        std::unique_ptr<EntityManager> _entityM;
-        std::unique_ptr<SystemManager> _systemM;
-
-};
+            template<typename T>
+            T& getComponent(const Entity entity, const componentType type)
+            {
+                Storage<T>& storage = _storageM->findStorage<Storage<T>>(type);
+                return (storage.getComponent(entity));
+            }
+            std::shared_ptr<IStorage>& getStorage(const componentType type);
+            std::vector<Entity>& getEntites();
+            ~ECSEngine() = default;
+        protected:
+        private:
+            std::unique_ptr<StorageManager> _storageM;
+            std::unique_ptr<EntityManager> _entityM;
+            std::unique_ptr<SystemManager> _systemM;
+    };
+}
 
 #endif /* !ECSENGINE_HPP_ */

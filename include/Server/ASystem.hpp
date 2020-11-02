@@ -11,15 +11,17 @@
 #include "ISystem.hpp"
 #include "Filter.hpp"
 
-class ASystem : public ISystem {
-    public:
-        ASystem();
-        ~ASystem() = default;
-        ASystem(const ASystem &other) = default;
-        ASystem &operator=(const ASystem &other) = default;
-    protected:
-        Filter _filter;
-    private:
-};
+namespace ECS {
+    class ASystem : public ISystem {
+        public:
+            ASystem();
+            ~ASystem() = default;
+            ASystem(const ASystem& other) = default;
+            ASystem& operator=(const ASystem& other) = default;
+        protected:
+            Filter _filter;
+        private:
+    };
+}
 
 #endif /* !ASYSTEM_HPP_ */

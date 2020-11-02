@@ -9,11 +9,12 @@
 #ifndef ICOMPONENTS_HPP_
 #define ICOMPONENTS_HPP_
 
-class IComponents {
-    public:
-        virtual ~IComponents() = default;
-    protected:
-    private:
-};
-
+namespace ECS {
+    class IComponents {
+        public:
+            virtual ~IComponents() = default;
+        protected:
+        private:
+    };
+}
 #endif /* !ICOMPONENTS_HPP_ */

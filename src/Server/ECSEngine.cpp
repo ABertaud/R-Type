@@ -7,25 +7,25 @@
 
 #include "ECSEngine.hpp"
 
-ECSEngine::ECSEngine(): _storageM(std::unique_ptr<StorageManager>(new StorageManager())), \
+ECS::ECSEngine::ECSEngine(): _storageM(std::unique_ptr<StorageManager>(new StorageManager())), \
 _entityM(std::unique_ptr<EntityManager>(new EntityManager())), _systemM(std::unique_ptr<SystemManager>(new SystemManager()))
 {
 }
 
-void ECSEngine::update(float dt)
+void ECS::ECSEngine::update(float dt)
 {
     auto &systems = _systemM->getSystems();
 
-    for (auto &system : systems)
+    for (auto& system : systems)
         system->update(dt, *this);
 }
 
-Entity ECSEngine::getNewEntity() const
+Entity ECS::ECSEngine::getNewEntity() const
 {
     return (_entityM->createEntity());
 }
 
-void ECSEngine::removeEntity(const Entity entity)
+void ECS::ECSEngine::removeEntity(const Entity entity)
 {
 	auto &storages = _storageM->getStorages();
 
@@ -35,12 +35,12 @@ void ECSEngine::removeEntity(const Entity entity)
 	_entityM->destroyEntity(entity);
 }
 
-std::shared_ptr<IStorage> &ECSEngine::getStorage(const componentType type)
+std::shared_ptr<ECS::IStorage>& ECS::ECSEngine::getStorage(const componentType type)
 {
     return (_storageM->getStorage(type));
 }
 
-std::vector<Entity> &ECSEngine::getEntites()
+std::vector<Entity>& ECS::ECSEngine::getEntites()
 {
     return (_entityM->getEntities());
 }

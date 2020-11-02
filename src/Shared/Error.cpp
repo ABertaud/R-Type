@@ -7,7 +7,7 @@
 
 #include "Error.hpp"
 
-Error::Error(const std::string &err) : _message(err)
+Error::Error(const std::string& err) : _message(err)
 {
 }
 
@@ -16,11 +16,11 @@ const char *Error::what() const noexcept
     return (_message.c_str());
 }
 
-ErrorDLLoader::ErrorDLLoader(const std::string &err) : Error(err)
+ErrorDLLoader::ErrorDLLoader(const std::string& err) : Error(err)
 {
 }
 
-ErrorArgs::ErrorArgs(const std::string &err) : Error(err)
+ErrorArgs::ErrorArgs(const std::string& err) : Error(err)
 {
 }
 
@@ -40,10 +40,10 @@ ErrorConfigPath::ErrorConfigPath(): ErrorArgs("Error: the file given as argument
 { 
 }
 
-ErrorECS::ErrorECS(const std::string &err) : Error(err)
+ECS::ErrorECS::ErrorECS(const std::string& err) : Error(err)
 {
 }
 
-ErrorEntitiesNumber::ErrorEntitiesNumber() : ErrorECS("Error: invalid number of entities has been reached.")
+ECS::ErrorEntitiesNumber::ErrorEntitiesNumber() : ErrorECS("Error: invalid number of entities has been reached.")
 {
 }

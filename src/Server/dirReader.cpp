@@ -9,11 +9,11 @@
 #include <dirent.h>
 #include <iostream>
 
-dirReader::dirReader(const std::string &name) : _path(name)
+dirReader::dirReader(const std::string& name) : _path(name)
 {
 }
 
-void dirReader::pushLibPath(const std::string &name, std::vector<std::string> &dirPaths)
+void dirReader::pushLibPath(const std::string& name, std::vector<std::string>& dirPaths)
 {
     if (name.find(".so") <= name.length())
         dirPaths.push_back(name);

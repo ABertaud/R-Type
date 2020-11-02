@@ -13,6 +13,7 @@ set(TESTS_CLIENT_DIR ${PROJECT_SOURCE_DIR}/tests/Client)
 set(TESTS_SERVER_DIR ${PROJECT_SOURCE_DIR}/tests/Server)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
+find_package(Threads)
 
 file(GLOB_RECURSE SRCS_CLIENT ${SRCS_CLIENT_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp)
 file(GLOB_RECURSE SRCS_SERVER ${SRCS_SERVER_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp ${SRCS_COMPONENTS_DIR}/*.cpp)
@@ -32,7 +33,8 @@ target_compile_options(unit_tests_client
 target_include_directories(unit_tests_client PRIVATE ${INCLUDES_CLIENT_DIR})
 target_include_directories(unit_tests_client PRIVATE ${INCLUDES_SHARED_DIR})
 target_link_libraries(unit_tests_client criterion)
-target_link_libraries(unit_tests_client ${CONAN_LIBS})          
+target_link_libraries(unit_tests_client ${CONAN_LIBS})
+target_link_libraries(unit_tests_client ${CMAKE_THREAD_LIBS_INIT})      
 add_test(first unit_tests_client)
 
 add_executable(unit_tests_server ${TESTS_SERVER} ${SRCS_SERVER})
@@ -45,7 +47,8 @@ target_include_directories(unit_tests_server PRIVATE ${INCLUDES_SERVER_DIR})
 target_include_directories(unit_tests_server PRIVATE ${INCLUDES_SHARED_DIR})  
 target_include_directories(unit_tests_server PRIVATE ${INCLUDES_COMPONENTS_DIR})
 target_link_libraries(unit_tests_server criterion)
-target_link_libraries(unit_tests_server ${CONAN_LIBS})          
+target_link_libraries(unit_tests_server ${CONAN_LIBS})      
+target_link_libraries(unit_tests_server ${CMAKE_THREAD_LIBS_INIT})
 add_test(second unit_tests_server)
 
                       

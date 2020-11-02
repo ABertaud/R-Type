@@ -14,8 +14,8 @@ class sample : public AMonster
 {
     public:
         sample();
-        sample(const sample &other) = default;
-        sample &operator=(const sample &other) = default;
+        sample(const sample& other) = default;
+        sample& operator=(const sample& other) = default;
         void update();
         ~sample() = default;
     private:

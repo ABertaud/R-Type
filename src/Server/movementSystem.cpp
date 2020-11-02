@@ -8,20 +8,20 @@
 #include "movementSystem.hpp"
 #include "ECSEngine.hpp"
 
-movementSystem::movementSystem()
+ECS::movementSystem::movementSystem()
 {
 }
 
-void movementSystem::update(const float dt, ECSEngine &engine)
+void ECS::movementSystem::update(const float dt, ECS::ECSEngine& engine)
 {
-    std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(componentType::POSITION), engine.getEntites());
-    entities = _filter.filterEntities(engine.getStorage(componentType::VELOCITY), entities);
+    std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
+    entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 
-    for (auto &ent: entities)
-        applyPhysic(engine.getComponent<Position>(ent, POSITION), engine.getComponent<Velocity>(ent, VELOCITY), dt);
+    for (auto& ent: entities)
+        applyPhysic(engine.getComponent<Position>(ent, ECS::POSITION), engine.getComponent<Velocity>(ent, ECS::VELOCITY), dt);
 }
 
-void movementSystem::applyPhysic(Position &pos, Velocity &vel, const float dt)
+void ECS::movementSystem::applyPhysic(ECS::Position& pos, ECS::Velocity& vel, const float dt)
 {
     pos._x += vel._vx * dt;
     pos._y += vel._vy * dt;

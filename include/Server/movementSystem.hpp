@@ -12,15 +12,17 @@
 #include "Position.hpp"
 #include "Velocity.hpp"
 
-class movementSystem : public ASystem
-{
-public:
-    movementSystem();
-    movementSystem(const movementSystem &other) = default;
-    movementSystem &operator=(const movementSystem &other) = default;
-    void update(const float dt, ECSEngine &engine);
-    void applyPhysic(Position &pos, Velocity &vel, const float dt);
-    ~movementSystem() = default;
-};
+
+namespace ECS {
+    class movementSystem : public ASystem {
+    public:
+        movementSystem();
+        movementSystem(const movementSystem& other) = default;
+        movementSystem& operator=(const movementSystem& other) = default;
+        void update(const float dt, ECSEngine& engine);
+        void applyPhysic(Position& pos, Velocity& vel, const float dt);
+        ~movementSystem() = default;
+    };
+}
 
 #endif /* !MOVEMENTSYSTEM_HPP_ */

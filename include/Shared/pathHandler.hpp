@@ -17,12 +17,12 @@ enum pathType {
 
 class pathHandler {
     public:
-        pathHandler(const pathType &type);
-        pathHandler(const pathHandler &other) = default;
-        pathHandler &operator=(const pathHandler &other) = default;
+        pathHandler(const pathType& type);
+        pathHandler(const pathHandler& other) = default;
+        pathHandler& operator=(const pathHandler& other) = default;
         bool isDirValid() const;
         bool isFileValid() const;
-        void setPath(const std::string &path);
+        void setPath(const std::string& path);
         std::string getPath() const;
         ~pathHandler() = default;
     private:

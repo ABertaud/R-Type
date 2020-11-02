@@ -7,6 +7,6 @@
 
 #include "ASystem.hpp"
 
-ASystem::ASystem()
+ECS::ASystem::ASystem()
 {
 }

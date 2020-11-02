@@ -15,7 +15,7 @@ set(SRCS_COMPONENTS_DIR ${PROJECT_SOURCE_DIR}/src/Server/Components)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
-
+find_package(Threads)
 
 file(GLOB_RECURSE SRCS_SERVER ${SRCS_SERVER_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp ${SRCS_COMPONENTS_DIR}/*.cpp)
 file(GLOB_RECURSE SRCS_CLIENT ${SRCS_CLIENT_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp)
@@ -25,12 +25,13 @@ target_compile_features(r-type_server PRIVATE cxx_std_17)
 target_compile_options(r-type_server
                        PRIVATE
                        $<$<CXX_COMPILER_ID:MSVC>:/W3 /permissive- /TP>
-                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs>)
+                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs -g>)
 target_include_directories(r-type_server PRIVATE SYSTEM ${INCLUDES_SERVER_DIR})
 target_include_directories(r-type_server PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
 target_include_directories(r-type_server PRIVATE ${INCLUDES_COMPONENTS_DIR})
 target_link_libraries(r-type_server ${CONAN_LIBS})
 target_link_libraries(r-type_server ${CMAKE_DL_LIBS})
+target_link_libraries(r-type_server ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(r-type_client ${SRCS_CLIENT} ${SRCS_CLIENT_UI} ${SRCS_CLIENT_QRC})
 target_compile_features(r-type_client PRIVATE cxx_std_17)
@@ -40,6 +41,7 @@ target_compile_options(r-type_client
                        $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs>)
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_CLIENT_DIR})
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
+target_link_libraries(r-type_client ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(r-type_client ${CONAN_LIBS})
 
 include(CTest)

@@ -14,8 +14,8 @@ class AMonster : public IMonster
 {
     public:
         AMonster(unsigned int attack, int hp);
-        AMonster(const AMonster &other) = default;
-        AMonster &operator=(const AMonster &other) = default;
+        AMonster(const AMonster& other) = default;
+        AMonster& operator=(const AMonster& other) = default;
         int getHp() const;
         unsigned int getAttack() const;
         virtual void update() = 0;

@@ -10,14 +10,16 @@
 
 #include "IComponents.hpp"
 
-struct Velocity : public IComponents {
-    Velocity() = default;
-    Velocity(const int x, const int y);
-    Velocity(const Velocity &other) = default;
-    Velocity &operator=(const Velocity &other) = default; 
-    ~Velocity() = default;
-    int _vx;
-    int _vy;
-};
+namespace ECS {
+    struct Velocity : public IComponents {
+        Velocity() = default;
+        Velocity(const int x, const int y);
+        Velocity(const Velocity& other) = default;
+        Velocity& operator=(const Velocity& other) = default; 
+        ~Velocity() = default;
+        int _vx;
+        int _vy;
+    };
+}
 
 #endif /* !VELOCITY_HPP_ */

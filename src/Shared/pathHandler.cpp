@@ -8,7 +8,7 @@
 #include "pathHandler.hpp"
 #include "boost/filesystem.hpp"
   
-pathHandler::pathHandler(const pathType &type)
+pathHandler::pathHandler(const pathType& type)
 {
     if (type == pathType::REGULAR_FILE)
         _path = "../config.txt";
@@ -26,7 +26,7 @@ bool pathHandler::isFileValid() const
     return (boost::filesystem::is_regular_file(_path));
 }
 
-void pathHandler::setPath(const std::string &path)
+void pathHandler::setPath(const std::string& path)
 {
     _path = path;
 }

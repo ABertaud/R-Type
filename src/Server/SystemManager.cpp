@@ -10,16 +10,16 @@
 
 #include "SystemManager.hpp"
 
-SystemManager::SystemManager()
+ECS::SystemManager::SystemManager()
 {
 }
 
-std::vector<std::shared_ptr<ISystem>> &SystemManager::getSystems()
+std::vector<std::shared_ptr<ECS::ISystem>>& ECS::SystemManager::getSystems()
 {
     return (_systems);
 }
 
-void SystemManager::addSystem(const std::shared_ptr<ISystem> &system)
+void ECS::SystemManager::addSystem(const std::shared_ptr<ECS::ISystem>& system)
 {
     _systems.push_back(system);
 }

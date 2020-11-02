@@ -12,18 +12,20 @@
 #include <vector>
 #include <memory>
 
-class ISystem;
+namespace ECS {
+    class ISystem;
 
-class SystemManager {
-public:
-    SystemManager();
-    SystemManager(const SystemManager &other) = default;
-    SystemManager &operator=(const SystemManager &other) = default;
-    std::vector<std::shared_ptr<ISystem>> &getSystems();
-    void addSystem(const std::shared_ptr<ISystem> &system);
-    ~SystemManager() = default;
-private:
-    std::vector<std::shared_ptr<ISystem>> _systems;
-};
+    class SystemManager {
+    public:
+        SystemManager();
+        SystemManager(const SystemManager& other) = default;
+        SystemManager& operator=(const SystemManager& other) = default;
+        std::vector<std::shared_ptr<ISystem>>& getSystems();
+        void addSystem(const std::shared_ptr<ISystem>& system);
+        ~SystemManager() = default;
+    private:
+        std::vector<std::shared_ptr<ISystem>> _systems;
+    };
+}
 
 #endif /*!SYSTEMMANAGER_HPP*/

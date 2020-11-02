@@ -11,14 +11,15 @@
 #include "Components.hpp"
 #include <array>
 
-class IStorage {
-    public:
-        virtual ~IStorage() = default;
-        virtual bool destroyEntity(std::size_t entityID) = 0;
-        virtual bool hasComponent(std::size_t entityID) = 0;
-        virtual componentType getType() const = 0;
-    protected:
-    private:
-};
-
+namespace ECS {
+    class IStorage {
+        public:
+            virtual ~IStorage() = default;
+            virtual bool destroyEntity(std::size_t entityID) = 0;
+            virtual bool hasComponent(std::size_t entityID) = 0;
+            virtual componentType getType() const = 0;
+        protected:
+        private:
+    };
+}
 #endif /* !ISTORAGE_HPP_ */

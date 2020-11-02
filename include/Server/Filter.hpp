@@ -11,21 +11,22 @@
 #include "EntityManager.hpp"
 #include "StorageManager.hpp"
 
-
-class Filter {
-    public:
-        Filter();
-        ~Filter() = default;
-        Filter(const Filter &other) = default;
-        Filter &operator=(const Filter &other) = default;
-        std::vector<Entity> filterEntities(const std::shared_ptr<IStorage> &storage, std::vector<Entity> &_entities);
-        template <typename T>
-        T &findComponent(const componentType &type, std::unordered_map<componentType, std::shared_ptr<IStorage>> &components) 
-        {
-            return (static_cast<T &>(*components[type]));
-        }
-    protected:
-    private:
-};
+namespace ECS {
+    class Filter {
+        public:
+            Filter();
+            ~Filter() = default;
+            Filter(const Filter& other) = default;
+            Filter& operator=(const Filter& other) = default;
+            std::vector<Entity> filterEntities(const std::shared_ptr<IStorage>& storage, std::vector<Entity>& entities);
+            template <typename T>
+            T& findComponent(const componentType& type, std::unordered_map<componentType, std::shared_ptr<IStorage>>& components) 
+            {
+                return (static_cast<T&>(*components[type]));
+            }
+        protected:
+        private:
+    };
+}
 
 #endif /* !FILTER_HPP_ */

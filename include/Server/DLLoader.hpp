@@ -5,7 +5,7 @@
 ** Login   <EPITECH>
 **
 ** Started on  Tue Mar 3 11:21:01 AM 2020 arthurbertaud
-** Last update Sat Mar 13 8:58:09 PM 2020 arthurbertaud
+** Last update Mon Nov 1 4:37:08 PM 2020 arthurbertaud
 */
 
 #ifndef DLLOADER_HPP_
@@ -18,7 +18,7 @@
 class DLLoader
 {
 public:
-    DLLoader(const std::string &libpath)
+    DLLoader(const std::string& libpath)
     try : _handler(nullptr)
     {
         _handler = dlopen(libpath.c_str(), RTLD_NOW);
@@ -26,13 +26,13 @@ public:
             throw ErrorDLLoader(dlerror());
         }
     }
-    catch (ErrorDLLoader const &err)
+    catch (ErrorDLLoader const& err)
     {
         throw err;
     }
 
     template <typename T>
-    T *getInstance(const std::string &name) const
+    T *getInstance(const std::string& name) const
     {
         T *(*sample)(void);
         char *error;
@@ -42,8 +42,8 @@ public:
             throw ErrorDLLoader(error);
         return (sample());
     }
-    DLLoader(const DLLoader &other) = default;
-    DLLoader &operator=(const DLLoader &other) = default;
+    DLLoader(const DLLoader& other) = default;
+    DLLoader& operator=(const DLLoader& other) = default;
     ~DLLoader()
     {
         if (dlclose(_handler) != 0)

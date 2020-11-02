@@ -13,39 +13,39 @@
 
 Test(testECSEngineSimpleUsage, ECSEngine)
 {
-    ECSEngine engine;
+    ECS::ECSEngine engine;
 
-    engine.registerComponent<Position>(POSITION);
-    engine.registerComponent<Velocity>(VELOCITY);
+    engine.registerComponent<ECS::Position>(ECS::POSITION);
+    engine.registerComponent<ECS::Velocity>(ECS::VELOCITY);
 
-    engine.registerSystem<movementSystem>();
+    engine.registerSystem<ECS::movementSystem>();
 
     auto ent = engine.getNewEntity();
-    engine.addComponent(ent, Position(0, 0), POSITION);
-    engine.addComponent(ent, Velocity(1, 1), VELOCITY);
+    engine.addComponent(ent, ECS::Position(0, 0), ECS::POSITION);
+    engine.addComponent(ent, ECS::Velocity(1, 1), ECS::VELOCITY);
     engine.update(1);
-    cr_assert_eq(engine.getComponent<Position>(ent, POSITION)._x, 1);
+    cr_assert_eq(engine.getComponent<ECS::Position>(ent, ECS::POSITION)._x, 1);
 }
 
 Test(testECSEngineSecondSimpleUsage, ECSEngine)
 {
-    ECSEngine engine;
+    ECS::ECSEngine engine;
 
-    engine.registerComponent<Position>(POSITION);
-    engine.registerComponent<Velocity>(VELOCITY);
+    engine.registerComponent<ECS::Position>(ECS::POSITION);
+    engine.registerComponent<ECS::Velocity>(ECS::VELOCITY);
 
-    engine.registerSystem<movementSystem>();
+    engine.registerSystem<ECS::movementSystem>();
 
     auto ent = engine.getNewEntity();
-    engine.addComponent(ent, Position(0, 0), POSITION);
-    engine.addComponent(ent, Velocity(1, 2), VELOCITY);
+    engine.addComponent(ent, ECS::Position(0, 0), ECS::POSITION);
+    engine.addComponent(ent, ECS::Velocity(1, 2), ECS::VELOCITY);
     engine.update(1);
-    cr_assert_eq(engine.getComponent<Position>(ent, POSITION)._y, 2);
+    cr_assert_eq(engine.getComponent<ECS::Position>(ent, ECS::POSITION)._y, 2);
 }
 
 Test(testECSEngineEntity, ECSEngine)
 {
-    ECSEngine engine;
+    ECS::ECSEngine engine;
 
     engine.getNewEntity();
     cr_assert_eq(engine.getEntites().front(), 0);
@@ -53,7 +53,7 @@ Test(testECSEngineEntity, ECSEngine)
 
 Test(testECSRemoveEntity, ECSEngine)
 {
-    ECSEngine engine;
+    ECS::ECSEngine engine;
 
     engine.getNewEntity();
     engine.removeEntity(engine.getNewEntity());
@@ -62,7 +62,7 @@ Test(testECSRemoveEntity, ECSEngine)
 
 Test(testECSErrorNbEntities, ECSEngine)
 {
-    ECSEngine engine;
+    ECS::ECSEngine engine;
 
     try {
         for (int i = 0; i != 505; i++)

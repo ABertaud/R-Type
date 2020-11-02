@@ -10,14 +10,16 @@
 
 #include "IComponents.hpp"
 
-struct Position : public IComponents {
-    Position() = default;
-    Position(const int x, const int y);
-    Position(const Position &other) = default;
-    Position &operator=(const Position &other) = default; 
-    ~Position() = default;
-    int _x;
-    int _y;
-};
+namespace ECS {
+    struct Position : public IComponents {
+        Position() = default;
+        Position(const int x, const int y);
+        Position(const Position& other) = default;
+        Position& operator=(const Position& other) = default; 
+        ~Position() = default;
+        int _x;
+        int _y;
+    };
+}
 
 #endif /* !POSITION_HPP_ */
