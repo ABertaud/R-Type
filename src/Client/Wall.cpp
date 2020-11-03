@@ -8,7 +8,7 @@
 #include "Wall.hpp"
 #include <iostream>
 
-Graphic::Wall::Wall(const Graphic::Object &type, bool bonus, const sf::Vector2f &test) : 
+Graphic::Wall::Wall(const entityType &type, bool bonus, const sf::Vector2f &test) : 
 Graphic::AEntity(type, bonus, test)
 {
 }
@@ -21,7 +21,7 @@ void Graphic::Wall::update()
     std::cout << "update" << std::endl;
 }
 
-Graphic::Object Graphic::Wall::getObject() const
+entityType Graphic::Wall::getObject() const
 {
     return _type;
 }

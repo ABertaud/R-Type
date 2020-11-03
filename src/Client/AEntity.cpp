@@ -8,7 +8,7 @@
 #include "AEntity.hpp"
 
 
-Graphic::AEntity::AEntity(const Object &type, bool bonus, const sf::Vector2f &test) : _type(type), 
+Graphic::AEntity::AEntity(const entityType &type, bool bonus, const sf::Vector2f &test) : _type(type), 
 _pos(test), _bonus(bonus)
 {
 }
@@ -16,7 +16,7 @@ _pos(test), _bonus(bonus)
 Graphic::AEntity::~AEntity()
 {}
 
-Graphic::Object Graphic::AEntity::getObject() const
+entityType Graphic::AEntity::getObject() const
 {
     return (_type);
 }

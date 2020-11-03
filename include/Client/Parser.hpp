@@ -20,26 +20,26 @@ class Parser {
         Parser(std::string configFilePath = "ressources/config_file.txt");
         bool openFile(std::string configFilePath);
         bool linkEntitiesToSprites();
-        std::map<Graphic::Object, std::string> getPaths() const;
+        std::map<entityType, std::string> getPaths() const;
         ~Parser();
 
     protected:
         std::ifstream _config;
-        std::map<Graphic::Object, std::string> _paths;
-        const std::map<std::string, Graphic::Object> _key {
-        {"background", Graphic::BACKGROUND},//background
-        {"planete", Graphic::WALL},//indestructible obstacles
-        {"meteorite", Graphic::OBSTACLE},//destructible obstacles
-        {"player", Graphic::PLAYER},//player spaceship
-        {"player_shoot", Graphic::PLAYER_SHOOT},//player bullets
-        {"alien", Graphic::ALIEN},
-        {"alien_shoot", Graphic::ALIEN_SHOOT},
-        {"ufo", Graphic::UFO},//hunter monster
-        {"ufo_shoot", Graphic::UFO_SHOOT},//hunter monster bullets
-        {"spaceship", Graphic::SPACESHIP},
-        {"spaceship_shoot", Graphic::SPACESHIP_SHOOT},
-        {"pirate", Graphic::PIRATE},
-        {"pirate_shoot", Graphic::PIRATE_SHOOT},
+        std::map<entityType, std::string> _paths;
+        const std::map<std::string, entityType> _key {
+        {"background", entityType::BACKGROUND},//background
+        {"planete", entityType::WALL},//indestructible obstacles
+        {"meteorite", entityType::OBSTACLE},//destructible obstacles
+        {"player", entityType::PLAYER},//player spaceship
+        {"player_shoot", entityType::PLAYER_SHOOT},//player bullets
+        {"alien", entityType::ALIEN},
+        {"alien_shoot", entityType::ALIEN_SHOOT},
+        {"ufo", entityType::UFO},//hunter monster
+        {"ufo_shoot", entityType::UFO_SHOOT},//hunter monster bullets
+        {"spaceship", entityType::SPACESHIP},
+        {"spaceship_shoot", entityType::SPACESHIP_SHOOT},
+        {"pirate", entityType::PIRATE},
+        {"pirate_shoot", entityType::PIRATE_SHOOT},
     };
 };
 
