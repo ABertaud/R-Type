@@ -46,11 +46,12 @@
                 <t>Format..........................................................2
                     <list style="numbers">
                         <t>Model.......................................................3</t>
-                        <t>RTP Commands Arguments Types And Format.....................3</t>
+
                     </list>
                 </t>
                 <t>RTP Commands....................................................4
                     <list style="numbers">
+                        <t>RTP Commands Arguments Types And Format.....................3</t>
                         <t>Access Control Commands.....................................4</t>
                         <t>RTP InGame Commands.........................................5</t>
                     </list>
@@ -140,27 +141,36 @@
 
             <section title='ACCESS CONTROL COMMANDS'>
                 <t>
-                    These commands will be used to access or leave the server and setup a game.<vspace blankLines='1'/>
+                    These commands will be used to access or leave the server
+                    and launch a game. <vspace blankLines='1'/>
                     These are the states which in a User can be:
                     <figure>
                         <artwork><![CDATA[
-+===========+
-| - NONE    |
-|           |
-| - INLOBBY |
-|           |
-| - READY   |
-|           |
-| - INGAME  |
-|           |
-| - OFF     |
-+===========+
+                            +===========+
+                            | - NONE    |
+                            |           |
+                            | - INLOBBY |
+                            |           |
+                            | - READY   |
+                            |           |
+                            | - INGAME  |
+                            |           |
+                            | - OFF     |
+                            +===========+
                         ]]></artwork>
                     </figure>
-                    NONE :
+                    <vspace blankLines='2'/>NONE :
                     <list style="">
                         <t>
-                            When the User is in NONE state,
+                            When the User is in NONE state, he can or create 
+                            a game like this:<vspace blankLines='0'/>
+                            /create<vspace blankLines='0'/>
+                            or join an existing game like this:<vspace blankLines='0'/>
+                            /Join &#60;uuid&#62;<vspace blankLines='0'/>
+                            The &#60;uuid&#62; is of course the &#60;uuid&#62;
+                            of the game that the user wants to join.<vspace blankLines='0'/>
+                            The User can ofcourse leave the program using:<vspace blankLines='0'/>
+                            /LEAVE<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -168,7 +178,13 @@
                     INLOBBY :
                     <list style="">
                         <t>
-                            When the User is in INLOBBY state,
+                            When the User is in INLOBBY state, he can or says
+                            that he's ready like this:<vspace blankLines='0'/>
+                            /READY<vspace blankLines='0'/>
+                            Or he can leaves the lobby like this:<vspace blankLines='0'/>
+                            /LEAVELOBBY<vspace blankLines='0'/>
+                            The User can ofcourse leave the program using:<vspace blankLines='0'/>
+                            /LEAVE<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -176,7 +192,13 @@
                     READY :
                     <list style="">
                         <t>
-                            When the User is in READY state,
+                            When the User is in READY state, he can or says that
+                            he's not ready anymore like this:<vspace blankLines='0'/>
+                            /UNREADY<vspace blankLines='0'/>
+                            Or he can launch the game using:<vspace blankLines='0'/>
+                            /START<vspace blankLines='0'/>
+                            The User can ofcourse leave the program using:<vspace blankLines='0'/>
+                            /LEAVE<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -184,7 +206,9 @@
                     INGAME :
                     <list style="">
                         <t>
-                            When the User is in INGAME state,
+                            When the User is in INGAME state, all he can do is
+                            leave using:<vspace blankLines='0'/>
+                            /LEAVE<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -192,7 +216,8 @@
                     OFF :
                     <list style="">
                         <t>
-                            When the User is in OFF state,
+                            When the User is in OFF state, his firts interaction
+                            with the server will set his state to "NONE".
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -210,7 +235,8 @@
                             Server and it will change player's position. The
                             player's position will be update when the Server
                             will send back refreshed games informations to the
-                            Client.
+                            Client.<vspace blankLines='0'/>
+                            The code "101" will be sent to the Server.
                         </t>
                     </list>
                     /left (right arrow key) :<vspace blankLines='0'/>
@@ -221,7 +247,8 @@
                             Server and it will change player's position. The
                             player's position will be update when the Server
                             will send back refreshed games informations to the
-                            Client.
+                            Client.<vspace blankLines='0'/>
+                            The code "102" will be sent to the Server.
                         </t>
                     </list>
                     /up (up arrow key) :<vspace blankLines='0'/>
@@ -232,7 +259,8 @@
                             Server and it will change player's position. The
                             player's position will be update when the Server
                             will send back refreshed games informations to the
-                            Client.
+                            Client.<vspace blankLines='0'/>
+                            The code "103" will be sent to the Server.
                         </t>
                     </list>
                     /down (down arrow key) :<vspace blankLines='0'/>
@@ -243,7 +271,8 @@
                             Server and it will change player's position. The
                             player's position will be update when the Server
                             will send back refreshed games informations to the
-                            Client.
+                            Client.<vspace blankLines='0'/>
+                            The code "104" will be sent to the Server.
                         </t>
                     </list>
                     /shoot (space bar) :<vspace blankLines='0'/>
@@ -255,6 +284,7 @@
                             player's position. The player's bullet will be
                             update when the Server will send back refreshed
                             games informations to the Client.
+                            The code "105" will be sent to the Server.
                         </t>
                     </list>
                 </t>
@@ -270,10 +300,11 @@
                     client a reply that will give information about every
                     element of the game.<vspace blankLines='1'/>
                     We will use a specific format of replies that will give
-                    informations precisely (the reply is sent as a string with
-                    an Enum for type, an Enum for state and a position x and y):
+                    informations precisely. The message will be preceded by the
+                    code "100".(the reply is sent as a string with an Enum for
+                    type, an Enum for state and a position x and y):
                     <vspace blankLines='0'/>
-                    [(enum)TYPE] [(enum)STATE] [(int)posX].[(int)posY]
+                    100 [(enum)TYPE] [(enum)STATE] [(int)posX].[(int)posY]
                 </t>
             </section>
         </section>
