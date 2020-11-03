@@ -1,0 +1,80 @@
+                                                                B. Coulon
+RFC                                                             EPITECH
+                                                                03 November 2020
+
+
+                                    R-Type
+                                    ------
+
+Introduction
+------------
+
+The mid ‘80s was a renaissance for shooters. In 1985, Konami released Gradius.
+Not long later, in 1987, Irem released R-Type. These are two of the most
+important games in the genre. It’s completely stunning that, in its relative
+infancy, Irem could shape a game as ingenious as R-Type. One of the premiere
+side-scrolling shooters, R-Type moved a bit slower than your typical twitch
+games, with a meticulous pace and almost leisurely scrolling. The idea wasn’t
+to simply blast everything on the screen, although you could certainly try.
+The idea was, quite simply, to stay alive. Naturally, given the claustrophobic
+nature of the levels, swarming with enemies from every angle, this was never
+an easy task.
+In this project, we had to make our own version of R-Type.
+
+
+Format
+------
+
+                                        ------ client
+                                    ---
+                        -- game ----        -- client
+                     ---                ----
+                  ---               ---------- client
+                --      -- game ---
+               -     ---           ----------- client
+        Server ------                   ----
+               -     --                     -- client
+                --     -
+                  ---   -- game -------------- client
+                     ---
+                        -- game -------------- client
+                                  --
+                                    ---------- client
+                                     --
+                                      ------- client
+                                         --
+                                            -- client
+
+Connection
+----------
+
+The connection between server and clients is an udp connection. They will
+interact together using a binary protocol. Every message will start  by a code
+which is be choosed depending of the message sent.
+
++--------------------------+
+| -->  : Server to Client  |
+| -->> : Server to Clients |
+| <--  : Client to Server  |
++--------------------------+
+
+
+User Interface
+--------------
+
+The user interace is using a SFML object, directly provided in the client
+object. Before the game really start, the user will be able to chose what he
+wants to do using buttons in a menu.
+
+
+IP Interface
+------------
+
+Protocol Application
+--------------------
+
+Protocol Number
+---------------
+
+References
+----------
