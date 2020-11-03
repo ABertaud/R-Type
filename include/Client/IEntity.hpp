@@ -10,30 +10,15 @@
 #define IENTITY_HPP_
 
 #include <SFML/Graphics.hpp>
+#include "entityType.hpp"
 
 namespace Graphic {
-enum Object
-{
-    BACKGROUND,
-    WALL,
-    OBSTACLE,
-    PLAYER,
-    PLAYER_SHOOT,
-    ALIEN,
-    ALIEN_SHOOT,
-    UFO,
-    UFO_SHOOT,
-    SPACESHIP,
-    SPACESHIP_SHOOT,
-    PIRATE,
-    PIRATE_SHOOT,
-};
 
 class IEntity {
     public:
         virtual ~IEntity() = default;
         virtual void update() = 0;   // update the object in your window
-        virtual Object getObject()const = 0;   // return the type of the object
+        virtual entityType getObject()const = 0;   // return the type of the object
     protected:
     private:
 };
