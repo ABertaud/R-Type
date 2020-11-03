@@ -19,7 +19,6 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 find_package(Threads)
 #SFML
-#find_package(SFML 2.5.1 REQUIRED system window graphics audio)
 
 file(GLOB_RECURSE SRCS_SERVER ${SRCS_SERVER_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp ${SRCS_COMPONENTS_DIR}/*.cpp)
 file(GLOB_RECURSE SRCS_CLIENT ${SRCS_CLIENT_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp)
@@ -47,7 +46,6 @@ target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_CLIENT_DIR})
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
 target_link_libraries(r-type_client ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(r-type_client ${CONAN_LIBS})
-
 #NO
 #target_link_libraries(r-type_client sfml-window sfml-system sfml-audio sfml-graphics)
 #Sfml
