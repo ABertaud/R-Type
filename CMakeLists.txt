@@ -12,10 +12,14 @@ set(SRCS_SERVER_DIR ${PROJECT_SOURCE_DIR}/src/Server)
 
 set(INCLUDES_COMPONENTS_DIR ${PROJECT_SOURCE_DIR}/include/Server/Components)
 set(SRCS_COMPONENTS_DIR ${PROJECT_SOURCE_DIR}/src/Server/Components)
+#SFML
+#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 find_package(Threads)
+#SFML
+#find_package(SFML 2.5.1 REQUIRED system window graphics audio)
 
 file(GLOB_RECURSE SRCS_SERVER ${SRCS_SERVER_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp ${SRCS_COMPONENTS_DIR}/*.cpp)
 file(GLOB_RECURSE SRCS_CLIENT ${SRCS_CLIENT_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp)
@@ -38,11 +42,16 @@ target_compile_features(r-type_client PRIVATE cxx_std_17)
 target_compile_options(r-type_client
                        PRIVATE
                        $<$<CXX_COMPILER_ID:MSVC>:/W3 /permissive- /TP>
-                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs>)
+                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs >)
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_CLIENT_DIR})
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
 target_link_libraries(r-type_client ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(r-type_client ${CONAN_LIBS})
+
+#NO
+#target_link_libraries(r-type_client sfml-window sfml-system sfml-audio sfml-graphics)
+#Sfml
+#target_link_libraries(r-type_client ${SFML_LIBRARIES})
 
 include(CTest)
 enable_testing(MAKE_DIRECTORY tests)

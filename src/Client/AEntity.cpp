@@ -8,13 +8,19 @@
 #include "AEntity.hpp"
 
 
-Graphic::AEntity::AEntity(const entityType &type, bool bonus, const sf::Vector2f &test) : _type(type), 
-_pos(test), _bonus(bonus)
+Graphic::AEntity::AEntity(const entityType &type, bool bonus, const sf::Vector2f &pos) : _type(type), 
+_pos(pos), _bonus(bonus), _scale({1, 1})
 {
+
 }
 
 Graphic::AEntity::~AEntity()
 {}
+
+void Graphic::AEntity::setscale(const sf::Vector2f &scale)
+{
+    _scale = scale;
+}
 
 entityType Graphic::AEntity::getObject() const
 {
