@@ -53,7 +53,7 @@
                     <list style="numbers">
                         <t>RTP Commands Arguments Types And Format.....................3</t>
                         <t>Access Control Commands.....................................4</t>
-                        <t>RTP InGame Commands.........................................5</t>
+                        <t>RTP Ingame Commands.........................................5</t>
                     </list>
                 </t>
                 <t>RTP Replies.....................................................5
@@ -88,7 +88,7 @@
                   ---               ---------- client
                 --      -- game ---
                -     ---           ----------- client
-        Server ------                   ----
+        server ------                   ----
                -     --                     -- client
                 --     -
                   ---   -- game -------------- client
@@ -143,7 +143,7 @@
                 <t>
                     These commands will be used to access or leave the server
                     and launch a game. <vspace blankLines='1'/>
-                    These are the states which in a User can be:
+                    These are the states which in a user can be:
                     <figure>
                         <artwork><![CDATA[
                             +===========+
@@ -162,15 +162,15 @@
                     <vspace blankLines='2'/>NONE :
                     <list style="">
                         <t>
-                            When the User is in NONE state, he can or create 
-                            a game like this:<vspace blankLines='0'/>
-                            /create<vspace blankLines='0'/>
-                            or join an existing game like this:<vspace blankLines='0'/>
-                            /Join &#60;uuid&#62;<vspace blankLines='0'/>
-                            The &#60;uuid&#62; is of course the &#60;uuid&#62;
-                            of the game that the user wants to join.<vspace blankLines='0'/>
-                            The User can ofcourse leave the program using:<vspace blankLines='0'/>
-                            /LEAVE<vspace blankLines='0'/>
+                            When the User is in NONE state, he can either create 
+                            a game by sending code<vspace blankLines='0'/>
+                            "201" to the server.<vspace blankLines='0'/>
+                            or join an existing game by sending code<vspace blankLines='0'/>
+                            "202 &#60;uuid&#62;" to the server.<vspace blankLines='0'/>
+                            The &#60;uuid&#62; is the unique identifiant of the
+                            game that the user wants to join.<vspace blankLines='0'/>
+                            The User can of course leave the program by sending code<vspace blankLines='0'/>
+                            "200" to the server.:<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -178,13 +178,13 @@
                     INLOBBY :
                     <list style="">
                         <t>
-                            When the User is in INLOBBY state, he can or says
-                            that he's ready like this:<vspace blankLines='0'/>
-                            /READY<vspace blankLines='0'/>
-                            Or he can leaves the lobby like this:<vspace blankLines='0'/>
-                            /LEAVELOBBY<vspace blankLines='0'/>
-                            The User can ofcourse leave the program using:<vspace blankLines='0'/>
-                            /LEAVE<vspace blankLines='0'/>
+                            When the User is in INLOBBY state, he can either says
+                            that he's ready by sending code<vspace blankLines='0'/>
+                            "203" to the server.<vspace blankLines='0'/>
+                            Or he can leaves the lobby by sending code<vspace blankLines='0'/>
+                            "204" to the server.<vspace blankLines='0'/>
+                            The User can of course leave the program by sending code<vspace blankLines='0'/>
+                            "200" to the server.:<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -192,13 +192,13 @@
                     READY :
                     <list style="">
                         <t>
-                            When the User is in READY state, he can or says that
-                            he's not ready anymore like this:<vspace blankLines='0'/>
-                            /UNREADY<vspace blankLines='0'/>
-                            Or he can launch the game using:<vspace blankLines='0'/>
-                            /START<vspace blankLines='0'/>
-                            The User can ofcourse leave the program using:<vspace blankLines='0'/>
-                            /LEAVE<vspace blankLines='0'/>
+                            When the User is in READY state, he can either says that
+                            he's not ready anymore by sending code<vspace blankLines='0'/>
+                            "205" to the server.<vspace blankLines='0'/>
+                            Or he can launch the game by sending code<vspace blankLines='0'/>
+                            "206" to the server.<vspace blankLines='0'/>
+                            The User can of course leave the program by sending code<vspace blankLines='0'/>
+                            "200" to the server.:<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -207,8 +207,8 @@
                     <list style="">
                         <t>
                             When the User is in INGAME state, all he can do is
-                            leave using:<vspace blankLines='0'/>
-                            /LEAVE<vspace blankLines='0'/>
+                            leave by sending code<vspace blankLines='0'/>
+                            "207" to the server.<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
                         </t>
@@ -293,6 +293,9 @@
         <section title='RTP REPLIES'>
             <section title='FORMAT'>
                 <t>
+                    When the server will receive something from a client, it will
+                    always send back the code "111" to the client who send
+                    it to validate that everything is OK.<vspace blankLines='3'/>
                     As a routine, the Server will constantly send updates of
                     everything in the game to the client. Every time the client
                     sends something, the server will check the Request and
