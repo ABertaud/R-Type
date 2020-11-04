@@ -27,10 +27,13 @@ class Parser {
         std::ifstream _config;
         std::map<entityType, std::string> _paths;
         const std::map<std::string, entityType> _key {
+        {"player1", entityType::P1},//player spaceship
+        {"player2", entityType::P2},//player spaceship
+        {"player3", entityType::P3},//player spaceship
+        {"player4", entityType::P4},//player spaceship
         {"background", entityType::BACKGROUND},//background
         {"planete", entityType::WALL},//indestructible obstacles
         {"meteorite", entityType::OBSTACLE},//destructible obstacles
-        {"player", entityType::PLAYER},//player spaceship
         {"player_shoot", entityType::PLAYER_SHOOT},//player bullets
         {"alien", entityType::ALIEN},
         {"alien_shoot", entityType::ALIEN_SHOOT},

@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-501-NAN-5-1-rtype-arthur.bertaud
 ** File description:
-** buffer.hpp
+** Buffer.hpp
 */
 
 
@@ -14,16 +14,16 @@
 #include <map>
 #include <boost/uuid/uuid.hpp>
 
-class buffer
+class Buffer
 {
 public:
-    buffer();
-    buffer(const buffer& other) = default;
-    buffer& operator=(const buffer& other) = default;
+    Buffer();
+    Buffer(const Buffer& other) = default;
+    Buffer& operator=(const Buffer& other) = default;
     void addData(boost::uuids::uuid& uuid, const std::string& data);
     std::vector<std::string>& getData(boost::uuids::uuid& uuid);
     bool isDataAvailable(boost::uuids::uuid& uuid) const;
-    ~buffer() = default;
+    ~Buffer() = default;
 private:
     std::map<boost::uuids::uuid, std::vector<std::string>> _sBuffer;
 };

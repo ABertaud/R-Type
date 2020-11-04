@@ -8,10 +8,11 @@
 #include "udpServer.hpp"
 #include <iostream>
 #include <boost/uuid/uuid_io.hpp>
+#include <boost/bind.hpp>
 #include <iostream>
 #include <sstream>
 
-udpServer::udpServer(boost::asio::io_context& ioContext) : _socket(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT))
+udpServer::udpServer(boost::asio::io_context& ioContext) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT)))
 {
     _parser.insert(std::make_pair(Client::NONE, &udpServer::parserNoneState));
     _parser.insert(std::make_pair(Client::INLOBBY, &udpServer::parserInLobbyState));
@@ -23,7 +24,7 @@ udpServer::udpServer(boost::asio::io_context& ioContext) : _socket(ioContext, bo
 void udpServer::startReceive()
 {
     memset(_data, '\0', 4096);
-    _socket.async_receive_from(boost::asio::buffer(_data), _remoteEndpoint,
+    _socket->async_receive_from(boost::asio::buffer(_data), _remoteEndpoint,
     boost::bind(&udpServer::handleReceive, this, boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }
@@ -35,7 +36,6 @@ void udpServer::handleReceive(const boost::system::error_code& error, std::size_
         _clients.push_back(std::make_shared<Client>(Client(_remoteEndpoint.address(), _remoteEndpoint.port())));
     if (!error || error == boost::asio::error::message_size) {
         parseData();
-        
         startReceive();
 
     } else
@@ -44,17 +44,18 @@ void udpServer::handleReceive(const boost::system::error_code& error, std::size_
 
 void udpServer::parseData()
 {
-    auto& clt = findClient(_remoteEndpoint.address());
+    auto& clt = findClient(_remoteEndpoint.port());
+    bool alreadyDone = false;
 
-    // std::cout << clt->getState() << std::endl;
-    // std::cout << _data << std::endl;
     for (auto it = _parser.begin(); it != _parser.end(); ++it)
-        if (it->first == clt->getState())
+        if (it->first == clt->getState() && alreadyDone == false) {
             (this->*(it->second))(clt);
+            alreadyDone = true;
+        }
     startReceive();
 }
 
-void udpServer::handleSend(boost::shared_ptr<std::string> message, const boost::system::error_code& error, std::size_t bytesTransferred)
+void udpServer::handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred)
 {
     (void)message;
     (void)error;
@@ -63,28 +64,26 @@ void udpServer::handleSend(boost::shared_ptr<std::string> message, const boost::
 
 void udpServer::run()
 {
-    _socket.get_io_service().run();
+    _socket->get_io_service().run();
 }
 
 bool udpServer::doesClientExist()
 {
     for (auto& client: _clients) {
-        if (client->getEndpoint().address() == _remoteEndpoint.address())
+        if (client->getEndpoint().port() == _remoteEndpoint.port())
             return (true);
     }
     return (false);
 }
 
-std::shared_ptr<Client>& udpServer::findClient(const boost::asio::ip::address& adr)
+std::shared_ptr<Client>& udpServer::findClient(const unsigned short port)
 {
     for (auto& client : _clients) {
-        if (client->getEndpoint().address() == adr)
+        if (client->getEndpoint().port() == port)
             return (client);
     }
     return (_clients.front());
 }
-
-
 
 bool udpServer::doesLobbyExist(const std::string& name)
 {
@@ -127,26 +126,25 @@ void udpServer::parserNoneState(std::shared_ptr<Client>& clt)
     std::string firstArg = buffer.substr(start + 1, second_space);
 
     if (std::strcmp(command.c_str(), "Create") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("you've create a room"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
-        _lobbies.push_back(Lobby(_buffer));
+        _lobbies.push_back(Lobby());
         _lobbies.back().addClient(clt);
         clt->setState(Client::INLOBBY);
+        std::string uuid = "Room " + boost::uuids::to_string(_lobbies.back().getUuid());
+        send(uuid);
     }
-    if (std::strcmp(command.c_str(), "Join") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("you want to join a room"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+    else if (std::strcmp(command.c_str(), "Join") == 0) {
         if (doesLobbyExist(firstArg) == true) {
-            findLobby(firstArg).addClient(clt);
-            clt->setState(Client::INLOBBY);
+            auto &lobby = findLobby(firstArg);
+            if (lobby.isRoomFull() == true) {
+                send("Room is full sorry");
+            } else {
+                lobby.addClient(clt);
+                clt->setState(Client::INLOBBY);
+              send("You've joined a room");
+            }
         }
-    }
+    } else
+        send("Invalid command");
 }
 
 void udpServer::parserInLobbyState(std::shared_ptr<Client>& clt)
@@ -162,22 +160,15 @@ void udpServer::parserInLobbyState(std::shared_ptr<Client>& clt)
     std::string firstArg = buffer.substr(start + 1, second_space);
 
     if (std::strcmp(command.c_str(), "Ready") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("ready"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+        send("Ready");
         clt->setState(Client::READY);
     }
-    if (std::strcmp(command.c_str(), "Leavelobby") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("ready"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+    else if (std::strcmp(command.c_str(), "Leavelobby") == 0) {
+        send("Lobby has been left");
         findLobby(firstArg).removeClient(clt->getUuid());
         clt->setState(Client::NONE);
-    }
+    } else 
+        send("Invalid command");
 }
 
 void udpServer::parserReadyState(std::shared_ptr<Client>& clt)
@@ -186,31 +177,22 @@ void udpServer::parserReadyState(std::shared_ptr<Client>& clt)
 
     buffer.erase(std::remove(buffer.begin(), buffer.end(), '\n'), buffer.end());
     std::size_t start = buffer.find(" ");
-    std::size_t second_space = buffer.substr(start + 1, buffer.length()).find(" ");
-
     
     std::string command = buffer.substr(0, start);
-    std::string firstArg = buffer.substr(start + 1, second_space);
 
     if (std::strcmp(command.c_str(), "Unready") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("ready"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+        send("Unready");
         clt->setState(Client::INLOBBY);
     }
-    if (std::strcmp(command.c_str(), "Start") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("start"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
-        auto& lobby = findLobby(firstArg);
+    else if (std::strcmp(command.c_str(), "Start") == 0) {
+        auto& lobby = findLobby(clt);
         if (lobby.isReadyToGo() == true) {
-            lobby.startGame();
-        }
-    }
+            // send("The game will start");
+            lobby.startGame(_socket, _buffer);
+        } else
+            send("All the players aren't ready yet");  
+    } else
+        send("Invalid command");
 }
 
 void udpServer::parserInGameState(std::shared_ptr<Client>& clt)
@@ -223,55 +205,32 @@ void udpServer::parserInGameState(std::shared_ptr<Client>& clt)
     std::string command = buffer.substr(0, start);
     
     if (std::strcmp(command.c_str(), "Leave") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("Leave"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+        send("You left the game");
         clt->setState(Client::OFF);
         removeClient(clt->getUuid());
         _buffer->addData(clt->getUuid(), "Off");
     }
-    if (std::strcmp(command.c_str(), "Up") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("Up"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+    else if (std::strcmp(command.c_str(), "Up") == 0) {
+        send("You go Up");
         _buffer->addData(clt->getUuid(), "Up");
     }
-    if (std::strcmp(command.c_str(), "Down") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("Down"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+    else if (std::strcmp(command.c_str(), "Down") == 0) {
+        send("You go Down");
         _buffer->addData(clt->getUuid(), "Down");
     }
-    if (std::strcmp(command.c_str(), "Right") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("Right"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+    else if (std::strcmp(command.c_str(), "Right") == 0) {
+        send("You go Right");
         _buffer->addData(clt->getUuid(), "Right");
     }
-    if (std::strcmp(command.c_str(), "Left") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("Left"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+    else if (std::strcmp(command.c_str(), "Left") == 0) {
+         send("You go Left");
         _buffer->addData(clt->getUuid(), "Left");
     }
-    if (std::strcmp(command.c_str(), "Shoot") == 0) {
-        boost::shared_ptr<std::string> message(new std::string("Shoot"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-        boost::bind(&udpServer::handleSend, this, message,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+    else if (std::strcmp(command.c_str(), "Shoot") == 0) {
+        send("You Shoot");
         _buffer->addData(clt->getUuid(), "Shoot");
-    }
+    } else
+        send("Invalid command");
 }
 
 void udpServer::removeClient(const boost::uuids::uuid& uuid)
@@ -280,4 +239,21 @@ void udpServer::removeClient(const boost::uuids::uuid& uuid)
         if ((*clt)->getUuid() == uuid)
             _clients.erase(clt);
     }
+}
+
+void udpServer::send(const std::string &toSend)
+{
+    _socket->async_send_to(boost::asio::buffer(toSend), _remoteEndpoint,
+    boost::bind(&udpServer::handleSend, this, toSend,
+    boost::asio::placeholders::error,
+    boost::asio::placeholders::bytes_transferred));
+}
+
+Lobby& udpServer::findLobby(const std::shared_ptr<Client>& client)
+{
+    for (auto& lobby : _lobbies) {
+        if (lobby.hasClient(client) == true)
+            return (lobby);
+    }
+    return (_lobbies.front());
 }

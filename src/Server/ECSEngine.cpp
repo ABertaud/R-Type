@@ -44,3 +44,8 @@ std::vector<Entity>& ECS::ECSEngine::getEntites()
 {
     return (_entityM->getEntities());
 }
+
+std::vector<std::shared_ptr<ECS::ISystem>>& ECS::ECSEngine::getSystems()
+{
+    return (_systemM->getSystems());
+}

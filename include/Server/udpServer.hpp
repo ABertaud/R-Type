@@ -8,16 +8,13 @@
 #ifndef UDPSERVER_HPP_
 #define UDPSERVER_HPP_
 
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
-#include <boost/array.hpp>
 #include "INetwork.hpp"
-#include "buffer.hpp"
+#include "Buffer.hpp"
 #include "Lobby.hpp"
 #include <map>
 
-#define BUFFER_SIZE 4096
-#define PORT 1666
+constexpr unsigned int SIZE = 4096;
+constexpr unsigned int PORT = 1666;
 
 class udpServer : public INetwork {
 public:
@@ -28,12 +25,14 @@ public:
     ~udpServer() = default;
     typedef void(udpServer::*parsingFunction)(std::shared_ptr<Client>&);
 private:
-    std::shared_ptr<Client>& findClient(const boost::asio::ip::address& adr);
+    std::shared_ptr<Client>& findClient(const unsigned short);
     bool doesClientExist();
+    void send(const std::string& toSend);
     void startReceive();
     void parseData();
     void acceptConnection();
     Lobby& findLobby(const std::string& name);
+    Lobby& findLobby(const std::shared_ptr<Client>& client);
     bool doesLobbyExist(const std::string& name);
     void parserNoneState(std::shared_ptr<Client>&);
     void parserInLobbyState(std::shared_ptr<Client>& clt);
@@ -41,13 +40,13 @@ private:
     void parserInGameState(std::shared_ptr<Client>& clt);
     void removeClient(const boost::uuids::uuid& uuid);
     void handleReceive(const boost::system::error_code& error, std::size_t);
-    void handleSend(boost::shared_ptr<std::string>, const boost::system::error_code&, std::size_t);
-    boost::asio::ip::udp::socket _socket;
+    void handleSend(const std::string&, const boost::system::error_code&, std::size_t);
+    std::shared_ptr<boost::asio::ip::udp::socket> _socket;
     boost::asio::ip::udp::endpoint _remoteEndpoint;
-    char _data[BUFFER_SIZE];
+    char _data[SIZE];
     std::vector<std::shared_ptr<Client>> _clients;
     std::vector<Lobby> _lobbies;
-    std::shared_ptr<buffer> _buffer;
+    std::shared_ptr<Buffer> _buffer;
     std::map<Client::clientState, parsingFunction> _parser;
 };
 

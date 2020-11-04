@@ -34,7 +34,7 @@ void ECS::EntityManager::destroyEntity(const Entity entity)
 	if (it != _ids.end())
     	_ids.erase(it);
 	else {
-		std::cerr << "invalid remove" << std::endl;
+		std::cerr << "No entity has been removed." << std::endl;
 		return;
 	}
 	_entities.push(entity);

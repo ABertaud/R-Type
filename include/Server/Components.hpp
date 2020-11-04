@@ -9,5 +9,7 @@ namespace ECS {
     enum componentType {
         POSITION,
         VELOCITY,
+        PLAYER,
+        ENTITY_DETAILS,
     };
-    }
+}

@@ -10,10 +10,13 @@
 
 enum entityType
 {
+    P1,
+    P2,
+    P3,
+    P4,
     BACKGROUND,
     WALL,
     OBSTACLE,
-    PLAYER,
     PLAYER_SHOOT,
     ALIEN,
     ALIEN_SHOOT,
@@ -23,6 +26,13 @@ enum entityType
     SPACESHIP_SHOOT,
     PIRATE,
     PIRATE_SHOOT,
+};
+
+enum entityState
+{
+   BASIC,
+   SPECIAL,
+   BONUS,
 };
 
 #endif /* !ENTITYTYPE_HPP_ */

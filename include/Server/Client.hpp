@@ -5,7 +5,7 @@
 ** Login   <EPITECH>
 **
 ** Started on  Sat Oct 31 4:46:09 PM 2020 arthurbertaud
-** Last update Sat Oct 31 4:46:09 PM 2020 arthurbertaud
+** Last update Tue Nov 2 10:01:01 PM 2020 arthurbertaud
 */
 
 #ifndef CLIENT_HPP_
@@ -24,7 +24,13 @@ class Client {
             INGAME,
             OFF,
         };
-
+        enum playerNumber {
+            P1,
+            P2,
+            P3,
+            P4,
+            SPEC,
+        };
     public:
         Client(const boost::asio::ip::address& adr, const unsigned short port);
         Client(const Client& other) = default;
@@ -32,6 +38,8 @@ class Client {
         boost::uuids::uuid& getUuid();
         void setState(const clientState state);
         clientState getState() const;
+        playerNumber getPlayer() const;
+        void setPlayer(const playerNumber player);
         boost::asio::ip::udp::endpoint& getEndpoint();
         ~Client() = default;
     protected:
@@ -39,6 +47,7 @@ class Client {
         boost::uuids::uuid _uuid;
         boost::asio::ip::udp::endpoint _endpoint;
         clientState _state;
+        playerNumber _player;
 };
 
 #endif /* !CLIENT_HPP_ */

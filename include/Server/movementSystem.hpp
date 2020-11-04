@@ -11,7 +11,7 @@
 #include "ASystem.hpp"
 #include "Position.hpp"
 #include "Velocity.hpp"
-
+#include "Player.hpp"
 
 namespace ECS {
     class movementSystem : public ASystem {
@@ -20,7 +20,8 @@ namespace ECS {
         movementSystem(const movementSystem& other) = default;
         movementSystem& operator=(const movementSystem& other) = default;
         void update(const float dt, ECSEngine& engine);
-        void applyPhysic(Position& pos, Velocity& vel, const float dt);
+        void applyPhysic(Position& pos, const Velocity& vel, const float dt);
+        void applyPhysic(Position& pos, const Velocity& vel, const float dt, Player& player);
         ~movementSystem() = default;
     };
 }

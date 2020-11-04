@@ -11,6 +11,16 @@
 #include "StorageManager.hpp"
 #include "SystemManager.hpp"
 
+//Systems
+#include "movementSystem.hpp"
+#include "routineSystem.hpp"
+#include "eventSystem.hpp"
+
+//Components
+#include "Position.hpp"
+#include "Velocity.hpp"
+#include "entityDetails.hpp"
+
 // class SystemManager;
 namespace ECS {
     class ECSEngine {
@@ -27,10 +37,10 @@ namespace ECS {
                 _storageM->registerStorage<T>(type);
             }
 
-            template<typename T>
-            void registerSystem()
+            template<typename T,typename... Args>
+            void registerSystem(Args&&... args)
             {
-                _systemM->addSystem(std::make_shared<T>());
+                _systemM->addSystem(std::make_shared<T>(std::forward<Args>(args)...));
             }
 
             template<typename T>
@@ -47,6 +57,7 @@ namespace ECS {
             }
             std::shared_ptr<IStorage>& getStorage(const componentType type);
             std::vector<Entity>& getEntites();
+            std::vector<std::shared_ptr<ISystem>>& getSystems();
             ~ECSEngine() = default;
         protected:
         private:
