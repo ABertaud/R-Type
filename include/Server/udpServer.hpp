@@ -41,6 +41,7 @@ private:
     void removeClient(const boost::uuids::uuid& uuid);
     void handleReceive(const boost::system::error_code& error, std::size_t);
     void handleSend(const std::string&, const boost::system::error_code&, std::size_t);
+    bool isLobbyNameAvailable(const std::string &name);
     std::shared_ptr<boost::asio::ip::udp::socket> _socket;
     boost::asio::ip::udp::endpoint _remoteEndpoint;
     char _data[SIZE];

@@ -12,7 +12,7 @@
 #include "Zipper.hpp"
 #include "boost/uuid/uuid_io.hpp"
 
-Lobby::Lobby() : _uuid(boost::uuids::random_generator()()), _state(FREE)
+Lobby::Lobby(const std::string &name) : _name(name), _state(FREE)
 {
     _available.push(Client::P1);
     _available.push(Client::P2);
@@ -58,11 +58,6 @@ void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socke
     std::thread test(&gameLoop::run, game, std::ref(_clients), std::ref(_players), std::ref(_state));
     test.detach();
     // game->run(_clients);
-}
-
-boost::uuids::uuid& Lobby::getUuid()
-{
-    return (_uuid);
 }
 
 void Lobby::removeClient(const std::shared_ptr<Client>& client)
@@ -118,4 +113,9 @@ Client::playerNumber Lobby::getPlayerNumber(const std::shared_ptr<Client>& clien
 Lobby::lobbyState Lobby::getState() const
 {
     return (_state);
+}
+
+std::string Lobby::getName() const
+{
+    return (_name);
 }

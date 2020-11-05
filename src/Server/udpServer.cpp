@@ -87,12 +87,8 @@ std::shared_ptr<Client>& udpServer::findClient(const unsigned short port)
 
 bool udpServer::doesLobbyExist(const std::string& name)
 {
-    boost::uuids::uuid newUuid;
-    std::istringstream iss(name);
-    iss >> newUuid;
-
     for (auto& lobby : _lobbies) {
-        if (lobby.getUuid() == newUuid)
+        if (lobby.getName() == name)
             return (true);
     }
     return (false);
@@ -100,12 +96,8 @@ bool udpServer::doesLobbyExist(const std::string& name)
 
 Lobby& udpServer::findLobby(const std::string& name)
 {
-    boost::uuids::uuid newUuid;
-    std::istringstream iss(name);
-    iss >> newUuid;
-
     for (auto& lobby : _lobbies) {
-        if (lobby.getUuid() == newUuid)
+        if (lobby.getName() == name)
             return (lobby);
     }
     return (_lobbies.front());
@@ -126,11 +118,15 @@ void udpServer::parserNoneState(std::shared_ptr<Client>& clt)
     std::string firstArg = buffer.substr(start + 1, second_space);
 
     if (std::strcmp(command.c_str(), "201") == 0) {
-        _lobbies.push_back(Lobby());
-        _lobbies.back().addClient(clt);
-        clt->setState(Client::INLOBBY);
-        std::string uuid = "111 " + boost::uuids::to_string(_lobbies.back().getUuid());
-        send(uuid);
+        if (isLobbyNameAvailable(firstArg) == true) {
+            _lobbies.push_back(Lobby(firstArg));
+            _lobbies.back().addClient(clt);
+            clt->setState(Client::INLOBBY);
+            std::string uuid = "111 " + firstArg;
+            send(uuid);
+        } else {
+            send("Name already choosed");
+        }
     } else if (std::strcmp(command.c_str(), "202") == 0) {
         if (doesLobbyExist(firstArg) == true) {
             auto &lobby = findLobby(firstArg);
@@ -264,4 +260,12 @@ Lobby& udpServer::findLobby(const std::shared_ptr<Client>& client)
             return (lobby);
     }
     return (_lobbies.front());
+}
+
+bool udpServer::isLobbyNameAvailable(const std::string &name)
+{
+    for (auto& lobby : _lobbies)
+        if (lobby.getName() == name)
+            return (false);
+    return (true);
 }
