@@ -47,3 +47,7 @@ ECS::ErrorECS::ErrorECS(const std::string& err) : Error(err)
 ECS::ErrorEntitiesNumber::ErrorEntitiesNumber() : ErrorECS("Error: invalid number of entities has been reached.")
 {
 }
+
+Client::ErrorClientNetwork::ErrorClientNetwork() : ErrorClient("Error: ")
+{
+}

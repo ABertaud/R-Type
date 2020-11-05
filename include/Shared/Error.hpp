@@ -12,88 +12,110 @@
 
 class Error : public std::exception
 {
-private:
-    const std::string _message;
+    private:
+        const std::string _message;
 
-public:
-    Error(std::string const &message);
-    Error(const Error& other) = default;
-    const char *what() const noexcept override;
-    Error& operator=(const Error& other) = default;
-    ~Error() = default;
+    public:
+        Error(std::string const &message);
+        Error(const Error& other) = default;
+        const char *what() const noexcept override;
+        Error& operator=(const Error& other) = default;
+        ~Error() = default;
 };
 
 class ErrorDLLoader : public Error
 {
-public:
-    ErrorDLLoader(const std::string& err);
-    ErrorDLLoader(const ErrorDLLoader& other) = default;
-    ErrorDLLoader& operator=(const ErrorDLLoader& other) = default;
-    ~ErrorDLLoader() = default;
+    public:
+        ErrorDLLoader(const std::string& err);
+        ErrorDLLoader(const ErrorDLLoader& other) = default;
+        ErrorDLLoader& operator=(const ErrorDLLoader& other) = default;
+        ~ErrorDLLoader() = default;
 };
 
 class ErrorArgs : public Error
 {
-public:
-    ErrorArgs(const std::string& err);
-    ErrorArgs(const ErrorArgs& other) = default;
-    ErrorArgs &operator=(const ErrorArgs& other) = default;
-    ~ErrorArgs() = default;
+    public:
+        ErrorArgs(const std::string& err);
+        ErrorArgs(const ErrorArgs& other) = default;
+        ErrorArgs &operator=(const ErrorArgs& other) = default;
+        ~ErrorArgs() = default;
 };
 
 class ErrorNbArgs : public ErrorArgs
 {
-public:
-    ErrorNbArgs();
-    ErrorNbArgs(const ErrorNbArgs& other) = default;
-    ErrorNbArgs& operator=(const ErrorNbArgs& other) = default;
-    ~ErrorNbArgs() = default;
+    public:
+        ErrorNbArgs();
+        ErrorNbArgs(const ErrorNbArgs& other) = default;
+        ErrorNbArgs& operator=(const ErrorNbArgs& other) = default;
+        ~ErrorNbArgs() = default;
 };
 
 class ErrorDirPath : public ErrorArgs
 {
-public:
-    ErrorDirPath();
-    ErrorDirPath(const ErrorDirPath& other) = default;
-    ErrorDirPath& operator=(const ErrorDirPath& other) = default;
-    ~ErrorDirPath() = default;
+    public:
+        ErrorDirPath();
+        ErrorDirPath(const ErrorDirPath& other) = default;
+        ErrorDirPath& operator=(const ErrorDirPath& other) = default;
+        ~ErrorDirPath() = default;
 };
 
 class ErrorConfigPath : public ErrorArgs
 {
-public:
-    ErrorConfigPath();
-    ErrorConfigPath(const ErrorConfigPath& other) = default;
-    ErrorConfigPath& operator=(const ErrorConfigPath& other) = default;
-    ~ErrorConfigPath() = default;
+    public:
+        ErrorConfigPath();
+        ErrorConfigPath(const ErrorConfigPath& other) = default;
+        ErrorConfigPath& operator=(const ErrorConfigPath& other) = default;
+        ~ErrorConfigPath() = default;
 };
 
 class ErrorNoMonsters : public Error
 {
-public:
-    ErrorNoMonsters();
-    ErrorNoMonsters(const ErrorNoMonsters& other) = default;
-    ErrorNoMonsters& operator=(const ErrorNoMonsters& other) = default;
-    ~ErrorNoMonsters() = default;
+    public:
+        ErrorNoMonsters();
+        ErrorNoMonsters(const ErrorNoMonsters& other) = default;
+        ErrorNoMonsters& operator=(const ErrorNoMonsters& other) = default;
+        ~ErrorNoMonsters() = default;
 };
 
 namespace ECS {
+
     class ErrorECS : public Error
     {
-    public:
-        ErrorECS(const std::string&);
-        ErrorECS(const ErrorECS& other) = default;
-        ErrorECS& operator=(const ErrorECS& other) = default;
-        ~ErrorECS() = default;
+        public:
+            ErrorECS(const std::string&);
+            ErrorECS(const ErrorECS& other) = default;
+            ErrorECS& operator=(const ErrorECS& other) = default;
+            ~ErrorECS() = default;
     };
 
     class ErrorEntitiesNumber : public ErrorECS
     {
-    public:
-        ErrorEntitiesNumber();
-        ErrorEntitiesNumber(const ErrorEntitiesNumber& other) = default;
-        ErrorEntitiesNumber& operator=(const ErrorEntitiesNumber& other) = default;
-        ~ErrorEntitiesNumber() = default;
+        public:
+            ErrorEntitiesNumber();
+            ErrorEntitiesNumber(const ErrorEntitiesNumber& other) = default;
+            ErrorEntitiesNumber& operator=(const ErrorEntitiesNumber& other) = default;
+            ~ErrorEntitiesNumber() = default;
+    };
+}
+
+namespace Client {
+
+    class ErrorClient : public Error
+    {
+        public:
+            ErrorClient(const std::string&);
+            ErrorClient(const ErrorClient& other) = default;
+            ErrorClient& operator=(const ErrorClient& other) = default;
+            ~ErrorClient() = default;
+    };
+
+    class ErrorClientNetwork : public ErrorClient
+    {
+        public:
+            ErrorClientNetwork();
+            ErrorClientNetwork(const ErrorClientNetwork& other) = default;
+            ErrorClientNetwork& operator=(const ErrorClientNetwork& other) = default;
+            ~ErrorClientNetwork() = default;
     };
 }
 
