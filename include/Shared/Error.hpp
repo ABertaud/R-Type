@@ -98,7 +98,7 @@ namespace ECS {
     };
 }
 
-namespace Client {
+/*namespace Client_err {
 
     class ErrorClient : public Error
     {
@@ -117,6 +117,6 @@ namespace Client {
             ErrorClientNetwork& operator=(const ErrorClientNetwork& other) = default;
             ~ErrorClientNetwork() = default;
     };
-}
+}*/
 
 #endif /*ERROR_HPP_*/

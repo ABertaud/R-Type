@@ -48,6 +48,6 @@ ECS::ErrorEntitiesNumber::ErrorEntitiesNumber() : ErrorECS("Error: invalid numbe
 {
 }
 
-Client::ErrorClientNetwork::ErrorClientNetwork() : ErrorClient("Error: ")
+/*Client_err::ErrorClientNetwork::ErrorClientNetwork() : ErrorClient("Error: ")
 {
-}
+}*/

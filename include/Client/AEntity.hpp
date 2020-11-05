@@ -17,6 +17,7 @@ class AEntity : public Graphic::IEntity {
         AEntity(const AEntity &other) = default;
         AEntity &operator=(const AEntity &other) = default;
         virtual ~AEntity();
+        sf::Vector2f getPos()const;
         void setscale(const sf::Vector2f &scale);
         entityType getObject() const;    // return the type of the object
         virtual void update() = 0;   // update the object in your window

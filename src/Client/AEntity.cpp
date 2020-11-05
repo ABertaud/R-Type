@@ -26,3 +26,8 @@ entityType Graphic::AEntity::getObject() const
 {
     return (_type);
 }
+
+sf::Vector2f Graphic::AEntity::getPos() const
+{
+    return (_pos);
+}
