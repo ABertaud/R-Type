@@ -11,15 +11,16 @@
 #include "StorageManager.hpp"
 #include "SystemManager.hpp"
 
-//Systems
-#include "movementSystem.hpp"
-#include "routineSystem.hpp"
-#include "eventSystem.hpp"
+// //Systems
+// #include "movementSystem.hpp"
+// #include "routineSystem.hpp"
+// #include "eventSystem.hpp"
 
-//Components
-#include "Position.hpp"
-#include "Velocity.hpp"
-#include "entityDetails.hpp"
+// //Components
+// #include "Position.hpp"
+// #include "Player.hpp"
+// #include "Velocity.hpp"
+// #include "entityDetails.hpp"
 
 // class SystemManager;
 namespace ECS {

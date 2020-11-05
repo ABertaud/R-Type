@@ -10,6 +10,7 @@
 
 #include "IComponents.hpp"
 #include "Client.hpp"
+#include <boost/uuid/uuid.hpp>
 
 namespace ECS {
     enum currentMovement {
@@ -22,12 +23,13 @@ namespace ECS {
 
     struct Player : public IComponents {
         Player() = default;
-        Player(const Client::playerNumber player);
+        Player(const Client::playerNumber player, const boost::uuids::uuid& uuid);
         Player(const Player& other) = default;
         Player& operator=(const Player& other) = default; 
         ~Player() = default;
         Client::playerNumber _player;
         currentMovement _direction;
+        boost::uuids::uuid _uuid;
     };
 }
 

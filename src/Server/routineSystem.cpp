@@ -5,15 +5,18 @@
 ** routineSystem.cpp
 */
 
-#include "routineSystem.hpp"
-#include "ECSEngine.hpp"
 #include <boost/bind.hpp>
 #include <iostream>
+#include "ECSEngine.hpp"
+#include "routineSystem.hpp"
+#include "Zipper.hpp"
 
-ECS::routineSystem::routineSystem(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, std::vector<std::shared_ptr<Client>>& clients) : ECS::ASystem(), _socket(socket)
+ECS::routineSystem::routineSystem(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players) : ECS::ASystem(), _socket(socket)
 {
-    for (auto& clt : clients)
-        _clients.push_back(clt);   
+    for (auto it : Zipper::zip(clients, players)) {
+        _clients.push_back(it.get<0>());
+        _players.push_back(it.get<1>());
+    }
 }
 
 void ECS::routineSystem::update(const float dt, ECS::ECSEngine& engine)
@@ -33,11 +36,13 @@ void ECS::routineSystem::sendUpdates(const entityDetails& details, const Positio
     toSend += std::to_string(details._type) + " ";
     toSend += std::to_string(details._state) + " ";
     toSend += std::to_string(position._x) + "." + std::to_string(position._y);
-    for (auto& clt : _clients) {
-        _socket->async_send_to(boost::asio::buffer(toSend), clt->getEndpoint(),
-        boost::bind(&ECS::routineSystem::handleSend, this, toSend,
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
+    for (auto it : Zipper::zip(_clients, _players)) {
+        if (it.get<0>()->getState() == Client::clientState::INGAME && *it.get<1>() != Client::SPEC) {
+            _socket->async_send_to(boost::asio::buffer(toSend), it.get<0>()->getEndpoint(),
+            boost::bind(&ECS::routineSystem::handleSend, this, toSend,
+            boost::asio::placeholders::error,
+            boost::asio::placeholders::bytes_transferred));
+        }
     }
 }
 
@@ -47,7 +52,3 @@ void ECS::routineSystem::handleSend(const std::string& message, const boost::sys
     (void)error;
     (void)bytesTransferred;
 }
-
-// ECS::routineSystem::~routineSystem()
-// {
-// }

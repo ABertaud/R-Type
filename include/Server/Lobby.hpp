@@ -26,17 +26,20 @@ class Lobby {
         Lobby& operator=(const Lobby& other) = default;
         boost::uuids::uuid& getUuid();
         void addClient(std::shared_ptr<Client>& client);
-        void removeClient(const boost::uuids::uuid& );
+        void removeClient(const std::shared_ptr<Client>& client);
         void loadingLobby();
         bool isReadyToGo();
         void startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer);
         bool isRoomFull();
         bool hasClient(const std::shared_ptr<Client>& client);
+        Client::playerNumber getPlayerNumber(const std::shared_ptr<Client>& client);
+        Lobby::lobbyState getState() const;
         ~Lobby() = default;
     protected:
     private:
         void handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred);
         boost::uuids::uuid _uuid;
+        std::vector<std::shared_ptr<Client::playerNumber>> _players;
         std::vector<std::shared_ptr<Client>> _clients;
         std::queue<Client::playerNumber> _available;
         lobbyState _state;

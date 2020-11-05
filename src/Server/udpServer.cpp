@@ -12,7 +12,8 @@
 #include <iostream>
 #include <sstream>
 
-udpServer::udpServer(boost::asio::io_context& ioContext) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT)))
+udpServer::udpServer(boost::asio::io_context& ioContext) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT))),
+_buffer(std::make_shared<Buffer>())
 {
     _parser.insert(std::make_pair(Client::NONE, &udpServer::parserNoneState));
     _parser.insert(std::make_pair(Client::INLOBBY, &udpServer::parserInLobbyState));
@@ -32,14 +33,13 @@ void udpServer::startReceive()
 void udpServer::handleReceive(const boost::system::error_code& error, std::size_t bytesTransferred)
 {
     (void)bytesTransferred;
-    if (doesClientExist() == false)
+    if (doesClientExist() == false) {
         _clients.push_back(std::make_shared<Client>(Client(_remoteEndpoint.address(), _remoteEndpoint.port())));
+    }
     if (!error || error == boost::asio::error::message_size) {
         parseData();
         startReceive();
-
-    } else
-        std::cerr << "error code: " << error.value() << std::endl;
+    }
 }
 
 void udpServer::parseData()
@@ -125,26 +125,26 @@ void udpServer::parserNoneState(std::shared_ptr<Client>& clt)
     std::string command = buffer.substr(0, start);
     std::string firstArg = buffer.substr(start + 1, second_space);
 
-    if (std::strcmp(command.c_str(), "Create") == 0) {
+    if (std::strcmp(command.c_str(), "201") == 0) {
         _lobbies.push_back(Lobby());
         _lobbies.back().addClient(clt);
         clt->setState(Client::INLOBBY);
-        std::string uuid = "Room " + boost::uuids::to_string(_lobbies.back().getUuid());
+        std::string uuid = "111 " + boost::uuids::to_string(_lobbies.back().getUuid());
         send(uuid);
-    }
-    else if (std::strcmp(command.c_str(), "Join") == 0) {
+    } else if (std::strcmp(command.c_str(), "202") == 0) {
         if (doesLobbyExist(firstArg) == true) {
             auto &lobby = findLobby(firstArg);
-            if (lobby.isRoomFull() == true) {
-                send("Room is full sorry");
+            if (lobby.isRoomFull() == true || lobby.getState() != Lobby::FREE) {
+                send("Room is not joinable");
             } else {
                 lobby.addClient(clt);
                 clt->setState(Client::INLOBBY);
-              send("You've joined a room");
+                send("111");
             }
         }
-    } else
-        send("Invalid command");
+    } else if (std::strcmp(command.c_str(), "200") != 0) {
+        send("Invalid Command");
+    }
 }
 
 void udpServer::parserInLobbyState(std::shared_ptr<Client>& clt)
@@ -159,16 +159,19 @@ void udpServer::parserInLobbyState(std::shared_ptr<Client>& clt)
     std::string command = buffer.substr(0, start);
     std::string firstArg = buffer.substr(start + 1, second_space);
 
-    if (std::strcmp(command.c_str(), "Ready") == 0) {
-        send("Ready");
+    if (std::strcmp(command.c_str(), "203") == 0) {
+        send("111");
         clt->setState(Client::READY);
     }
-    else if (std::strcmp(command.c_str(), "Leavelobby") == 0) {
-        send("Lobby has been left");
-        findLobby(firstArg).removeClient(clt->getUuid());
+    else if (std::strcmp(command.c_str(), "204") == 0) {
+        send("111");
+        findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
-    } else 
-        send("Invalid command");
+    } else if (std::strcmp(command.c_str(), "200") == 0) {
+        findLobby(clt).removeClient(clt);
+        clt->setState(Client::NONE);
+    } else
+        send("Invalid Command");  
 }
 
 void udpServer::parserReadyState(std::shared_ptr<Client>& clt)
@@ -180,54 +183,59 @@ void udpServer::parserReadyState(std::shared_ptr<Client>& clt)
     
     std::string command = buffer.substr(0, start);
 
-    if (std::strcmp(command.c_str(), "Unready") == 0) {
-        send("Unready");
+    if (std::strcmp(command.c_str(), "205") == 0) {
+        send("111");
         clt->setState(Client::INLOBBY);
     }
-    else if (std::strcmp(command.c_str(), "Start") == 0) {
+    else if (std::strcmp(command.c_str(), "206") == 0) {
         auto& lobby = findLobby(clt);
         if (lobby.isReadyToGo() == true) {
-            // send("The game will start");
+            send("111");
             lobby.startGame(_socket, _buffer);
         } else
             send("All the players aren't ready yet");  
+    } else if (std::strcmp(command.c_str(), "200") == 0) {
+        findLobby(clt).removeClient(clt);
+        clt->setState(Client::NONE);
     } else
-        send("Invalid command");
+        send("Invalid Command");  
 }
 
 void udpServer::parserInGameState(std::shared_ptr<Client>& clt)
 {
+    if (findLobby(clt).getPlayerNumber(clt) == Client::SPEC) {
+        send("Wait for your last game to finish in order to do something new.");
+        return;
+    }
     std::string buffer(_data);
     buffer.erase(std::remove(buffer.begin(), buffer.end(), '\n'), buffer.end());
     std::size_t start = buffer.find(" ");
 
     
     std::string command = buffer.substr(0, start);
-    
-    if (std::strcmp(command.c_str(), "Leave") == 0) {
-        send("You left the game");
-        clt->setState(Client::OFF);
-        removeClient(clt->getUuid());
+    if (std::strcmp(command.c_str(), "200") == 0) {
+        // send("111");
+        findLobby(clt).removeClient(clt);
         _buffer->addData(clt->getUuid(), "Off");
     }
-    else if (std::strcmp(command.c_str(), "Up") == 0) {
-        send("You go Up");
+    else if (std::strcmp(command.c_str(), "104") == 0) {
+        // send("111");
         _buffer->addData(clt->getUuid(), "Up");
     }
     else if (std::strcmp(command.c_str(), "Down") == 0) {
-        send("You go Down");
+        // send("111");
         _buffer->addData(clt->getUuid(), "Down");
     }
-    else if (std::strcmp(command.c_str(), "Right") == 0) {
-        send("You go Right");
+    else if (std::strcmp(command.c_str(), "101") == 0) {
+        // send("111");
         _buffer->addData(clt->getUuid(), "Right");
     }
-    else if (std::strcmp(command.c_str(), "Left") == 0) {
-         send("You go Left");
+    else if (std::strcmp(command.c_str(), "102") == 0) {
+        // send("111");
         _buffer->addData(clt->getUuid(), "Left");
     }
-    else if (std::strcmp(command.c_str(), "Shoot") == 0) {
-        send("You Shoot");
+    else if (std::strcmp(command.c_str(), "105") == 0) {
+        // send("111");
         _buffer->addData(clt->getUuid(), "Shoot");
     } else
         send("Invalid command");

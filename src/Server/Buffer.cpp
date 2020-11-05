@@ -14,7 +14,7 @@ Buffer::Buffer()
 
 bool Buffer::isDataAvailable(boost::uuids::uuid& uuid) const
 {
-    if (_sBuffer.find(uuid) != _sBuffer.end())
+    if (_sBuffer.find(uuid) != _sBuffer.end() && _sBuffer.find(uuid)->second.size() > 0)
         return (true);
     return (false);
 }

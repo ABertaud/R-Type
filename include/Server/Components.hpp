@@ -11,5 +11,6 @@ namespace ECS {
         VELOCITY,
         PLAYER,
         ENTITY_DETAILS,
+        LIFE,
     };
 }

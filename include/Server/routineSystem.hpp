@@ -11,14 +11,12 @@
 #include "ASystem.hpp"
 #include "Client.hpp"
 #include "Position.hpp"
-#include "entityType.hpp"
 #include "entityDetails.hpp"
-#include <boost/asio.hpp>
 
 namespace ECS {
     class routineSystem : public ASystem {
     public:
-        routineSystem(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, std::vector<std::shared_ptr<Client>>& clients);
+        routineSystem(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players);
         routineSystem(const routineSystem& other) = default;
         routineSystem& operator=(const routineSystem& other) = default;
         void update(const float dt, ECSEngine& engine);
@@ -28,6 +26,7 @@ namespace ECS {
     private:
         std::shared_ptr<boost::asio::ip::udp::socket> _socket;
         std::vector<std::shared_ptr<Client>> _clients;
+        std::vector<std::shared_ptr<Client::playerNumber>> _players;
     };
 }
 

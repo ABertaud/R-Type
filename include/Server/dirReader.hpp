@@ -18,10 +18,10 @@ class dirReader {
         dirReader(const dirReader& other) = default;
         dirReader& operator=(const dirReader& other) = default;
         ~dirReader() = default;
-        std::vector <std::string> findLibraries();
+        std::vector<std::string> findLibraries();
     private:
         std::string _path;
-        void pushLibPath(const std::string& name, std::vector <std::string>& libPaths);
+        void pushLibPath(const std::string& name, std::vector<std::string>& libPaths);
 };
 
 #endif /* !dirReader_HPP_ */

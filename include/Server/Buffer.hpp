@@ -23,6 +23,8 @@ public:
     void addData(boost::uuids::uuid& uuid, const std::string& data);
     std::vector<std::string>& getData(boost::uuids::uuid& uuid);
     bool isDataAvailable(boost::uuids::uuid& uuid) const;
+    // std::map<boost::uuids::uuid, std::vector<std::string>>::iterator &findBuffer(boost::uuids::uuid& uuid);
+    // bool isBufferAvailable(boost::uuids::uuid& uuid);
     ~Buffer() = default;
 private:
     std::map<boost::uuids::uuid, std::vector<std::string>> _sBuffer;
