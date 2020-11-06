@@ -34,11 +34,13 @@ void ECS::routineSystem::updateGame(const entityDetails& details, const Position
 {
     std::string toSend("100 ");
     int ID(0); // L'ID de l'element a mettre a jour
+    auto TYPE();//ca c'est le entitytype je crois
     bool STATE(true);// BOOL A 0 SI IL FAUT ENLEVER L'ELEMENT, SINON 1
     int X(0);//posX de l'element
     int Y(1);//posY de l'element
 
     toSend += std::to_string(ID) + " ";
+    toSend += std::to_string(TYPE + "|");
     toSend += std::to_string(STATE + "|");
     toSend += std::to_string(X + ".");
     toSend += std::to_string(Y);

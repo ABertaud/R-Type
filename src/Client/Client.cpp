@@ -92,7 +92,8 @@ void Client::updateGame(const std::string& update)
 {
     int id = std::stoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")));
     bool state = std::stoi(update.substr(update.find_last_of(" ") + 1, 1));
-    int x = std::stoi(update.substr(update.find_first_of("|") + 1, update.find_first_of(".") - update.find_first_of("|")));
+    //entityType type = std::stoi(update.substr(update.find_first_of("|") + 1, update.find_last_of("|") - update.find_first_of("|")));
+    int x = std::stoi(update.substr(update.find_last_of("|") + 1, update.find_first_of(".") - update.find_last_of("|")));
     int y = std::stoi(update.substr(update.find_first_of(".") + 1));
 }
 
