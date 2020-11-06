@@ -19,14 +19,14 @@
 class Client
 {
     public:
-        Client(const std::string &ip, unsigned short port);
+        Client(const std::string& ip, unsigned short port);
         ~Client()=default;
         Client(const Client& other) = default;
         Client& operator=(const Client& other) = default;
         int start(void);
         void stop(void);
     private:
-        void sender(const std::string &str);
+        void sender(const std::string& str);
         void start_receive(void);
         void loop(void);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
