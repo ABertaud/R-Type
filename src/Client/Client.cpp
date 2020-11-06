@@ -69,6 +69,33 @@ void Client::read_handler(const boost::system::error_code& ec, std::size_t bytes
     start_receive();
 }
 
+
+void Client::update(const std::string& update)
+{
+    if (std::stoi(update, 3) == 100)
+        updateGame(update);
+    else if (std::stoi(update, 3) == 200)
+        updateMenu(update);
+    else
+        std::cerr << "ERROR in server communication" << std::endl;
+}
+
+void Client::updateMenu(const std::string& update)
+{
+    //l'enum avec P1/P2/P3...
+    //PLAYER player = update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" "));
+    //l'enum avec ON/RDY/OFF
+    //STATE state = update.substr(update.find_last_of(" ") + 1);
+}
+
+void Client::updateGame(const std::string& update)
+{
+    int id = std::stoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")));
+    bool state = std::stoi(update.substr(update.find_last_of(" ") + 1, 1));
+    int x = std::stoi(update.substr(update.find_first_of("|") + 1, update.find_first_of(".") - update.find_first_of("|")));
+    int y = std::stoi(update.substr(update.find_first_of(".") + 1));
+}
+
 void Client::sender(const std::string &str)
 {
     boost::system::error_code err;

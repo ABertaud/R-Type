@@ -20,7 +20,8 @@ namespace ECS {
         routineSystem(const routineSystem& other) = default;
         routineSystem& operator=(const routineSystem& other) = default;
         void update(const float dt, ECSEngine& engine);
-        void sendUpdates(const entityDetails& details, const Position& position);
+        void updateGame(const entityDetails& details, const Position& position);
+        void updateMenu(const entityDetails& details, const Position& position);
         void handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred);
         ~routineSystem() = default;
     private:

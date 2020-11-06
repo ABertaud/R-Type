@@ -56,7 +56,8 @@
                         <t>RTP Ingame Commands.........................................5</t>
                     </list>
                 </t>
-                <t>RTP Replies.....................................................5
+                <t>RTP Menu Replies................................................5
+                <t>RTP Ingame Replies..............................................5
                     <list style="numbers">
                         <t>Format......................................................5</t>
                     </list>
@@ -164,12 +165,14 @@
                         <t>
                             When the User is in NONE state, he can either create 
                             a game by sending code<vspace blankLines='0'/>
-                            "201" to the server.<vspace blankLines='0'/>
+                            "201 &#60;NAME&#62;" to the server. the &#60;NAME&#62;
+                            will be the name of the Lobby.<vspace blankLines='0'/>
                             or join an existing game by sending code<vspace blankLines='0'/>
-                            "202 &#60;uuid&#62;" to the server.<vspace blankLines='0'/>
-                            The &#60;uuid&#62; is the unique identifiant of the
-                            game that the user wants to join.<vspace blankLines='0'/>
-                            The User can of course leave the program by sending code<vspace blankLines='0'/>
+                            "202 &#60;NAME&#62;" to the server.<vspace blankLines='0'/>
+                            The &#60;NAME&#62; is the name of the Lobby that the
+                            user wants to join.<vspace blankLines='0'/>
+                            The User can of course leave the program by sending
+                            code<vspace blankLines='0'/>
                             "200" to the server.:<vspace blankLines='0'/>
                             An unexpected close on the control connection
                             will cause the server to close the user.
@@ -218,8 +221,6 @@
                         <t>
                             When the User is in OFF state, his firts interaction
                             with the server will set his state to "NONE".
-                            An unexpected close on the control connection
-                            will cause the server to close the user.
                         </t>
                     </list>
                 </t>
@@ -290,12 +291,47 @@
                 </t>
             </section>
         </section>
-        <section title='RTP REPLIES'>
+        <section title='RTP MENU REPLIES'>
             <section title='FORMAT'>
                 <t>
+                    The Server will constantly send updates to the client
+                </t>
+            </section>
+        </section>
+        <section title='RTP INGAME REPLIES'>
+            <section title='FORMAT'>
+                <t>
+                    111<vspace blankLines='0'/>
                     When the server will receive something from a client, it will
-                    always send back the code "111" to the client who send
-                    it to validate that everything is OK.<vspace blankLines='3'/>
+                    send back the code "111" to validate that everything is OK.
+                    <vspace blankLines='1'/>
+
+                    222<vspace blankLines='0'/>
+                    The code "222" is the basic error code for the server.
+                    When a command is invalid, the server will send back this code.
+                    <vspace blankLines='1'/>
+
+                    333<vspace blankLines='0'/>
+                    The server will send code "333" if a player is trying
+                    to take a name that already exist.
+                    <vspace blankLines='1'/>
+
+                    444<vspace blankLines='0'/>
+                    The server will send code "444" if someone is trying to join
+                    a room which is already full.
+                    <vspace blankLines='1'/>
+
+                    555<vspace blankLines='0'/>
+                    The server will send code "555" is someone is trying to
+                    lauch a game when all the players aren't ready.
+                    <vspace blankLines='1'/>
+
+                    666<vspace blankLines='0'/>
+                    The server will send code "666" if a player is trying to
+                    start another game when the previous one isn't finished yet.
+                    <vspace blankLines='1'/>
+
+                    <vspace blankLines='3'/>
                     As a routine, the Server will constantly send updates of
                     everything in the game to the client. Every time the client
                     sends something, the server will check the Request and

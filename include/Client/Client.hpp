@@ -31,6 +31,9 @@ class Client
         void loop(void);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
         void read_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
+        void update(const std::string& update);
+        void updateMenu(const std::string& update);
+        void updateGame(const std::string& update);
     private:
         SignalHandler _sigHandler;
         boost::asio::io_service _io_service;
