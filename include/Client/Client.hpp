@@ -14,8 +14,10 @@
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 #include <iostream>
+
 #include "SFMLModule.hpp"
 #include "SignalHandler.hpp"
+#include "BinaryProtocol.hpp"
 
 class Client
 {
@@ -38,12 +40,13 @@ class Client
         void changeState(void);
     private:
         SignalHandler _sigHandler;
+        BinaryProtocol::Codec _binCodec;
         boost::asio::io_service _io_service;
         boost::asio::ip::udp::socket _clientSocket;
         SFMLModule _sfmlModule;
         ClientState _state;
         boost::thread _thread;
-        boost::array<char, 1024> _recv_buff;
+        std::vector<uint8_t> _recvBuff;
         boost::asio::ip::udp::endpoint _remote_endpoint;
         std::string _clientName;
 };

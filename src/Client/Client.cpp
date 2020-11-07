@@ -8,7 +8,7 @@
 #include "Client.hpp"
 
 Client::Client(const std::string &ip, unsigned short port)
-: _sigHandler(), _io_service(), _clientSocket(_io_service), _sfmlModule(), _state(UNREADY)
+: _sigHandler(), _binCodec(), _io_service(), _clientSocket(_io_service), _sfmlModule(), _state(UNREADY)
 {
     boost::system::error_code err;
 
@@ -16,7 +16,7 @@ Client::Client(const std::string &ip, unsigned short port)
     if (err)
         std::cerr << "Error while opening socket" << std::endl;
     _remote_endpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(ip), port);
-    std::fill(_recv_buff.begin(), _recv_buff.end(), '\0');
+    std::fill(_recvBuff.begin(), _recvBuff.end(), '\0');
 }
 
 int Client::start(void)
@@ -80,7 +80,7 @@ void Client::loop(void)
 
 void Client::start_receive(void)
 {
-    _clientSocket.async_receive(boost::asio::buffer(_recv_buff), boost::bind(&Client::read_handler, this, boost::asio::placeholders::error,
+    _clientSocket.async_receive(boost::asio::buffer(_recvBuff), boost::bind(&Client::read_handler, this, boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }
 
@@ -93,11 +93,19 @@ void Client::start_receive(void)
 
 void Client::read_handler(const boost::system::error_code& ec, std::size_t bytes_transferred)
 {
+    BinaryProtocol::Packet p;
+
     if (ec) {
         std::cerr << "ERROR while reading " << bytes_transferred << " bytes on socket" << std::endl;
         return;
     }
-    std::cout << "Data : '" << std::string(_recv_buff.begin(), _recv_buff.begin()+bytes_transferred) << "' received" << std::endl;
+    p = _binCodec.unserialize(_recvBuff);
+    if (_binCodec.check_packet(p) != true) {
+        std::cerr << "ERROR: packet not valid" << std::endl;
+        return;
+    }
+    std::cout << "Data : '" << p._message << "' received" << std::endl;
+    update(p._message);
     start_receive();
 }
 
@@ -133,7 +141,7 @@ void Client::sender(const std::string &str)
 {
     boost::system::error_code err;
 
-    _clientSocket.send_to(boost::asio::buffer(str), _remote_endpoint, 0, err);
+    _clientSocket.send_to(boost::asio::buffer(_binCodec.serialize(_binCodec.createPacket(str))), _remote_endpoint, 0, err);
     if (err) {
         std::cerr << "ERROR while sending data" << std::endl;
         return;

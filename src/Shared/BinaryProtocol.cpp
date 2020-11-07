@@ -11,7 +11,6 @@ bool BinaryProtocol::Packet::operator==(const Packet &other) const
 {
     return ((_magicNumber == other._magicNumber)
     && (_message == other._message));
-
 };
 
 BinaryProtocol::Codec::Codec()
