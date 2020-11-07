@@ -50,6 +50,8 @@ void Client::loop(void)
     std::string port;
     std::vector<std::shared_ptr<players>> test;
 
+    _sfmlModule.init();
+    _clientName = _sfmlModule.getPlayerName();
     test.push_back(std::shared_ptr<players>(new players(P1)));
     test.back()->setState(players::ACTIVE);
     test.push_back(std::shared_ptr<players>(new players(P2)));
