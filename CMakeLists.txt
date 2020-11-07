@@ -58,6 +58,7 @@ target_compile_options(r-type_client
                        $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs -lpthread -lboost_system -lboost_thread >)
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_CLIENT_DIR})
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
+target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_MONSTERS_DIR})
 target_link_libraries(r-type_client ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(r-type_client ${CONAN_LIBS})
 
