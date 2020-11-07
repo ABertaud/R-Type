@@ -93,22 +93,21 @@ void Client::start_receive(void)
 
 void Client::read_handler(const boost::system::error_code& ec, std::size_t bytes_transferred)
 {
-    BinaryProtocol::Packet p;
+    // BinaryProtocol::Packet p;
 
     if (ec) {
         std::cerr << "ERROR while reading " << bytes_transferred << " bytes on socket" << std::endl;
         return;
     }
-    p = _binCodec.unserialize(_recvBuff);
-    if (_binCodec.check_packet(p) != true) {
-        std::cerr << "ERROR: packet not valid" << std::endl;
-        return;
-    }
-    std::cout << "Data : '" << p._message << "' received" << std::endl;
-    update(p._message);
+    // p = _binCodec.unserialize(_recvBuff);
+    // if (_binCodec.check_packet(p) != true) {
+    //     std::cerr << "ERROR: packet not valid" << std::endl;
+    //     return;
+    // }
+    // std::cout << "Data : '" << p._message << "' received" << std::endl;
+    update(std::string(_recvBuff.begin(), _recvBuff.begin()+bytes_transferred));
     start_receive();
 }
-
 
 void Client::update(const std::string& update)
 {
@@ -140,10 +139,13 @@ void Client::updateGame(const std::string& update)
 void Client::sender(const std::string &str)
 {
     boost::system::error_code err;
+    std::size_t bytes = 0;
+    // std::vector<uint8_t> vec;
 
-    _clientSocket.send_to(boost::asio::buffer(_binCodec.serialize(_binCodec.createPacket(str))), _remote_endpoint, 0, err);
+    // vec = _binCodec.serialize(_binCodec.createPacket(str));
+    bytes = _clientSocket.send_to(boost::asio::buffer(str), _remote_endpoint, 0, err);
     if (err) {
-        std::cerr << "ERROR while sending data" << std::endl;
+        std::cerr << "ERROR while sending " << bytes << " bytes of data" << std::endl;
         return;
     }
 }
