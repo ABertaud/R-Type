@@ -102,12 +102,12 @@ void Client::read_handler(const boost::system::error_code& ec, std::size_t bytes
 
 void Client::update(const std::string& update)
 {
-    if (std::stoi(update, 3) == 100)
-        updateGame(update);
-    else if (std::stoi(update, 3) == 200)
-        updateMenu(update);
-    else
-        std::cerr << "ERROR in server communication" << std::endl;
+    // if (std::stoi(update, 3) == 100)
+    //     updateGame(update);
+    // else if (std::stoi(update, 3) == 200)
+    //     updateMenu(update);
+    // else
+    //     std::cerr << "ERROR in server communication" << std::endl;
 }
 
 void Client::updateMenu(const std::string& update)
@@ -120,11 +120,11 @@ void Client::updateMenu(const std::string& update)
 
 void Client::updateGame(const std::string& update)
 {
-    int id = std::stoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")));
-    bool state = std::stoi(update.substr(update.find_last_of(" ") + 1, 1));
-    //entityType type = std::stoi(update.substr(update.find_first_of("|") + 1, update.find_last_of("|") - update.find_first_of("|")));
-    int x = std::stoi(update.substr(update.find_last_of("|") + 1, update.find_first_of(".") - update.find_last_of("|")));
-    int y = std::stoi(update.substr(update.find_first_of(".") + 1));
+    // int id = std::stoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")));
+    // bool state = std::stoi(update.substr(update.find_last_of(" ") + 1, 1));
+    // //entityType type = std::stoi(update.substr(update.find_first_of("|") + 1, update.find_last_of("|") - update.find_first_of("|")));
+    // int x = std::stoi(update.substr(update.find_last_of("|") + 1, update.find_first_of(".") - update.find_last_of("|")));
+    // int y = std::stoi(update.substr(update.find_first_of(".") + 1));
 }
 
 void Client::sender(const std::string &str)
