@@ -36,6 +36,15 @@ void TextDrawer::draw(sf::Vector2f pos, const std::string &to_print, sf::RenderW
     window.draw(_text);
 }
 
+void TextDrawer::drawSize(sf::Vector2f pos, const std::string &to_print, sf::RenderWindow &window, int size, const sf::Color &color)
+{
+    _text.setString(to_print);
+    _text.setPosition(pos);
+    _text.setCharacterSize(size);
+    _text.setFillColor(color);
+    window.draw(_text);
+}
+
 void TextDrawer::setScale(const sf::Vector2f &scale)
 {
     _scale = scale;

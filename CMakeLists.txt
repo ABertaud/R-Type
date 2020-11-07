@@ -50,23 +50,23 @@ target_link_libraries(r-type_server ${CONAN_LIBS})
 target_link_libraries(r-type_server ${CMAKE_DL_LIBS})
 target_link_libraries(r-type_server ${CMAKE_THREAD_LIBS_INIT})
 
-#add_executable(r-type_client ${SRCS_CLIENT} ${SRCS_CLIENT_UI} ${SRCS_CLIENT_QRC})
-#target_compile_features(r-type_client PRIVATE cxx_std_17)
-#target_compile_options(r-type_client
-#                       PRIVATE
-#                       $<$<CXX_COMPILER_ID:MSVC>:/W3 /permissive- /TP>
-#                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs -lpthread -lboost_system -lboost_thread >)
-#target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_CLIENT_DIR})
-#target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
-#target_link_libraries(r-type_client ${CMAKE_THREAD_LIBS_INIT})
-#target_link_libraries(r-type_client ${CONAN_LIBS})
+add_executable(r-type_client ${SRCS_CLIENT} ${SRCS_CLIENT_UI} ${SRCS_CLIENT_QRC})
+target_compile_features(r-type_client PRIVATE cxx_std_17)
+target_compile_options(r-type_client
+                       PRIVATE
+                       $<$<CXX_COMPILER_ID:MSVC>:/W3 /permissive- /TP>
+                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs -lpthread -lboost_system -lboost_thread >)
+target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_CLIENT_DIR})
+target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
+target_link_libraries(r-type_client ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(r-type_client ${CONAN_LIBS})
 
 #NO
-#target_link_libraries(r-type_client sfml-window sfml-system sfml-audio sfml-graphics)
+target_link_libraries(r-type_client sfml-window sfml-system sfml-audio sfml-graphics)
 #Sfml
-#target_link_libraries(r-type_client ${SFML_LIBRARIES})
+target_link_libraries(r-type_client ${SFML_LIBRARIES})
 #flags -lsfml-graphics -lsfml-window -lsfml-system
-#include(CTest)
-#enable_testing(MAKE_DIRECTORY tests)
-#add_subdirectory(tests)
+include(CTest)
+enable_testing(MAKE_DIRECTORY tests)
+add_subdirectory(tests)
 add_subdirectory(ressources/monsters/)

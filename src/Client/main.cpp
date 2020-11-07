@@ -54,10 +54,10 @@ int main()
             std::cout << "JOIN IS OK" << std::endl;
     }
 
-}
+}*/
 
 
-#include "pathHandler.hpp"
+/*#include "pathHandler.hpp"
 #include "Error.hpp"
 #include <iostream>
 
@@ -80,51 +80,4 @@ int main(int ac, char **av)
         return (84);
     }
     return (0);    
-}*/
-
-/*#include <SFML/Graphics.hpp>
-
-#include <iostream>
-#include <SFML/Window.hpp>
-int main()
-{
-    sf::RenderWindow window;
-    
-    window.create(sf::VideoMode(800, 600), "SFML works!");
-    sf::RectangleShape button;
-    button.setSize(sf::Vector2f(200.0f, 80.0f));
-    button.setPosition(300.0f, 260.0f);
-    sf::Texture texture;
-    if (!texture.loadFromFile("./logo.png"))
-    {
-        std::cout << "nop" << std::endl;    // erreur...
-        return 1;
-    }
-    texture.setSmooth(true);
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
-    sprite.setPosition(sf::Vector2f(300, 260));
-    sprite.setScale(sf::Vector2f(0.1f, 0.1f));
-    
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-            if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
-                        std::cout << "Button pressed" << std::endl;
-                    }
-                }
-            }
-        }
-
-        window.clear(sf::Color::Black);
-        window.draw(sprite);
-        window.display();
-    }
-
-    return EXIT_SUCCESS;
 }*/

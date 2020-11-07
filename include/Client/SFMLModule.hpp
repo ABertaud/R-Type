@@ -30,9 +30,11 @@ public:
         void stop();
         Graphic::Command eventHandler();
         void drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>>&);
-        MenuDrawer::State Menu(const std::string &name);
+        MenuDrawer::State Menu(const std::string &name, const std::vector<std::shared_ptr<players>>&, const ClientState &);
         const std::string getPlayerName();
         void displayWindow();
+        std::string getRoomName()const;
+        void setState(const MenuDrawer::State &);
     protected:
     private:
        Parser _parser;
@@ -42,6 +44,7 @@ public:
        Scene _scene;
        TextDrawer _text;
        MenuDrawer _menu;
+       std::string _roomName;
        sf::RenderWindow _window;
        std::map<entityType, sf::Sprite> _entities;
        std::vector<std::shared_ptr<sf::Texture>> _textures;

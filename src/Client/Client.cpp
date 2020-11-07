@@ -8,7 +8,7 @@
 #include "Client.hpp"
 
 Client::Client(const std::string &ip, unsigned short port)
-: _sigHandler(), _io_service(), _clientSocket(_io_service)
+: _sigHandler(), _io_service(), _clientSocket(_io_service), _sfmlModule(), _state(UNREADY)
 {
     boost::system::error_code err;
 
@@ -36,13 +36,43 @@ void Client::stop(void)
     std::cout << "Bye bye !" << std::endl;
 }
 
+void Client::changeState()
+{
+    if (_state == UNREADY)
+        _state = READY;
+    else
+        _state = UNREADY;
+}
+
 void Client::loop(void)
 {
-    while (_sigHandler.isInterrupted() != true)
-    {
+    MenuDrawer::State state;
+    std::string port;
+    std::vector<std::shared_ptr<players>> test;
+
+    test.push_back(std::shared_ptr<players>(new players(P1)));
+    test.back()->setState(players::ACTIVE);
+    test.push_back(std::shared_ptr<players>(new players(P2)));
+    test.back()->setState(players::ACTIVE);
+    test.push_back(std::shared_ptr<players>(new players(P3)));
+    test.back()->setState(players::ACTIVE);
+    test.push_back(std::shared_ptr<players>(new players(P4)));
+    test.back()->setState(players::READY);
+    while (_sigHandler.isInterrupted() != true) {
         // send message every second/2
-        std::this_thread::sleep_for (std::chrono::milliseconds(500));
-        sender("Create");
+      //  std::this_thread::sleep_for (std::chrono::milliseconds(500));
+       //sender("Create");
+        state = _sfmlModule.Menu(_clientName, test, _state);
+        if (state == MenuDrawer::State::QUIT)
+            _sfmlModule.stop();
+        if (state == MenuDrawer::State::WAITING)
+            port = _sfmlModule.getRoomName();
+        if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {
+            changeState();
+            _sfmlModule.setState(MenuDrawer::State::ROOM);
+        }
+        if (state == MenuDrawer::State::WAITING)
+            _sfmlModule.setState(MenuDrawer::State::HOME);
     };
 }
 

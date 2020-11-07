@@ -14,6 +14,7 @@
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 #include <iostream>
+#include "SFMLModule.hpp"
 #include "SignalHandler.hpp"
 
 class Client
@@ -34,13 +35,17 @@ class Client
         void update(const std::string& update);
         void updateMenu(const std::string& update);
         void updateGame(const std::string& update);
+        void changeState(void);
     private:
         SignalHandler _sigHandler;
         boost::asio::io_service _io_service;
         boost::asio::ip::udp::socket _clientSocket;
+        SFMLModule _sfmlModule;
+        ClientState _state;
         boost::thread _thread;
         boost::array<char, 1024> _recv_buff;
         boost::asio::ip::udp::endpoint _remote_endpoint;
+        std::string _clientName;
 };
 
 #endif /* !CLIENT_HPP_ */

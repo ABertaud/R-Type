@@ -8,7 +8,7 @@
 #include "SFMLModule.hpp"
 
 SFMLModule::SFMLModule()  : _parser(Parser()), _winpos({1920, 1080}), 
-_scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()), _menu(MenuDrawer())
+_scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()), _menu(MenuDrawer()), _roomName("")
 {
     std::map<entityType, std::string> paths = _parser.getPaths();
     loadAllSprite(paths);
@@ -43,13 +43,23 @@ void SFMLModule::loadAllSprite(std::map<entityType, std::string> &paths)
     }
 }
 
-MenuDrawer::State SFMLModule::Menu(const std::string &name)
+void SFMLModule::setState(const MenuDrawer::State &state)
+{
+    _menu.setState(state);
+}
+
+MenuDrawer::State SFMLModule::Menu(const std::string &name, const std::vector<std::shared_ptr<players>>& entities, const ClientState &clientS)
 {
     MenuDrawer::State ret;
     
     ret =_menu.handleMenu(_window, _event);
-     _menu.draw(_window, name, _event);
+    _menu.draw(_window, name, _event, entities, clientS);
     return ret;
+}
+
+std::string SFMLModule::getRoomName()const
+{
+    return (_menu.getRoomName());
 }
 
 void SFMLModule::init()

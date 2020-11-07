@@ -10,11 +10,11 @@
 
 enum entityType
 {
+    BACKGROUND,
     P1,
     P2,
     P3,
     P4,
-    BACKGROUND,
     WALL,
     OBSTACLE,
     PLAYER_SHOOT,
