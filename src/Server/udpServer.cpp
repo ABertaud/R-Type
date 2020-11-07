@@ -12,8 +12,8 @@
 #include <iostream>
 #include <sstream>
 
-udpServer::udpServer(boost::asio::io_context& ioContext) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT))),
-_buffer(std::make_shared<Buffer>())
+udpServer::udpServer(boost::asio::io_context& ioContext, const std::string& libPath) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT))),
+_buffer(std::make_shared<Buffer>()), _libPath(libPath)
 {
     _parser.insert(std::make_pair(Client::NONE, &udpServer::parserNoneState));
     _parser.insert(std::make_pair(Client::INLOBBY, &udpServer::parserInLobbyState));
@@ -125,13 +125,13 @@ void udpServer::parserNoneState(std::shared_ptr<Client>& clt)
             std::string uuid = "111 " + firstArg;
             send(uuid);
         } else {
-            send("Name already choosed");
+            send("333");
         }
     } else if (std::strcmp(command.c_str(), "202") == 0) {
         if (doesLobbyExist(firstArg) == true) {
             auto &lobby = findLobby(firstArg);
             if (lobby.isRoomFull() == true || lobby.getState() != Lobby::FREE) {
-                send("Room is not joinable");
+                send("444");
             } else {
                 lobby.addClient(clt);
                 clt->setState(Client::INLOBBY);
@@ -139,7 +139,7 @@ void udpServer::parserNoneState(std::shared_ptr<Client>& clt)
             }
         }
     } else if (std::strcmp(command.c_str(), "200") != 0) {
-        send("Invalid Command");
+        send("222");
     }
 }
 
@@ -167,7 +167,7 @@ void udpServer::parserInLobbyState(std::shared_ptr<Client>& clt)
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
     } else
-        send("Invalid Command");  
+        send("222");  
 }
 
 void udpServer::parserReadyState(std::shared_ptr<Client>& clt)
@@ -187,20 +187,20 @@ void udpServer::parserReadyState(std::shared_ptr<Client>& clt)
         auto& lobby = findLobby(clt);
         if (lobby.isReadyToGo() == true) {
             send("111");
-            lobby.startGame(_socket, _buffer);
+            lobby.startGame(_socket, _buffer, _libPath);
         } else
-            send("All the players aren't ready yet");  
+            send("555");  
     } else if (std::strcmp(command.c_str(), "200") == 0) {
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
     } else
-        send("Invalid Command");  
+        send("222");  
 }
 
 void udpServer::parserInGameState(std::shared_ptr<Client>& clt)
 {
     if (findLobby(clt).getPlayerNumber(clt) == Client::SPEC) {
-        send("Wait for your last game to finish in order to do something new.");
+        send("666");
         return;
     }
     std::string buffer(_data);
@@ -234,7 +234,7 @@ void udpServer::parserInGameState(std::shared_ptr<Client>& clt)
         // send("111");
         _buffer->addData(clt->getUuid(), "Shoot");
     } else
-        send("Invalid command");
+        send("222");
 }
 
 void udpServer::removeClient(const boost::uuids::uuid& uuid)
@@ -264,6 +264,8 @@ Lobby& udpServer::findLobby(const std::shared_ptr<Client>& client)
 
 bool udpServer::isLobbyNameAvailable(const std::string &name)
 {
+    if (name == "")
+        return (false);
     for (auto& lobby : _lobbies)
         if (lobby.getName() == name)
             return (false);

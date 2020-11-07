@@ -1,0 +1,112 @@
+[settings]
+    arch=x86_64
+    build_type=Release
+    compiler=gcc
+    compiler.libcxx=libstdc++11
+    compiler.version=9.3
+    os=Linux
+
+[requires]
+    boost/1.Y.Z
+    bzip2/1.Y.Z
+    sfml/2.Y.Z
+    zlib/1.Y.Z
+
+[options]
+
+
+[full_settings]
+    arch=x86_64
+    arch_build=x86_64
+    build_type=Release
+    compiler=gcc
+    compiler.libcxx=libstdc++11
+    compiler.version=9.3
+    os=Linux
+    os_build=Linux
+
+[full_requires]
+    boost/1.66.0@conan/stable:67633e1ef6b8f9e076f47da23c35eaf59d37a1ba
+    bzip2/1.0.6@conan/stable:ac48fbe81a58f9445f80c07076de04c18aef1ced
+    flac/1.3.2@bincrafters/stable:2bc46d6bc2130bbdb7ae8a357e153fb7ae3a781a
+    freetype/2.9.0@bincrafters/stable:314b35e32c2d498e33810d66c54d3f8da4775c1e
+    libalsa/1.1.5@conan/stable:52830ae65c09f760c56f7e73de7bd98a19437463
+    libpng/1.6.34@bincrafters/stable:11af6d05a19a328a72aabfb7df4de8784622f75e
+    ogg/1.3.3@bincrafters/stable:c9f99894de7cd0d22d0bdedcf23221ef3d5c6f04
+    openal/1.19.0@bincrafters/stable:626f84e150d34b5f2065f11593667b59f4d883df
+    sfml/2.5.1@bincrafters/stable:bc4f24cc897dc83fa24713d1d82889bfc38ebdc5
+    stb/20180214@conan/stable:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+    vorbis/1.3.6@bincrafters/stable:9cdfccbeff2e90d805084668b32d38b6fd6a0c99
+    zlib/1.2.11@conan/stable:c9f99894de7cd0d22d0bdedcf23221ef3d5c6f04
+
+[full_options]
+    boost:fPIC=True
+    boost:header_only=False
+    boost:shared=False
+    boost:skip_lib_rename=False
+    boost:without_atomic=False
+    boost:without_chrono=False
+    boost:without_container=False
+    boost:without_context=False
+    boost:without_coroutine=False
+    boost:without_date_time=False
+    boost:without_exception=False
+    boost:without_fiber=False
+    boost:without_filesystem=False
+    boost:without_graph=False
+    boost:without_graph_parallel=False
+    boost:without_iostreams=False
+    boost:without_locale=False
+    boost:without_log=False
+    boost:without_math=False
+    boost:without_mpi=False
+    boost:without_program_options=False
+    boost:without_python=True
+    boost:without_random=False
+    boost:without_regex=False
+    boost:without_serialization=False
+    boost:without_signals=False
+    boost:without_stacktrace=False
+    boost:without_system=False
+    boost:without_test=False
+    boost:without_thread=False
+    boost:without_timer=False
+    boost:without_type_erasure=False
+    boost:without_wave=False
+    bzip2:build_executable=True
+    bzip2:fPIC=True
+    bzip2:shared=False
+    flac:fPIC=True
+    flac:shared=False
+    flac:use_asm=False
+    freetype:fPIC=True
+    freetype:shared=False
+    freetype:with_bzip2=True
+    freetype:with_png=True
+    freetype:with_zlib=True
+    libalsa:disable_python=True
+    libalsa:fPIC=True
+    libalsa:shared=False
+    libpng:fPIC=True
+    libpng:shared=False
+    ogg:fPIC=True
+    ogg:shared=False
+    openal:fPIC=True
+    openal:shared=False
+    sfml:audio=True
+    sfml:fPIC=True
+    sfml:graphics=True
+    sfml:network=False
+    sfml:shared=False
+    sfml:window=True
+    vorbis:fPIC=True
+    vorbis:shared=False
+    zlib:fPIC=True
+    zlib:minizip=False
+    zlib:shared=False
+
+[recipe_hash]
+
+
+[env]
+

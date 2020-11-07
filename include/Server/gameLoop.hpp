@@ -21,17 +21,17 @@ class gameLoop
 {
 public:
     gameLoop();
-    gameLoop(const gameLoop& other) = default;
-    gameLoop& operator=(const gameLoop& other) = default;
-    void run(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, Lobby::lobbyState &lobbyState);
-    void prepareGame(std::vector<std::shared_ptr<Client>>& _clients, std::vector<std::shared_ptr<Client::playerNumber>>& _players, const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer);
+    gameLoop(const gameLoop&) = default;
+    gameLoop& operator=(const gameLoop&) = default;
+    void run(std::vector<std::shared_ptr<Client>>&, std::vector<std::shared_ptr<Client::playerNumber>>&, Lobby::lobbyState&);
+    void prepareGame(std::vector<std::shared_ptr<Client>>&, std::vector<std::shared_ptr<Client::playerNumber>>&, const std::shared_ptr<boost::asio::ip::udp::socket>&, const std::shared_ptr<Buffer>&, const std::string&);
     ~gameLoop() = default;
 private:
-    void createPlayers(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players);
-    void update(const float dt);
-    void handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred);
+    void createPlayers(std::vector<std::shared_ptr<Client>>&, std::vector<std::shared_ptr<Client::playerNumber>>&);
+    void update(const float);
+    void handleSend(const std::string&, const boost::system::error_code&, std::size_t);
     void registerComponents();
-    void registerSystems(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const std::shared_ptr<boost::asio::ip::udp::socket>&, const std::shared_ptr<Buffer>&);
+    void registerSystems(std::vector<std::shared_ptr<Client>>&, std::vector<std::shared_ptr<Client::playerNumber>>&, const std::shared_ptr<boost::asio::ip::udp::socket>&, const std::shared_ptr<Buffer>&, const std::string&);
     ECS::ECSEngine _engine;
     std::shared_ptr<Buffer> _buffer;
     std::shared_ptr<bool> _end;

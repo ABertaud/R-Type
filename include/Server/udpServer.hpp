@@ -18,7 +18,7 @@ constexpr unsigned int PORT = 1666;
 
 class udpServer : public INetwork {
 public:
-    udpServer(boost::asio::io_context& );
+    udpServer(boost::asio::io_context&, const std::string& libPath);
     void run();
     udpServer(const udpServer& other) = default;
     udpServer& operator=(const udpServer& other) = default;
@@ -49,6 +49,7 @@ private:
     std::vector<Lobby> _lobbies;
     std::shared_ptr<Buffer> _buffer;
     std::map<Client::clientState, parsingFunction> _parser;
+    std::string _libPath;
 };
 
 #endif /* !UDPSERVER_HPP_ */

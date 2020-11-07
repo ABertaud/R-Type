@@ -37,7 +37,7 @@ bool Lobby::isReadyToGo()
     return (true);
 }
 
-void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer)
+void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
 {
     auto game = std::make_shared<gameLoop>();
     unsigned int playerIndex = 0;
@@ -54,7 +54,7 @@ void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socke
             (*clt)->setState(Client::INGAME);
         }
     }
-    game->prepareGame(_clients, _players, socket, buffer);
+    game->prepareGame(_clients, _players, socket, buffer, libPath);
     std::thread test(&gameLoop::run, game, std::ref(_clients), std::ref(_players), std::ref(_state));
     test.detach();
     // game->run(_clients);

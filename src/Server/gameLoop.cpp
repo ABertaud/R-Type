@@ -11,6 +11,7 @@
 #include "routineSystem.hpp"
 #include "winSystem.hpp"
 #include "Zipper.hpp"
+#include "monsterSystem.hpp"
 #include <iostream>
 
 gameLoop::gameLoop() : _end(std::make_shared<bool>())
@@ -26,22 +27,23 @@ void gameLoop::registerComponents()
     _engine.registerComponent<ECS::Life>(ECS::LIFE);
 }
 
-void gameLoop::registerSystems(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer)
+void gameLoop::registerSystems(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
 {
     _engine.registerSystem<ECS::movementSystem>();
     _engine.registerSystem<ECS::routineSystem>(socket, clients, players);
     _engine.registerSystem<ECS::eventSystem>(buffer);
     _engine.registerSystem<ECS::winSystem>(_end);
+    _engine.registerSystem<ECS::monsterSystem>(libPath);
 }
 
-void gameLoop::prepareGame(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer)
+void gameLoop::prepareGame(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
 {
     registerComponents();
-    registerSystems(clients, players, socket, buffer);
+    registerSystems(clients, players, socket, buffer, libPath);
     createPlayers(clients, players);
 }
 
-void gameLoop::run(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, Lobby::lobbyState &lobbyState)
+void gameLoop::run(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, Lobby::lobbyState& lobbyState)
 {
     static std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     std::chrono::time_point<std::chrono::system_clock> end;

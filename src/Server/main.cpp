@@ -33,7 +33,7 @@ int main(int ac, char **av)
         // std::cout << monster->getAttack() << std::endl;
         // delete(monster);
         boost::asio::io_context ioContext;
-        udpServer server(ioContext);
+        udpServer server(ioContext, hdl.getPath());
         server.run();
     } catch (Error const &err) {
         std::cerr << err.what() << std::endl;

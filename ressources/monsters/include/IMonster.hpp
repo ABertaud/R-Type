@@ -8,11 +8,12 @@
 #ifndef IMONSTER_HPP_
 #define IMONSTER_HPP_
 
+#include "ECSEngine.hpp"
+
 class IMonster {
     public:
         virtual ~IMonster() = default;
-        virtual int getHp() const = 0;
-        virtual unsigned int getAttack() const = 0;
+        virtual void init(ECS::ECSEngine&) = 0;
         virtual void update() = 0;
     protected:
     private:

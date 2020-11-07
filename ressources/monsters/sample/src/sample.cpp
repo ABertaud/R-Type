@@ -7,10 +7,18 @@
 
 #include "sample.hpp"
 #include <iostream>
+#include <memory>
 
-sample::sample() : AMonster(5, 40)
+sample::sample() : AMonster()
 {
 
+}
+
+void sample::init(ECS::ECSEngine& engine)
+{
+    (void)engine;
+    std::cout << engine.getNewEntity() << std::endl;
+    std::cout << "INIT WELL" << std::endl;
 }
 
 void sample::update()
@@ -18,7 +26,7 @@ void sample::update()
     std::cout << "I'M A SAMPLE" << std::endl;
 }
 
-extern "C" IMonster *entryPoint()
+extern "C" std::unique_ptr<IMonster> entryPoint()
 {
-    return (new sample());
+    return (std::make_unique<sample>());
 }

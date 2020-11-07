@@ -13,17 +13,13 @@
 class AMonster : public IMonster
 {
     public:
-        AMonster(unsigned int attack, int hp);
+        AMonster();
         AMonster(const AMonster& other) = default;
         AMonster& operator=(const AMonster& other) = default;
-        int getHp() const;
-        unsigned int getAttack() const;
         virtual void update() = 0;
         virtual ~AMonster() = default;
     protected:
     private:
-        unsigned int _attack;
-        int _hp;
 };
 
 #endif /* !AMONSTER_HPP_ */

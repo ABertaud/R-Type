@@ -16,6 +16,7 @@ class sample : public AMonster
         sample();
         sample(const sample& other) = default;
         sample& operator=(const sample& other) = default;
+        void init(ECS::ECSEngine&);
         void update();
         ~sample() = default;
     private:

@@ -4,9 +4,16 @@ project(sample_monster)
 set(SRCS_DIR ${PROJECT_SOURCE_DIR}/src)
 set(SRCS_SHARED_DIR ${PROJECT_SOURCE_DIR}/../src)
 
+set(INCLUDE_ENGINE_DIR ${PROJECT_SOURCE_DIR}/../../../engine/include)
+set(SOURCE_ENGINE_DIR ${PROJECT_SOURCE_DIR}/../../../engine/src)
+
+set(INCLUDE_SHARED_MONSTERS_DIR ${PROJECT_SOURCE_DIR}/../../../include/Shared/Monsters)
+set(SOURCE_SHARED_MONSTERS_DIR ${PROJECT_SOURCE_DIR}/../../../src/Shared/Monsters)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${PROJECT_SOURCE_DIR}/../include)
-file(GLOB_RECURSE SOURCES ${SRCS_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp)
+include_directories(${INCLUDE_SHARED_MONSTERS_DIR})
+include_directories(${INCLUDE_ENGINE_DIR})
+
+file(GLOB_RECURSE SOURCES ${SRCS_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp ${SOURCE_ENGINE_DIR}/*.cpp {PROJECT_SOURCE_DIR}/../../../src/Shared/Error.cpp ${SOURCE_SHARED_MONSTERS_DIR}/*.cpp)
 # Create shared library
 add_library(sample_monster SHARED ${SOURCES})

@@ -7,17 +7,7 @@
 
 #include "AMonster.hpp"
 
-AMonster::AMonster(unsigned int attack, int hp) : _attack(attack), _hp(hp)
+AMonster::AMonster()
 {
     
-}
-
-int AMonster::getHp() const
-{
-    return (_hp);
-}
-
-unsigned int AMonster::getAttack() const
-{
-    return (_attack);
 }

@@ -27,7 +27,7 @@ class Lobby {
         void removeClient(const std::shared_ptr<Client>& client);
         void loadingLobby();
         bool isReadyToGo();
-        void startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer);
+        void startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath);
         bool isRoomFull();
         std::string getName() const;
         bool hasClient(const std::shared_ptr<Client>& client);

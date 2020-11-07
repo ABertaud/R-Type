@@ -32,12 +32,12 @@ public:
     }
 
     template <typename T>
-    T *getInstance(const std::string& name) const
+    std::unique_ptr<T> getInstance(const std::string& name) const
     {
-        T *(*sample)(void);
+        std::unique_ptr<T> (*sample)(void);
         char *error;
 
-        sample = reinterpret_cast<T *(*)()>(dlsym(_handler, name.c_str()));
+        sample = reinterpret_cast<std::unique_ptr<T> (*)()>(dlsym(_handler, name.c_str()));
         if ((error = dlerror()) != NULL)
             throw ErrorDLLoader(error);
         return (sample());
