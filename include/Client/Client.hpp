@@ -34,7 +34,7 @@ class Client
         void loop(void);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
         void read_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
-        void update(const std::string& update);
+        void handleServerMessage(const std::string& update);
         void updateMenu(const std::string& update);
         void updateGame(const std::string& update);
         void changeState(void);
@@ -51,6 +51,8 @@ class Client
         boost::array<char, 1024> _recvBuff;
         boost::asio::ip::udp::endpoint _remote_endpoint;
         std::string _clientName;
+        std::vector<std::shared_ptr<Graphic::AEntity>> _entities;
+
 };
 
 #endif /* !CLIENT_HPP_ */
