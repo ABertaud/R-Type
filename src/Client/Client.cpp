@@ -16,7 +16,7 @@ Client::Client(const std::string &ip, unsigned short port)
     if (err)
         std::cerr << "Error while opening socket" << std::endl;
     _remote_endpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(ip), port);
-    std::fill(_recvBuff.begin(), _recvBuff.end(), '\0');
+    std::fill(_recvBuff.begin(), _recvBuff.end(), -1);
 }
 
 int Client::start(void)
@@ -93,19 +93,20 @@ void Client::start_receive(void)
 
 void Client::read_handler(const boost::system::error_code& ec, std::size_t bytes_transferred)
 {
-    // BinaryProtocol::Packet p;
+    BinaryProtocol::Packet p;
 
     if (ec) {
         std::cerr << "ERROR while reading " << bytes_transferred << " bytes on socket" << std::endl;
         return;
     }
-    // p = _binCodec.unserialize(_recvBuff);
-    // if (_binCodec.check_packet(p) != true) {
-    //     std::cerr << "ERROR: packet not valid" << std::endl;
-    //     return;
-    // }
+    p = _binCodec.unserialize(_recvBuff);
+    if (_binCodec.check_packet(p) != true) {
+        std::cerr << "ERROR: packet not valid" << std::endl;
+        return;
+    }
     // std::cout << "Data : '" << p._message << "' received" << std::endl;
-    handleServerMessage(std::string(_recvBuff.begin(), _recvBuff.begin()+bytes_transferred));
+    // handleServerMessage(std::string(_recvBuff.begin(), _recvBuff.begin()+bytes_transferred));
+    handleServerMessage(p._message);
     start_receive();
 }
 
@@ -146,10 +147,8 @@ void Client::sender(const std::string &str)
 {
     boost::system::error_code err;
     std::size_t bytes = 0;
-    // std::vector<uint8_t> vec;
 
-    // vec = _binCodec.serialize(_binCodec.createPacket(str));
-    bytes = _clientSocket.send_to(boost::asio::buffer(str), _remote_endpoint, 0, err);
+    bytes = _clientSocket.send_to(boost::asio::buffer(_binCodec.serialize(_binCodec.createPacket(str))), _remote_endpoint, 0, err);
     if (err) {
         std::cerr << "ERROR while sending " << bytes << " bytes of data" << std::endl;
         return;

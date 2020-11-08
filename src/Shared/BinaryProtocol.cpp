@@ -56,7 +56,28 @@ std::vector<uint8_t> BinaryProtocol::Codec::serialize(const Packet& input)
     return (outuput);
 }
 
-BinaryProtocol::Packet BinaryProtocol::Codec::unserialize(const std::vector<uint8_t>& input)
+// BinaryProtocol::Packet BinaryProtocol::Codec::unserialize(const std::vector<uint8_t>& input)
+// {
+//     Packet output;
+//     int index = 0;
+//     std::size_t str_size = 0;
+
+//     // récupération de l'id
+//     memcpy(&(output._magicNumber), input.data(), sizeof(output._magicNumber));
+//     index += sizeof(output._magicNumber);
+
+//     // récupération de la taille du message
+//     memcpy(&str_size, input.data() + index, sizeof(str_size));
+//     index += sizeof(str_size);
+
+//     // resize a la bonne taille
+//     output._message.resize(str_size);
+//     memcpy((char *)output._message.data(), input.data() + index, str_size * sizeof(char));
+
+//     return(output);
+// }
+
+BinaryProtocol::Packet BinaryProtocol::Codec::unserialize(const boost::array<uint8_t, 1024>& input)
 {
     Packet output;
     int index = 0;

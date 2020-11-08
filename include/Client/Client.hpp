@@ -46,13 +46,11 @@ class Client
         SFMLModule _sfmlModule;
         ClientState _state;
         boost::thread _thread;
-        // boost::array<uint8_t, 1024> _recvBuff;
-        // std::vector<uint8_t> _recvBuff;
-        boost::array<char, 1024> _recvBuff;
+        boost::array<uint8_t, 1024> _recvBuff;
+        // boost::array<char, 1024> _recvBuff;
         boost::asio::ip::udp::endpoint _remote_endpoint;
         std::string _clientName;
         std::vector<std::shared_ptr<Graphic::AEntity>> _entities;
-
 };
 
 #endif /* !CLIENT_HPP_ */

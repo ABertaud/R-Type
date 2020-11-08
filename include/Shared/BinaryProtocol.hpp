@@ -15,6 +15,9 @@
 #include <vector>
 #include <iomanip>
 
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+
 #define MAGIC_NUMBER 4242
 
 namespace BinaryProtocol
@@ -36,7 +39,8 @@ namespace BinaryProtocol
             Packet createPacket(std::string message);
             bool check_packet(const Packet& toCheck);
             std::vector<uint8_t> serialize(const Packet& input);
-            Packet unserialize (const std::vector<uint8_t>& input);
+            // Packet unserialize(const std::vector<uint8_t>& input);
+            Packet unserialize(const boost::array<uint8_t, 1024>& input);
     };
 };
 
