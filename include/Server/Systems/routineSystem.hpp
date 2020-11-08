@@ -12,6 +12,7 @@
 #include "Client.hpp"
 #include "Position.hpp"
 #include "entityDetails.hpp"
+#include "BinaryProtocol.hpp"
 
 namespace ECS {
     class routineSystem : public ASystem {
@@ -27,6 +28,7 @@ namespace ECS {
         std::shared_ptr<boost::asio::ip::udp::socket> _socket;
         std::vector<std::shared_ptr<Client>> _clients;
         std::vector<std::shared_ptr<Client::playerNumber>> _players;
+        BinaryProtocol::Codec _binCodec;
     };
 }
 

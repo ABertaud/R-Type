@@ -41,30 +41,13 @@ void ECS::routineSystem::sendUpdates(const Entity ent, const entityDetails& deta
     toSend += std::to_string(position._y);
     for (auto it : Zipper::zip(_clients, _players)) {
         if (it.get<0>()->getState() == Client::clientState::INGAME && *it.get<1>() != Client::SPEC) {
-            _socket->async_send_to(boost::asio::buffer(toSend), it.get<0>()->getEndpoint(),
+            _socket->async_send_to(boost::asio::buffer(_binCodec.serialize(_binCodec.createPacket(toSend))), it.get<0>()->getEndpoint(),
             boost::bind(&ECS::routineSystem::handleSend, this, toSend,
             boost::asio::placeholders::error,
             boost::asio::placeholders::bytes_transferred));
         }
     }
 }
-
-// void ECS::routineSystem::updateMenu(const entityDetails& details, const Position& position)
-// {
-//     std::string toSend("200 ");
-//     std::string player = ("P1/P2/P3/P4");
-//     std::string state = ("ON/RDY/OFF");
-//     toSend += std::to_string(player) + " ";//faudra mettre l'enum avec P1/P2/P3/P4          //EN INT
-//     toSend += std::to_string(state);//faudra mettre l'enum avec si le player est dans la room, si il leave ou si il est dans la room + rdy      // EN INT
-//     for (auto it : Zipper::zip(_clients, _players)) {
-//         if (it.get<0>()->getState() == Client::clientState::INGAME && *it.get<1>() != Client::SPEC) {
-//             _socket->async_send_to(boost::asio::buffer(toSend), it.get<0>()->getEndpoint(),
-//             boost::bind(&ECS::routineSystem::handleSend, this, toSend,
-//             boost::asio::placeholders::error,
-//             boost::asio::placeholders::bytes_transferred));
-//         }
-//     }
-// }
 
 void ECS::routineSystem::handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred)
 {

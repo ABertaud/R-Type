@@ -183,6 +183,8 @@
                             "203" to the server.<vspace blankLines='0'/>
                             Or he can leaves the lobby by sending code<vspace blankLines='0'/>
                             "204" to the server.<vspace blankLines='0'/>
+                            The User can receive the menu routine by sending code<vspace blankLines='0'/>
+                            "210" to the server.<vspace blankLines='0'/>
                             The User can of course leave the program by sending code<vspace blankLines='0'/>
                             "200" to the server.:<vspace blankLines='0'/>
                             An unexpected close on the control connection
@@ -197,6 +199,8 @@
                             "205" to the server.<vspace blankLines='0'/>
                             Or he can launch the game by sending code<vspace blankLines='0'/>
                             "206" to the server.<vspace blankLines='0'/>
+                            The User can receive the menu routine by sending code<vspace blankLines='0'/>
+                            "210" to the server.<vspace blankLines='0'/>
                             The User can of course leave the program by sending code<vspace blankLines='0'/>
                             "200" to the server.:<vspace blankLines='0'/>
                             An unexpected close on the control connection
@@ -291,7 +295,43 @@
         <section title='RTP MENU REPLIES'>
             <section title='FORMAT'>
                 <t>
-                    The Server will constantly send updates to the client
+                    111<vspace blankLines='0'/>
+                    When the server will receive something from a client, it will
+                    send back the code "111" to validate that everything is OK.
+                    <vspace blankLines='1'/>
+
+                    222<vspace blankLines='0'/>
+                    The code "222" is the basic error code for the server.
+                    When a command is invalid, the server will send back this code.
+                    <vspace blankLines='1'/>
+
+                    333<vspace blankLines='0'/>
+                    The server will send code "333" if a player is trying
+                    to take a room name that already exists.
+                    <vspace blankLines='1'/>
+
+                    444<vspace blankLines='0'/>
+                    The server will send code "444" if someone is trying to join
+                    a room which is already full.
+                    <vspace blankLines='1'/>
+
+                    555<vspace blankLines='0'/>
+                    The server will send code "555" is someone is trying to
+                    lauch a game when all the players aren't ready.
+                    <vspace blankLines='1'/>
+
+                    <vspace blankLines='3'/>
+                    As a routine menu, the Server will send updates of
+                    menu informations to the client. To activate the routine the 
+                    client must send the code "210" to the Server. Each time this
+                    code is received, a menu routine will be send to the client.
+                    <vspace blankLines='1'/>
+                    We will use a specific format of replies that will give
+                    informations precisely. The message will be preceded by the
+                    code "110".(the reply is sent as a string with an Enum for
+                    player, an Enum for state):
+                    <vspace blankLines='0'/>
+                    110 [(enum)PLAYER] [(enum)STATE]
                 </t>
             </section>
         </section>
@@ -308,24 +348,9 @@
                     When a command is invalid, the server will send back this code.
                     <vspace blankLines='1'/>
 
-                    333<vspace blankLines='0'/>
-                    The server will send code "333" if a player is trying
-                    to take a name that already exist.
-                    <vspace blankLines='1'/>
-
-                    444<vspace blankLines='0'/>
-                    The server will send code "444" if someone is trying to join
-                    a room which is already full.
-                    <vspace blankLines='1'/>
-
-                    555<vspace blankLines='0'/>
-                    The server will send code "555" is someone is trying to
-                    lauch a game when all the players aren't ready.
-                    <vspace blankLines='1'/>
-
                     666<vspace blankLines='0'/>
                     The server will send code "666" if a player is trying to
-                    start another game when the previous one isn't finished yet.
+                    do menu commands while its last game isn't finished yet.
                     <vspace blankLines='1'/>
 
                     <vspace blankLines='3'/>

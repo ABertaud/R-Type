@@ -63,7 +63,7 @@ void Client::loop(void)
     while (_sigHandler.isInterrupted() != true) {
         // send message every second/2
       //  std::this_thread::sleep_for (std::chrono::milliseconds(500));
-       //sender("Create");
+    //    sender("201 Nakoroom");
         state = _sfmlModule.Menu(_clientName, test, _state);
         if (state == MenuDrawer::State::QUIT)
             _sfmlModule.stop();
@@ -122,11 +122,11 @@ void Client::handleServerMessage(const std::string& update)
 
 void Client::updateMenu(const std::string& update)
 {
-    std::string bufS(update);
-    entityState bufE(static_cast<entityState>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
-    ClientState bufC(static_cast<ClientState>(std::atoi(bufS.substr(bufS.find_last_of(" ") + 1).c_str())));
-    players player(bufE);
-    player.setState(bufC);
+    // std::string bufS(update);
+    // entityState bufE(static_cast<entityState>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
+    // ClientState bufC(static_cast<ClientState>(std::atoi(bufS.substr(bufS.find_last_of(" ") + 1).c_str())));
+    // players player(bufE);
+    // player.setState(bufC);
 }
 
 void Client::updateGame(const std::string& update)

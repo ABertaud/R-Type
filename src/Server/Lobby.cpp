@@ -20,7 +20,7 @@ Lobby::Lobby(const std::string &name) : _name(name), _state(FREE)
     _available.push(Client::P4);
 }
 
-void Lobby::addClient(std::shared_ptr<Client>& client)
+void Lobby::addClient(clientPtr& client)
 {
     _clients.push_back(client);
     _players.push_back(std::make_shared<Client::playerNumber>(_available.front()));
@@ -60,7 +60,7 @@ void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socke
     // game->run(_clients);
 }
 
-void Lobby::removeClient(const std::shared_ptr<Client>& client)
+void Lobby::removeClient(const clientPtr& client)
 {
     unsigned int playerIndex = 0;
 
@@ -93,7 +93,7 @@ void Lobby::handleSend(const std::string& message, const boost::system::error_co
     (void)bytesTransferred;
 }
 
-bool Lobby::hasClient(const std::shared_ptr<Client>& client)
+bool Lobby::hasClient(const clientPtr& client)
 {
     for (auto& clt : _clients)
         if (client == clt)
@@ -101,7 +101,7 @@ bool Lobby::hasClient(const std::shared_ptr<Client>& client)
     return (false);
 }
 
-Client::playerNumber Lobby::getPlayerNumber(const std::shared_ptr<Client>& client)
+Client::playerNumber Lobby::getPlayerNumber(const clientPtr& client)
 {
     for (auto it : Zipper::zip(_clients, _players)) {
         if (it.get<0>() == client)
@@ -118,4 +118,19 @@ Lobby::lobbyState Lobby::getState() const
 std::string Lobby::getName() const
 {
     return (_name);
+}
+
+std::vector<clientPtr>& Lobby::getClients()
+{
+    return (_clients);
+}
+
+std::vector<std::shared_ptr<Client::playerNumber>>& Lobby::getPlayers()
+{
+    return (_players);
+}
+
+std::queue<Client::playerNumber>& Lobby::getQueuePlayers()
+{
+    return (_available);
 }

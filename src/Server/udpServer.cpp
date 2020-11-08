@@ -6,11 +6,13 @@
 */
 
 #include "udpServer.hpp"
+#include "Zipper.hpp"
 #include <iostream>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/bind.hpp>
 #include <iostream>
 #include <sstream>
+
 
 udpServer::udpServer(boost::asio::io_context& ioContext, const std::string& libPath) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT))),
 _buffer(std::make_shared<Buffer>()), _libPath(libPath)
@@ -24,7 +26,6 @@ _buffer(std::make_shared<Buffer>()), _libPath(libPath)
 
 void udpServer::startReceive()
 {
-    memset(_data, '\0', 4096);
     _socket->async_receive_from(boost::asio::buffer(_data), _remoteEndpoint,
     boost::bind(&udpServer::handleReceive, this, boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
@@ -46,10 +47,16 @@ void udpServer::parseData()
 {
     auto& clt = findClient(_remoteEndpoint.port());
     bool alreadyDone = false;
+    BinaryProtocol::Packet p;
 
+    p = _binCodec.unserialize(_data);
+    if (_binCodec.check_packet(p) != true) {
+        std::cerr << "ERROR: packet not valid" << std::endl;
+        return;
+    }
     for (auto it = _parser.begin(); it != _parser.end(); ++it)
         if (it->first == clt->getState() && alreadyDone == false) {
-            (this->*(it->second))(clt);
+            (this->*(it->second))(clt, p._message);
             alreadyDone = true;
         }
     startReceive();
@@ -76,7 +83,7 @@ bool udpServer::doesClientExist()
     return (false);
 }
 
-std::shared_ptr<Client>& udpServer::findClient(const unsigned short port)
+clientPtr& udpServer::findClient(const unsigned short port)
 {
     for (auto& client : _clients) {
         if (client->getEndpoint().port() == port)
@@ -103,12 +110,8 @@ Lobby& udpServer::findLobby(const std::string& name)
     return (_lobbies.front());
 }
 
-void udpServer::parserNoneState(std::shared_ptr<Client>& clt)
+void udpServer::parserNoneState(clientPtr& clt, std::string& buffer)
 {
-    std::string buffer(_data);
-    // auto str = data;
-    // std::string buffer = _codec.decodeMessage(str);
-
     buffer.erase(std::remove(buffer.begin(), buffer.end(), '\n'), buffer.end());
     std::size_t start = buffer.find(" ");
     std::size_t second_space = buffer.substr(start + 1, buffer.length()).find(" ");
@@ -143,10 +146,8 @@ void udpServer::parserNoneState(std::shared_ptr<Client>& clt)
     }
 }
 
-void udpServer::parserInLobbyState(std::shared_ptr<Client>& clt)
+void udpServer::parserInLobbyState(clientPtr& clt, std::string& buffer)
 {
-    std::string buffer(_data);
-
     buffer.erase(std::remove(buffer.begin(), buffer.end(), '\n'), buffer.end());
     std::size_t start = buffer.find(" ");
     std::size_t second_space = buffer.substr(start + 1, buffer.length()).find(" ");
@@ -163,6 +164,9 @@ void udpServer::parserInLobbyState(std::shared_ptr<Client>& clt)
         send("111");
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
+    } else if (std::strcmp(command.c_str(), "210") == 0) {
+        auto& lobby = findLobby(clt);
+        routineMenu(lobby.getClients(), lobby.getPlayers(), lobby.getQueuePlayers());
     } else if (std::strcmp(command.c_str(), "200") == 0) {
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
@@ -170,10 +174,33 @@ void udpServer::parserInLobbyState(std::shared_ptr<Client>& clt)
         send("222");  
 }
 
-void udpServer::parserReadyState(std::shared_ptr<Client>& clt)
+void udpServer::routineMenu(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, std::queue<Client::playerNumber>& available)
 {
-    std::string buffer(_data);
+    std::string toSend("110 ");
+    Client::playerNumber sample = Client::SPEC;
 
+    for (auto it : Zipper::zip(clients, players)) {
+        toSend += std::to_string(*it.get<1>());
+        toSend += ":";
+        if (it.get<0>()->getState() == Client::INLOBBY)
+            toSend += "0";
+        else
+            toSend += "2";
+        toSend += " ";
+    }
+    for (unsigned int queueindex = 0; queueindex != available.size(); queueindex++) {
+        sample = available.front();
+        toSend += std::to_string(sample);
+        toSend += ":1";
+        available.pop();
+        available.push(sample);
+        toSend += " ";
+    }
+    send(toSend);
+}
+
+void udpServer::parserReadyState(clientPtr& clt, std::string& buffer)
+{
     buffer.erase(std::remove(buffer.begin(), buffer.end(), '\n'), buffer.end());
     std::size_t start = buffer.find(" ");
     
@@ -197,13 +224,12 @@ void udpServer::parserReadyState(std::shared_ptr<Client>& clt)
         send("222");  
 }
 
-void udpServer::parserInGameState(std::shared_ptr<Client>& clt)
+void udpServer::parserInGameState(clientPtr& clt, std::string& buffer)
 {
     if (findLobby(clt).getPlayerNumber(clt) == Client::SPEC) {
         send("666");
         return;
     }
-    std::string buffer(_data);
     buffer.erase(std::remove(buffer.begin(), buffer.end(), '\n'), buffer.end());
     std::size_t start = buffer.find(" ");
 
@@ -247,13 +273,13 @@ void udpServer::removeClient(const boost::uuids::uuid& uuid)
 
 void udpServer::send(const std::string &toSend)
 {
-    _socket->async_send_to(boost::asio::buffer(toSend), _remoteEndpoint,
+    _socket->async_send_to(boost::asio::buffer(_binCodec.serialize(_binCodec.createPacket(toSend))), _remoteEndpoint,
     boost::bind(&udpServer::handleSend, this, toSend,
     boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }
 
-Lobby& udpServer::findLobby(const std::shared_ptr<Client>& client)
+Lobby& udpServer::findLobby(const clientPtr& client)
 {
     for (auto& lobby : _lobbies) {
         if (lobby.hasClient(client) == true)

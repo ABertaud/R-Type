@@ -14,6 +14,8 @@
 #include "Client.hpp"
 #include "Buffer.hpp"
 
+using clientPtr = std::shared_ptr<Client>;
+
 class Lobby {
     public:
         enum lobbyState {
@@ -23,23 +25,26 @@ class Lobby {
         Lobby(const std::string &name);
         Lobby(const Lobby& other) = default;
         Lobby& operator=(const Lobby& other) = default;
-        void addClient(std::shared_ptr<Client>& client);
-        void removeClient(const std::shared_ptr<Client>& client);
+        void addClient(clientPtr& client);
+        void removeClient(const clientPtr& client);
         void loadingLobby();
         bool isReadyToGo();
         void startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath);
         bool isRoomFull();
         std::string getName() const;
-        bool hasClient(const std::shared_ptr<Client>& client);
-        Client::playerNumber getPlayerNumber(const std::shared_ptr<Client>& client);
+        bool hasClient(const clientPtr& client);
+        std::vector<clientPtr>& getClients();
+        std::vector<std::shared_ptr<Client::playerNumber>>& getPlayers();
+        Client::playerNumber getPlayerNumber(const clientPtr& client);
         Lobby::lobbyState getState() const;
+        std::queue<Client::playerNumber>& getQueuePlayers();
         ~Lobby() = default;
     protected:
     private:
         void handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred);
         std::string _name;
         std::vector<std::shared_ptr<Client::playerNumber>> _players;
-        std::vector<std::shared_ptr<Client>> _clients;
+        std::vector<clientPtr> _clients;
         std::queue<Client::playerNumber> _available;
         lobbyState _state;
 };
