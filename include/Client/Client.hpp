@@ -33,7 +33,7 @@ class Client
         void start_receive(void);
         void loop(void);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
-        void read_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
+        void read_handler(const boost::system::error_code& ec, std::size_t bytesTransferred);
         void handleServerMessage(const std::string& update);
         void updateMenu(const std::string& update);
         void updateGame(const std::string& update);
@@ -41,14 +41,13 @@ class Client
     private:
         SignalHandler _sigHandler;
         BinaryProtocol::Codec _binCodec;
-        boost::asio::io_service _io_service;
+        boost::asio::io_service _ioService;
         boost::asio::ip::udp::socket _clientSocket;
         SFMLModule _sfmlModule;
         ClientState _state;
         boost::thread _thread;
         boost::array<uint8_t, 1024> _recvBuff;
-        // boost::array<char, 1024> _recvBuff;
-        boost::asio::ip::udp::endpoint _remote_endpoint;
+        boost::asio::ip::udp::endpoint _remoteEndpoint;
         std::string _clientName;
         std::vector<std::shared_ptr<Graphic::AEntity>> _entities;
 };
