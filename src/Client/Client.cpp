@@ -17,6 +17,13 @@ Client::Client(const std::string &ip, unsigned short port)
         std::cerr << "Error while opening socket" << std::endl;
     _remoteEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(ip), port);
     std::fill(_recvBuff.begin(), _recvBuff.end(), -1);
+    _serverResponse.insert(std::make_pair(100, &Client::handleUpdateGame));
+    _serverResponse.insert(std::make_pair(110, &Client::handleUpdateMenu));
+    _serverResponse.insert(std::make_pair(111, &Client::handleFine));
+    _serverResponse.insert(std::make_pair(222, &Client::handleInvalidCommand));
+    _serverResponse.insert(std::make_pair(333, &Client::handleGhostRoom));
+    _serverResponse.insert(std::make_pair(444, &Client::handleFullRoom));
+    _serverResponse.insert(std::make_pair(555, &Client::handleTooFast));
 }
 
 int Client::start(void)
@@ -116,26 +123,25 @@ void Client::read_handler(const boost::system::error_code& ec, std::size_t bytes
     start_receive();
 }
 
-void Client::handleServerMessage(const std::string& update)
+void Client::handleServerMessage(std::string& update)
 {
-    if (std::atoi(update.c_str()) == 100)
-        updateGame(update);
-    else if (std::atoi(update.c_str()) == 200)
-        updateMenu(update);
-    else
-        std::cerr << "ERROR in server communication" << std::endl;
+    int code = std::atoi(update.c_str());
+
+    for (auto it = _serverResponse.begin(); it != _serverResponse.end(); ++it)
+        if (it->first == code)
+            (this->*(it->second))(update);
 }
 
-void Client::updateMenu(const std::string& update)
+void Client::handleUpdateMenu(std::string& update)
 {
-    // std::string bufS(update);
+    (void)update;
     // entityState bufE(static_cast<entityState>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
-    // ClientState bufC(static_cast<ClientState>(std::atoi(bufS.substr(bufS.find_last_of(" ") + 1).c_str())));
+    // ClientState bufC(static_cast<ClientState>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
     // players player(bufE);
     // player.setState(bufC);
 }
 
-void Client::updateGame(const std::string& update)
+void Client::handleUpdateGame(std::string& update)
 {
     int id = std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str());
     bool state = std::atoi(update.substr(update.find_last_of(" ") + 1, 1).c_str());
@@ -148,6 +154,36 @@ void Client::updateGame(const std::string& update)
     } else {
         //supprimer un élément
     }
+}
+
+void Client::handleFine(std::string& update)
+{
+    (void)update;
+    std::cout << "code received" << std::endl;
+}
+
+void Client::handleInvalidCommand(std::string& update)
+{
+    (void)update;
+    std::cout << "code received" << std::endl;
+}
+
+void Client::handleGhostRoom(std::string& update)
+{
+    (void)update;
+    std::cout << "code received" << std::endl;
+}
+
+void Client::handleFullRoom(std::string& update)
+{
+    (void)update;
+    std::cout << "code received" << std::endl;
+}
+
+void Client::handleTooFast(std::string& update)
+{
+    (void)update;
+    std::cout << "code received" << std::endl;
 }
 
 void Client::sender(const std::string &str)

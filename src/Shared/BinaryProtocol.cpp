@@ -11,7 +11,7 @@ bool BinaryProtocol::Packet::operator==(const Packet& other) const
 {
     return ((_magicNumber == other._magicNumber)
     && (_message == other._message));
-};
+}
 
 BinaryProtocol::Codec::Codec()
 {
@@ -43,15 +43,15 @@ std::vector<uint8_t> BinaryProtocol::Codec::serialize(const Packet& input)
 
     // ecriture de l'id
     memcpy(outuput.data(), &(input._magicNumber), sizeof(input._magicNumber));
-    index += sizeof(input._magicNumber);
+    index += static_cast<int>(sizeof(input._magicNumber));
 
     // ecriture de la taille de la string
     memcpy(outuput.data() + index, &str_size, sizeof(str_size));
-    index += sizeof(str_size);
+    index += static_cast<int>(sizeof(str_size));
 
     // ecriture de la string
     memcpy(outuput.data() + index, input._message.data(), str_size * sizeof(char));
-    index += str_size * sizeof(char);
+    index += static_cast<int>(str_size * sizeof(char));
 
     return (outuput);
 }
@@ -64,11 +64,11 @@ BinaryProtocol::Packet BinaryProtocol::Codec::unserialize(const boost::array<uin
 
     // récupération de l'id
     memcpy(&(output._magicNumber), input.data(), sizeof(output._magicNumber));
-    index += sizeof(output._magicNumber);
+    index += static_cast<int>(sizeof(output._magicNumber));
 
     // récupération de la taille du message
     memcpy(&str_size, input.data() + index, sizeof(str_size));
-    index += sizeof(str_size);
+    index += static_cast<int>(sizeof(str_size));
 
     // resize a la bonne taille
     output._message.resize(str_size);

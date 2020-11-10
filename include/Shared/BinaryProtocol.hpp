@@ -41,6 +41,6 @@ namespace BinaryProtocol
             std::vector<uint8_t> serialize(const Packet& input);
             Packet unserialize(const boost::array<uint8_t, 1024>& input);
     };
-};
+}
 
 #endif /* !BINARYCODEC_HPP_ */

@@ -14,6 +14,7 @@
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 #include <iostream>
+#include <map>
 
 #include "SFMLModule.hpp"
 #include "SignalHandler.hpp"
@@ -31,6 +32,7 @@ class Client
         Client& operator=(const Client& other) = default;
         int start(void);
         void stop(void);
+        typedef void(Client::*hsmFunction)(std::string&);
     private:
         void sender(const std::string& str);
         void start_receive(void);
@@ -38,9 +40,14 @@ class Client
         int check_game_state(const MenuDrawer::State& state, std::chrono::seconds *time, timeType *end, timeType *start);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
         void read_handler(const boost::system::error_code& ec, std::size_t bytesTransferred);
-        void handleServerMessage(const std::string& update);
-        void updateMenu(const std::string& update);
-        void updateGame(const std::string& update);
+        void handleServerMessage(std::string& update);
+        void handleUpdateMenu(std::string& update);
+        void handleUpdateGame(std::string& update);
+        void handleFine(std::string& update);
+        void handleInvalidCommand(std::string& update);
+        void handleGhostRoom(std::string& update);
+        void handleFullRoom(std::string& update);
+        void handleTooFast(std::string& update);
         void changeState(void);
     private:
         SignalHandler _sigHandler;
@@ -55,6 +62,7 @@ class Client
         std::string _clientName;
         std::vector<std::shared_ptr<Graphic::AEntity>> _entities;
         std::vector<std::shared_ptr<players>> _players;
+        std::map<int, hsmFunction> _serverResponse;
 };
 
 #endif /* !CLIENT_HPP_ */
