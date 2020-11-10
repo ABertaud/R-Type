@@ -18,6 +18,7 @@
 #include <boost/array.hpp>
 
 using clientPtr = std::shared_ptr<Client>;
+using socketPtr = std::shared_ptr<boost::asio::ip::udp::socket>;
 
 class gameLoop
 {
@@ -26,14 +27,14 @@ public:
     gameLoop(const gameLoop&) = default;
     gameLoop& operator=(const gameLoop&) = default;
     void run(std::vector<clientPtr>&, std::vector<std::shared_ptr<Client::playerNumber>>&, Lobby::lobbyState&);
-    void prepareGame(std::vector<clientPtr>&, std::vector<std::shared_ptr<Client::playerNumber>>&, const std::shared_ptr<boost::asio::ip::udp::socket>&, const std::shared_ptr<Buffer>&, const std::string&);
+    void prepareGame(std::vector<clientPtr>&, std::vector<std::shared_ptr<Client::playerNumber>>&, const socketPtr&, const std::shared_ptr<Buffer>&, const std::string&);
     ~gameLoop() = default;
 private:
     void createPlayers(std::vector<clientPtr>&, std::vector<std::shared_ptr<Client::playerNumber>>&);
     void update(const float);
     void handleSend(const std::string&, const boost::system::error_code&, std::size_t);
     void registerComponents();
-    void registerSystems(std::vector<clientPtr>&, std::vector<std::shared_ptr<Client::playerNumber>>&, const std::shared_ptr<boost::asio::ip::udp::socket>&, const std::shared_ptr<Buffer>&, const std::string&);
+    void registerSystems(std::vector<clientPtr>&, std::vector<std::shared_ptr<Client::playerNumber>>&, const socketPtr&, const std::shared_ptr<Buffer>&, const std::string&);
     ECS::ECSEngine _engine;
     std::shared_ptr<Buffer> _buffer;
     std::shared_ptr<bool> _end;

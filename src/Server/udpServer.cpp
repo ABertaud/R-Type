@@ -13,15 +13,16 @@
 #include <iostream>
 #include <sstream>
 
-
 udpServer::udpServer(boost::asio::io_context& ioContext, const std::string& libPath) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT))),
-_buffer(std::make_shared<Buffer>()), _libPath(libPath)
+_buffer(std::make_shared<Buffer>()), _libPath(libPath), _sigHandler(), _t(ioContext, boost::asio::chrono::seconds(1))
 {
     _parser.insert(std::make_pair(Client::NONE, &udpServer::parserNoneState));
     _parser.insert(std::make_pair(Client::INLOBBY, &udpServer::parserInLobbyState));
     _parser.insert(std::make_pair(Client::READY, &udpServer::parserReadyState));
     _parser.insert(std::make_pair(Client::INGAME, &udpServer::parserInGameState));
     startReceive();
+    _t.async_wait(boost::bind(&udpServer::serverEndHandler, this, boost::asio::placeholders::error));
+    
 }
 
 void udpServer::startReceive()
@@ -159,8 +160,7 @@ void udpServer::parserInLobbyState(clientPtr& clt, std::string& buffer)
     if (std::strcmp(command.c_str(), "203") == 0) {
         send("111");
         clt->setState(Client::READY);
-    }
-    else if (std::strcmp(command.c_str(), "204") == 0) {
+    } else if (std::strcmp(command.c_str(), "204") == 0) {
         send("111");
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
@@ -209,8 +209,11 @@ void udpServer::parserReadyState(clientPtr& clt, std::string& buffer)
     if (std::strcmp(command.c_str(), "205") == 0) {
         send("111");
         clt->setState(Client::INLOBBY);
-    }
-    else if (std::strcmp(command.c_str(), "206") == 0) {
+    } else if (std::strcmp(command.c_str(), "204") == 0) {
+        send("111");
+        findLobby(clt).removeClient(clt);
+        clt->setState(Client::NONE);
+    } else if (std::strcmp(command.c_str(), "206") == 0) {
         auto& lobby = findLobby(clt);
         if (lobby.isReadyToGo() == true) {
             send("111");
@@ -296,4 +299,24 @@ bool udpServer::isLobbyNameAvailable(const std::string &name)
         if (lobby.getName() == name)
             return (false);
     return (true);
+}
+
+void udpServer::serverEndHandler(const boost::system::error_code& /*e*/)
+{
+    bool canLeave = true;
+
+    if (_sigHandler.isInterrupted() == true) {
+        for (auto& lobby : _lobbies) {
+            if (lobby.getState() == Lobby::INGAME) {
+                std::cerr << "You must wait the end of all games before closing the server." << std::endl;
+                canLeave = false;
+            }
+        }
+        if (canLeave == true) {
+            std::cerr << "Server's leaving." << std::endl;
+            _socket->get_io_service().stop();
+        }
+    }
+    _t.expires_at(_t.expires_at() + boost::asio::chrono::seconds(1));
+    _t.async_wait(boost::bind(&udpServer::serverEndHandler, this, boost::asio::placeholders::error));
 }

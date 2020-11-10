@@ -12,5 +12,6 @@ namespace ECS {
         PLAYER,
         ENTITY_DETAILS,
         LIFE,
+        DIMENSIONS,
     };
 }

@@ -19,9 +19,9 @@ namespace ECS {
         eventSystem(const eventSystem& other) = default;
         eventSystem& operator=(const eventSystem& other) = default;
         void update(const float dt, ECSEngine& engine);
-        void handleEvent(std::vector<std::string>& events, ECS::ECSEngine& engine, const Entity entity, ECS::Player& player);
         ~eventSystem() = default;
     private:
+        void handleEvent(std::vector<std::string>& events, ECS::ECSEngine& engine, const Entity entity, ECS::Player& player);
         std::shared_ptr<Buffer> _buffer;
         std::map<std::string, ECS::currentMovement> _moves;
     };

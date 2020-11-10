@@ -20,9 +20,10 @@ namespace ECS {
         movementSystem(const movementSystem& other) = default;
         movementSystem& operator=(const movementSystem& other) = default;
         void update(const float dt, ECSEngine& engine);
+        ~movementSystem() = default;
+    private:
         void applyPhysic(Position& pos, const Velocity& vel, const float dt);
         void applyPhysic(Position& pos, const Velocity& vel, const float dt, Player& player);
-        ~movementSystem() = default;
     };
 }
 

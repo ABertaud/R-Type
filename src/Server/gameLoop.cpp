@@ -12,6 +12,7 @@
 #include "winSystem.hpp"
 #include "Zipper.hpp"
 #include "monsterSystem.hpp"
+#include "collisionSystem.hpp"
 #include <iostream>
 
 gameLoop::gameLoop() : _end(std::make_shared<bool>())
@@ -27,23 +28,24 @@ void gameLoop::registerComponents()
     _engine.registerComponent<ECS::Life>(ECS::LIFE);
 }
 
-void gameLoop::registerSystems(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
+void gameLoop::registerSystems(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
 {
     _engine.registerSystem<ECS::movementSystem>();
     _engine.registerSystem<ECS::routineSystem>(socket, clients, players);
     _engine.registerSystem<ECS::eventSystem>(buffer);
     _engine.registerSystem<ECS::winSystem>(_end);
     _engine.registerSystem<ECS::monsterSystem>(libPath);
+    _engine.registerSystem<ECS::collisionSystem>();
 }
 
-void gameLoop::prepareGame(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const std::shared_ptr<boost::asio::ip::udp::socket>& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
+void gameLoop::prepareGame(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
 {
     registerComponents();
     registerSystems(clients, players, socket, buffer, libPath);
     createPlayers(clients, players);
 }
 
-void gameLoop::run(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, Lobby::lobbyState& lobbyState)
+void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, Lobby::lobbyState& lobbyState)
 {
     static std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     std::chrono::time_point<std::chrono::system_clock> end;
@@ -78,15 +80,23 @@ void gameLoop::update(const float dt)
         system->update(dt, _engine);
 }
 
-void gameLoop::createPlayers(std::vector<std::shared_ptr<Client>>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players)
+void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players)
 {
     int x = 50;
     int y = 200;
 
-      for (auto it : Zipper::zip(clients, players)) {
+    std::map<Client::playerNumber, ECS::Dimensions> pDimensions = {
+        {Client::P1, ECS::Dimensions(200, 200)},
+        {Client::P2, ECS::Dimensions(200, 200)},
+        {Client::P3, ECS::Dimensions(200, 200)},
+        {Client::P4, ECS::Dimensions(200, 200)},
+    };
+
+    for (auto it : Zipper::zip(clients, players)) {
         auto ent = _engine.getNewEntity();
         unsigned int pNumber = *it.get<1>();
         _engine.addComponent(ent, ECS::Position(x, y), ECS::POSITION);
+         _engine.addComponent(ent, pDimensions[*it.get<1>()], ECS::DIMENSIONS);
         _engine.addComponent(ent, ECS::Velocity(30, 30), ECS::VELOCITY);
         _engine.addComponent(ent, ECS::Player(*it.get<1>(), it.get<0>()->getUuid()), ECS::PLAYER);
         _engine.addComponent(ent, ECS::entityDetails(static_cast<entityType>(pNumber), entityState::BASIC), ECS::ENTITY_DETAILS);

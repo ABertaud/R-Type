@@ -12,6 +12,7 @@
 #include "Buffer.hpp"
 #include "Lobby.hpp"
 #include "BinaryProtocol.hpp"
+#include "SignalHandler.hpp"
 #include <map>
 #include <boost/array.hpp>
 
@@ -45,6 +46,7 @@ private:
     void handleSend(const std::string&, const boost::system::error_code&, std::size_t);
     bool isLobbyNameAvailable(const std::string &name);
     void routineMenu(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, std::queue<Client::playerNumber>& available);
+    void serverEndHandler(const boost::system::error_code& /*e*/);
     std::shared_ptr<boost::asio::ip::udp::socket> _socket;
     boost::asio::ip::udp::endpoint _remoteEndpoint;
     BinaryProtocol::Codec _binCodec;
@@ -54,6 +56,8 @@ private:
     std::shared_ptr<Buffer> _buffer;
     std::map<Client::clientState, parsingFunction> _parser;
     std::string _libPath;
+    SignalHandler _sigHandler;
+    boost::asio::steady_timer _t;
 };
 
 #endif /* !UDPSERVER_HPP_ */
