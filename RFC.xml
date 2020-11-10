@@ -199,6 +199,8 @@
                             "205" to the server.<vspace blankLines='0'/>
                             Or he can launch the game by sending code<vspace blankLines='0'/>
                             "206" to the server.<vspace blankLines='0'/>
+                            Or he can leaves the lobby by sending code<vspace blankLines='0'/>
+                            "204" to the server.<vspace blankLines='0'/>
                             The User can receive the menu routine by sending code<vspace blankLines='0'/>
                             "210" to the server.<vspace blankLines='0'/>
                             The User can of course leave the program by sending code<vspace blankLines='0'/>
