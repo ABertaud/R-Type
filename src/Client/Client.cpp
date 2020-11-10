@@ -33,6 +33,10 @@ int Client::start(void)
     _thread = boost::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
     _sfmlModule.init();
     _clientName = _sfmlModule.getPlayerName();
+    if (_clientName.size() > 8) {
+        _sfmlModule.stop();
+        return -1;
+    }
     loop();
     return (0);
 }
@@ -55,20 +59,29 @@ void Client::changeState()
 
 void Client::loop(void)
 {
-    MenuDrawer::State state;
+    MenuDrawer::State stateMenu = MenuDrawer::State::UNREADY;
     static timeType start = std::chrono::system_clock::now();
     timeType end;
     std::chrono::seconds time;
     int ret = 0;
 
+    _players.push_back(std::shared_ptr<players>(new players(P1)));
+    _players.back()->setState(players::READY);
+    _players.push_back(std::shared_ptr<players>(new players(P2)));
+    _players.back()->setState(players::ACTIVE);
+    _players.push_back(std::shared_ptr<players>(new players(P3)));
+    _players.back()->setState(players::READY);
+    _players.push_back(std::shared_ptr<players>(new players(P4)));
+    _players.back()->setState(players::READY);
     while (_sigHandler.isInterrupted() != true) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
         if (_state == UNREADY || _state == READY)
-            state = _sfmlModule.Menu(_clientName, _players, _state);
-        else if (_state == MenuDrawer::GAME)
+            stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
+        else if (_state == GAME)
             _sfmlModule.drawGame(_entities);
-        if ((ret = check_game_state(state, &time, &end, &start)) == -1);
+        ret = check_game_state(stateMenu, &time, &end, &start);
+        if (ret == -1)
             break;
     };
 }

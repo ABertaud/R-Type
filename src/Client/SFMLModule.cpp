@@ -7,14 +7,14 @@
 
 #include "SFMLModule.hpp"
 
-SFMLModule::SFMLModule()  : _parser(Parser()), _winpos({1920, 1080}), 
+SFMLModule::SFMLModule()  : _parser(Parser()), _winpos({1116, 797}), 
 _scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()), _menu(MenuDrawer()), _roomName("")
 {
     std::map<entityType, std::string> paths = _parser.getPaths();
     loadAllSprite(paths);
     _scene = MENU;
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
-    _textures.back()->loadFromFile("../../ressources/sprites/player_background.jpg");
+    _textures.back()->loadFromFile("../../ressources/sprites/player_background.png");
     _background.setTexture(*_textures.back());
 }
 
@@ -73,6 +73,7 @@ void SFMLModule::init()
         _window.create(sf::VideoMode(_winpos.x, _winpos.y), "R-Type", sf::Style::Close | sf::Style::Titlebar | sf::Style::Default);
     else
         _window.create(sf::VideoMode(_winpos.x * _scale.x, _winpos.y * _scale.y), "Arcade", sf::Style::Close | sf::Style::Titlebar);
+    _window.setVerticalSyncEnabled(true);
    /* _background.setScale(_scale);
     _menu.setScale(_scale);
     _text.setScale(_scale);
@@ -107,7 +108,7 @@ Graphic::Command SFMLModule::eventHandler()
 void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray)
 {
     _window.clear();
-    // _window.draw(_background);
+   // _window.draw(_background);
     for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++)
         drawEntity((*it));
     //drawScore(score);
@@ -148,10 +149,10 @@ sf::RectangleShape SFMLModule::createRectangleShape(const sf::Vector2f &size, co
 const std::string SFMLModule::getPlayerName()
 {
     std::string playerName = "";
-    sf::Vector2f posConditions(50, 150);
-    sf::Vector2f posName(800, 500);
-    sf::Vector2f posEnter(50, 800);
-    sf::RectangleShape playerZone(createRectangleShape(sf::Vector2f(340, 70), sf::Vector2f(780, 500), sf::Color(255, 255, 255, 50)));
+    sf::Vector2f posConditions(50, _winpos.y /4 - 100);
+    sf::Vector2f posName(_winpos.x /3 + 60, _winpos.y /2);
+    sf::Vector2f posEnter(50, _winpos.y - 100);
+    sf::RectangleShape playerZone(createRectangleShape(sf::Vector2f(340, 70), sf::Vector2f(_winpos.x /3, _winpos.y /2), sf::Color(255, 255, 255, 50)));
     bool refresh = false;
 
     displayPlayerScene(posConditions, posName, playerZone, posEnter, playerName);
@@ -178,7 +179,7 @@ void SFMLModule::displayPlayerScene(const sf::Vector2f &posConditions, const sf:
     _window.clear();
     _window.draw(_background);
     _window.draw(rect);
-    _text.draw(posConditions, "Enter your playername, it has to contain 8 or less alphanumeric characters.", _window);
+    _text.draw(posConditions, "Enter your playername.", _window);
     _text.draw(posName, playerName, _window, sf::Color::Black);
     _text.draw(posEnter, "Press enter to confirm.", _window);
     _window.display();

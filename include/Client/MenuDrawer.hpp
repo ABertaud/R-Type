@@ -16,6 +16,7 @@
 #include <utility>
 #include "players.hpp"
 #include "ClientState.hpp"
+#include "ParallaxShader.hpp"
 
 class MenuDrawer {
 public:
@@ -33,7 +34,6 @@ public:
         READY = 10,
         UNREADY = 11,
         GAME = 12,
-
     };
 public:
     MenuDrawer();
@@ -52,6 +52,7 @@ private:
     TextDrawer _text;
     keyTraducer _key;
     std::string _roomName;
+    ParallaxShader _parallaxShader;
     sf::Sprite _background;
     sf::Texture _back;
     std::map<State, sf::Sprite> _buttons;

@@ -8,11 +8,12 @@
 #include "MenuDrawer.hpp"
 #include <iostream>
 
-MenuDrawer::MenuDrawer() : _state(HOME), _winpos({1920, 1080}), _scale({1, 1}), _text(TextDrawer()), _key(keyTraducer()), _roomName("")
+MenuDrawer::MenuDrawer() : _state(HOME), _winpos({1116, 797}), _scale({1, 1}), _text(TextDrawer()), 
+_key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png")
 {
     setButton();
     initPosButton();
-    _back.loadFromFile("../../ressources/sprites/background_rtype.jpg");
+    _back.loadFromFile("../../ressources/sprites/spaceship_final.png");
     _back.setSmooth(true);
     _background.setTexture(_back);
 }
@@ -23,18 +24,18 @@ MenuDrawer::~MenuDrawer()
 
 void MenuDrawer::setButton()
 {
-    loadSpriteSize("../../ressources/sprites/rectangle.png", WALL, sf::IntRect(0, 0, 28, 19), {2.5, 2.5});
-    loadSpriteSize("../../ressources/sprites/spaceship_o.png", P1, sf::IntRect(0, 0, 28, 19), {0.5, 0.5});
-    loadSpriteSize("../../ressources/sprites/spaceship_t.png", P2, sf::IntRect(0, 0, 28, 19), {0.45, 0.45});
-    loadSpriteSize("../../ressources/sprites/spaceship_tr.png", P3, sf::IntRect(0, 0, 28, 19), {0.3, 0.3});
-    loadSpriteSize("../../ressources/sprites/spaceship_f.png", P4, sf::IntRect(0, 0, 28, 19), {0.3, 0.3});
+    loadSpriteSize("../../ressources/sprites/rectangle.png", WALL, sf::IntRect(0, 0, 28, 19), {2, 2});
+    loadSpriteSize("../../ressources/sprites/spaceship_o.png", P1, sf::IntRect(0, 0, 28, 19), {0.35, 0.35});
+    loadSpriteSize("../../ressources/sprites/spaceship_t.png", P2, sf::IntRect(0, 0, 28, 19), {0.35, 0.35});
+    loadSpriteSize("../../ressources/sprites/spaceship_tr.png", P3, sf::IntRect(0, 0, 28, 19), {0.25, 0.25});
+    loadSpriteSize("../../ressources/sprites/spaceship_f.png", P4, sf::IntRect(0, 0, 28, 19), {0.25, 0.25});
     loadSprite("../../ressources/sprites/New_Button.png", NEW, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});
     loadSprite("../../ressources/sprites/Load_Button.png", JOIN, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});
     loadSprite("../../ressources/sprites/Settings_Button.png", SETTINGS, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});
     loadSprite("../../ressources/sprites/Quit_Button.png", QUIT, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});  
     loadSprite("../../ressources/sprites/ready.png", READY, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});   
     loadSprite("../../ressources/sprites/unready.png", UNREADY, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});    
-    loadSprite("../../ressources/sprites/Home_Square_Button.png", HOME, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});    
+    loadSprite("../../ressources/sprites/Home_Square_Button.png", HOME, sf::IntRect(0, 0, 28, 19), {0.35f, 0.35f});    
 }
 
 void MenuDrawer::setScale(const sf::Vector2f &scale)
@@ -57,7 +58,7 @@ void MenuDrawer::initPosButton()
 {
     float x = (((_winpos.x / 2) - 150) * _scale.x);
     float y = ((_winpos.y / 3) * _scale.y);
-    float x_room = (((_winpos.x / 2) - 250) * _scale.x);
+    float x_room = (((_winpos.x / 3) - 250) * _scale.x);
     float y_room = ((_winpos.y / 2) * _scale.y);
 
     sf::Vector2f pos(x, y);
@@ -158,7 +159,8 @@ void MenuDrawer::drawHome(sf::RenderWindow &window, const std::string &playerNam
     std::string wel = "Welcome Capitain " + playerName + " !";
 
     window.clear();
-    window.draw(_background);
+  _parallaxShader.parallaxShaderDraw(window);
+  window.draw(_background);
     for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
         if (checkHome((it)->first) == true) {
             //setRect(entity->getHorizon(), (it)->second, (it)->first);
@@ -187,6 +189,7 @@ void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, s
         drawHome(window, playerName);
     if (_state == SETTINGS) {
         window.clear();
+        _parallaxShader.parallaxShaderDraw(window);
         window.draw(_background);
         window.display();
     }
@@ -216,10 +219,10 @@ std::string MenuDrawer::getPlayerName(const entityType &type)
 
 void MenuDrawer::drawPlayerRoom(const std::shared_ptr<players> &player, sf::RenderWindow &window)
 {
-    float x = _winpos.x / 4;
+    float x = _winpos.x / 6 - 20;
     float y = _winpos.y / 6;
     float x_icon = x + 33;
-    float y_icon = y + 35;
+    float y_icon = y + 30;
     float x_text = x + 150;
     float y_text = y + 25;
     std::string name;
@@ -262,8 +265,8 @@ void MenuDrawer::drawIconStat(const State &state, sf::RenderWindow &window, sf::
     sf::Texture texture;
     sf::Sprite go;
 
-    pos.x *= 2.3;
-    pos.y += 30;
+    pos.x *= 4;
+    pos.y += 22;
     go.setPosition(pos);
     go.setScale(sf::Vector2f(0.3f, 0.3f));
     if (state == State::READY)
@@ -305,18 +308,19 @@ void MenuDrawer::drawButton(const State &state, const sf::Vector2f &pos, sf::Ren
 
 void MenuDrawer::drawRoom(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<players>>&players, const ClientState &clientS)
 {
-    float x = _winpos.x / 2 + 350;
-    float y = _winpos.y / 6;
+    float x = _winpos.x / 2 + 250;
+    float y = _winpos.y / 6 - 100;
     sf::Vector2f pos(x, y);
-    sf::Vector2f posBack(_winpos.x - 200, _winpos.y - 250);
+    sf::Vector2f posBack(_winpos.x - 100, _winpos.y - 100);
 
     window.clear();
+    _parallaxShader.parallaxShaderDraw(window);
     window.draw(_background);
     drawButton(HOME, posBack, window);
     for (auto it = players.begin(); it != players.end(); it++) {
        drawPlayerRoom((*it), window);
     }
-    if (clientS == ClientState::READY) 
+    if (clientS == ClientState::READY)
         drawState(READY, window, pos);
     else
         drawState(UNREADY, window, pos);
@@ -326,18 +330,18 @@ void MenuDrawer::drawRoom(sf::RenderWindow &window, const std::string &playerNam
 const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &event)
 {
     std::string port = "";
-    sf::Vector2f posConditions(50, 150);
-    sf::Vector2f posName(800, 500);
-    sf::Vector2f posEnter(50, 800);
-    sf::Vector2f posBack(_winpos.x - 200, _winpos.y - 250);
-    sf::RectangleShape zone(createRectangleShape(sf::Vector2f(340, 70), sf::Vector2f(780, 500), sf::Color(255, 255, 255, 50)));
+    sf::Vector2f posConditions(50, _winpos.y /4 - 50);
+    sf::Vector2f posName(_winpos.x /3 + 60, _winpos.y /2);
+    sf::Vector2f posEnter(50, _winpos.y - 100);
+    sf::Vector2f posBack(_winpos.x - 100, _winpos.y - 100);
+    sf::RectangleShape zone(createRectangleShape(sf::Vector2f(340, 70), sf::Vector2f(_winpos.x /3, _winpos.y /2), sf::Color(255, 255, 255, 50)));
     bool refresh = false;
     sf::Texture texture;
     sf::Sprite back;
 
     window.clear();
     back.setPosition(posBack);
-    back.setScale(sf::Vector2f(0.5f, 0.5f));
+    back.setScale(sf::Vector2f(0.35f, 0.35f));
     texture.loadFromFile("../../ressources/sprites/Home_Square_Button.png");
     texture.setSmooth(true);
     back.setTexture(texture);
@@ -359,10 +363,8 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &ev
             }
             event.key.code = sf::Keyboard::Escape;
         }
-        if (refresh == true) {
-            displayJoinScene(posConditions, posName, zone, posEnter, port, window, back);
-            window.draw(back);
-        }
+        displayJoinScene(posConditions, posName, zone, posEnter, port, window, back);
+        window.draw(back);
     }
     port = port.substr(0, port.length() - 1);
     _state = ROOM;
@@ -382,6 +384,7 @@ void MenuDrawer::displayJoinScene(const sf::Vector2f &posConditions, const sf::V
 const sf::RectangleShape &rect, const sf::Vector2f &posEnter, const std::string &port, sf::RenderWindow &window, const sf::Sprite &back)
 {
     window.clear();
+    _parallaxShader.parallaxShaderDraw(window);
     window.draw(_background);
     window.draw(rect);
     _text.draw(posConditions, "Enter the name of the room.", window);
