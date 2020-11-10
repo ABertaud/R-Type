@@ -24,6 +24,8 @@ int Client::start(void)
     std::cout << "Welcome to the client !" << std::endl;
     start_receive();
     _thread = boost::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
+    _sfmlModule.init();
+    _clientName = _sfmlModule.getPlayerName();
     loop();
     return (0);
 }
@@ -47,35 +49,40 @@ void Client::changeState()
 void Client::loop(void)
 {
     MenuDrawer::State state;
-    std::string port;
-    std::vector<std::shared_ptr<players>> test;
+    static timeType start = std::chrono::system_clock::now();
+    timeType end;
+    std::chrono::seconds time;
+    int ret = 0;
 
-    _sfmlModule.init();
-    _clientName = _sfmlModule.getPlayerName();
-    test.push_back(std::shared_ptr<players>(new players(P1)));
-    test.back()->setState(players::ACTIVE);
-    test.push_back(std::shared_ptr<players>(new players(P2)));
-    test.back()->setState(players::ACTIVE);
-    test.push_back(std::shared_ptr<players>(new players(P3)));
-    test.back()->setState(players::ACTIVE);
-    test.push_back(std::shared_ptr<players>(new players(P4)));
-    test.back()->setState(players::READY);
     while (_sigHandler.isInterrupted() != true) {
-        // send message every second/2
-      //  std::this_thread::sleep_for (std::chrono::milliseconds(500));
-    //    sender("201 Nakoroom");
-        state = _sfmlModule.Menu(_clientName, test, _state);
-        if (state == MenuDrawer::State::QUIT)
-            _sfmlModule.stop();
-        if (state == MenuDrawer::State::WAITING)
-            port = _sfmlModule.getRoomName();
-        if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {
-            changeState();
-            _sfmlModule.setState(MenuDrawer::State::ROOM);
-        }
-        if (state == MenuDrawer::State::WAITING)
-            _sfmlModule.setState(MenuDrawer::State::HOME);
+        end = std::chrono::system_clock::now();
+        time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+        if (_state == UNREADY || _state == READY)
+            state = _sfmlModule.Menu(_clientName, _players, _state);
+        else if (_state == MenuDrawer::GAME)
+            _sfmlModule.drawGame(_entities);
+        if ((ret = check_game_state(state, &time, &end, &start)) == -1);
+            break;
     };
+}
+
+int Client::check_game_state(const MenuDrawer::State& state, std::chrono::seconds *time, timeType *end, timeType *start)
+{
+    if (state == MenuDrawer::State::QUIT) {
+        _sfmlModule.stop();
+        return (-1);
+    }
+    if (state == MenuDrawer::State::WAITING)
+        sender(_sfmlModule.getRoomName());
+    if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {
+        if (*time >= std::chrono::seconds(1)) {
+            sender("210");
+            *start = std::chrono::system_clock::now();
+        }
+        changeState();
+        _sfmlModule.setState(MenuDrawer::State::ROOM);
+    }
+    return (0);
 }
 
 void Client::start_receive(void)
@@ -102,10 +109,9 @@ void Client::read_handler(const boost::system::error_code& ec, std::size_t bytes
     p = _binCodec.unserialize(_recvBuff);
     if (_binCodec.check_packet(p) != true) {
         std::cerr << "ERROR: packet not valid" << std::endl;
+        start_receive();
         return;
     }
-    // std::cout << "Data : '" << p._message << "' received" << std::endl;
-    // handleServerMessage(std::string(_recvBuff.begin(), _recvBuff.begin()+bytes_transferred));
     handleServerMessage(p._message);
     start_receive();
 }
@@ -136,6 +142,7 @@ void Client::updateGame(const std::string& update)
     entityType type = static_cast<entityType>(std::atoi(update.substr(update.find_first_of("|") + 1, update.find_last_of("|") - update.find_first_of("|")).c_str()));
     int x = std::atoi(update.substr(update.find_last_of("|") + 1, update.find_first_of(".") - update.find_last_of("|")).c_str());
     int y = std::atoi(update.substr(update.find_first_of(".") + 1).c_str());
+
     if (state == true) {
         //créer un nouvel element ou modifier un element existant
     } else {

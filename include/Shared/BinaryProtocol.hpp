@@ -36,10 +36,9 @@ namespace BinaryProtocol
             ~Codec() = default;
             Codec(const Codec& other) = default;
             Codec& operator=(const Codec& other) = default;
-            Packet createPacket(std::string message);
+            Packet createPacket(const std::string &message);
             bool check_packet(const Packet& toCheck);
             std::vector<uint8_t> serialize(const Packet& input);
-            // Packet unserialize(const std::vector<uint8_t>& input);
             Packet unserialize(const boost::array<uint8_t, 1024>& input);
     };
 };

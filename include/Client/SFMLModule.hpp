@@ -56,7 +56,6 @@ public:
        void drawEntity(std::shared_ptr<Graphic::AEntity>);
        void displayPlayerScene(const sf::Vector2f &posConditions, const sf::Vector2f &posName, const sf::RectangleShape &rect, const sf::Vector2f &, const std::string &playerName);
        sf::RectangleShape createRectangleShape(const sf::Vector2f &size, const sf::Vector2f &pos, const sf::Color &color);
-       
 };
 
 

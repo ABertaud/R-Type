@@ -32,6 +32,7 @@ public:
         ROOM = 9,
         READY = 10,
         UNREADY = 11,
+        GAME = 12,
 
     };
 public:

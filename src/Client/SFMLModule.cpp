@@ -107,7 +107,7 @@ Graphic::Command SFMLModule::eventHandler()
 void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray)
 {
     _window.clear();
-   // _window.draw(_background);
+    // _window.draw(_background);
     for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++)
         drawEntity((*it));
     //drawScore(score);

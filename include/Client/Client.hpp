@@ -19,6 +19,9 @@
 #include "SignalHandler.hpp"
 #include "BinaryProtocol.hpp"
 
+#include <chrono>
+
+using timeType = std::chrono::time_point<std::chrono::system_clock>;
 class Client
 {
     public:
@@ -32,6 +35,7 @@ class Client
         void sender(const std::string& str);
         void start_receive(void);
         void loop(void);
+        int check_game_state(const MenuDrawer::State& state, std::chrono::seconds *time, timeType *end, timeType *start);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
         void read_handler(const boost::system::error_code& ec, std::size_t bytesTransferred);
         void handleServerMessage(const std::string& update);
@@ -50,6 +54,7 @@ class Client
         boost::asio::ip::udp::endpoint _remoteEndpoint;
         std::string _clientName;
         std::vector<std::shared_ptr<Graphic::AEntity>> _entities;
+        std::vector<std::shared_ptr<players>> _players;
 };
 
 #endif /* !CLIENT_HPP_ */
