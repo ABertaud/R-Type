@@ -37,9 +37,9 @@ class Client
         void sender(const std::string& str);
         void start_receive(void);
         void loop(void);
-        int check_game_state(const MenuDrawer::State& state, std::chrono::seconds *time, timeType *end, timeType *start);
+        int checkGameState(const MenuDrawer::State& state, const std::chrono::seconds& time, const timeType& end, timeType& start);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
-        void read_handler(const boost::system::error_code& ec, std::size_t bytesTransferred);
+        void readHandler(const boost::system::error_code& ec, std::size_t bytesTransferred);
         void handleServerMessage(std::string& update);
         void handleUpdateMenu(std::string& update);
         void handleUpdateGame(std::string& update);

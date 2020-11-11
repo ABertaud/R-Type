@@ -63,7 +63,6 @@ void Client::loop(void)
     static timeType start = std::chrono::system_clock::now();
     timeType end;
     std::chrono::seconds time;
-    int ret = 0;
 
     _players.push_back(std::shared_ptr<players>(new players(P1)));
     _players.back()->setState(players::READY);
@@ -80,13 +79,12 @@ void Client::loop(void)
             stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
         else if (_state == GAME)
             _sfmlModule.drawGame(_entities);
-        ret = check_game_state(stateMenu, &time, &end, &start);
-        if (ret == -1)
+        if (checkGameState(stateMenu, time, end, start) == -1)
             break;
     };
 }
 
-int Client::check_game_state(const MenuDrawer::State& state, std::chrono::seconds *time, timeType *end, timeType *start)
+int Client::checkGameState(const MenuDrawer::State& state, const std::chrono::seconds &time, const timeType &end, timeType &start)
 {
     if (state == MenuDrawer::State::QUIT) {
         _sfmlModule.stop();
@@ -95,9 +93,9 @@ int Client::check_game_state(const MenuDrawer::State& state, std::chrono::second
     if (state == MenuDrawer::State::WAITING)
         sender(_sfmlModule.getRoomName());
     if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {
-        if (*time >= std::chrono::seconds(1)) {
+        if (time >= std::chrono::seconds(1)) {
             sender("210");
-            *start = std::chrono::system_clock::now();
+            start = std::chrono::system_clock::now();
         }
         changeState();
         _sfmlModule.setState(MenuDrawer::State::ROOM);
@@ -107,7 +105,7 @@ int Client::check_game_state(const MenuDrawer::State& state, std::chrono::second
 
 void Client::start_receive(void)
 {
-    _clientSocket.async_receive(boost::asio::buffer(_recvBuff), boost::bind(&Client::read_handler, this, boost::asio::placeholders::error,
+    _clientSocket.async_receive(boost::asio::buffer(_recvBuff), boost::bind(&Client::readHandler, this, boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }
 
@@ -118,7 +116,7 @@ void Client::start_receive(void)
 //         std::cerr << "ERROR while writing " << bytes_transferred << " bytes on socket" << std::endl;
 // }
 
-void Client::read_handler(const boost::system::error_code& ec, std::size_t bytesTransferred)
+void Client::readHandler(const boost::system::error_code& ec, std::size_t bytesTransferred)
 {
     BinaryProtocol::Packet p;
 
