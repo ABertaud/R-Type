@@ -17,10 +17,10 @@ int main(int ac, char **av)
     }
     try
     {
-        Client cli(av[1], std::atoi(av[2]));
-
-        cli.start();
-        cli.stop();
+        std::unique_ptr<INetwork> cli = std::make_unique<Client>(av[1], std::atoi(av[2]));
+    
+        cli->start();
+        cli->stop();
     }
     catch (std::exception& e)
     {

@@ -22,7 +22,8 @@ constexpr unsigned int PORT = 1666;
 class udpServer : public INetwork {
 public:
     udpServer(boost::asio::io_context&, const std::string& libPath);
-    void run();
+    void start();
+    void stop();
     udpServer(const udpServer& other) = default;
     udpServer& operator=(const udpServer& other) = default;
     ~udpServer() = default;

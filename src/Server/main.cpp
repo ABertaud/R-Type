@@ -33,8 +33,8 @@ int main(int ac, char **av)
         // std::cout << monster->getAttack() << std::endl;
         // delete(monster);
         boost::asio::io_context ioContext;
-        udpServer server(ioContext, hdl.getPath());
-        server.run();
+        std::unique_ptr<INetwork> server = std::make_unique<udpServer>(ioContext, hdl.getPath());
+        server->start();
     } catch (Error const &err) {
         std::cerr << err.what() << std::endl;
         return (84);

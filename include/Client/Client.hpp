@@ -19,27 +19,28 @@
 #include "SFMLModule.hpp"
 #include "SignalHandler.hpp"
 #include "BinaryProtocol.hpp"
+#include "INetwork.hpp"
 
 #include <chrono>
 
 using timeType = std::chrono::time_point<std::chrono::system_clock>;
-class Client
+class Client : public INetwork
 {
     public:
         Client(const std::string& ip, unsigned short port);
         ~Client()=default;
         Client(const Client& other) = default;
         Client& operator=(const Client& other) = default;
-        int start(void);
+        void start(void);
         void stop(void);
         typedef void(Client::*hsmFunction)(std::string&);
     private:
-        void sender(const std::string& str);
-        void start_receive(void);
+        void send(const std::string& str);
+        void startReceive(void);
         void loop(void);
         int check_game_state(const MenuDrawer::State& state, std::chrono::seconds *time, timeType *end, timeType *start);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
-        void read_handler(const boost::system::error_code& ec, std::size_t bytesTransferred);
+        void handleReceive(const boost::system::error_code&, std::size_t);
         void handleServerMessage(std::string& update);
         void handleUpdateMenu(std::string& update);
         void handleUpdateGame(std::string& update);

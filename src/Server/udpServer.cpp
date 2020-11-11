@@ -70,7 +70,7 @@ void udpServer::handleSend(const std::string& message, const boost::system::erro
     (void)bytesTransferred;
 }
 
-void udpServer::run()
+void udpServer::start()
 {
     _socket->get_io_service().run();
 }
@@ -314,9 +314,15 @@ void udpServer::serverEndHandler(const boost::system::error_code& /*e*/)
         }
         if (canLeave == true) {
             std::cerr << "Server's leaving." << std::endl;
-            _socket->get_io_service().stop();
+            stop();
         }
     }
     _t.expires_at(_t.expires_at() + boost::asio::chrono::seconds(1));
     _t.async_wait(boost::bind(&udpServer::serverEndHandler, this, boost::asio::placeholders::error));
+}
+
+void udpServer::stop()
+{
+    if (_socket->is_open() == true)
+        _socket->get_io_service().stop();
 }

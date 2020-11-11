@@ -26,19 +26,18 @@ Client::Client(const std::string &ip, unsigned short port)
     _serverResponse.insert(std::make_pair(555, &Client::handleTooFast));
 }
 
-int Client::start(void)
+void Client::start(void)
 {
     std::cout << "Welcome to the client !" << std::endl;
-    start_receive();
+    startReceive();
     _thread = boost::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
     _sfmlModule.init();
     _clientName = _sfmlModule.getPlayerName();
     if (_clientName.size() > 8) {
         _sfmlModule.stop();
-        return -1;
+        return;
     }
     loop();
-    return (0);
 }
 
 void Client::stop(void)
@@ -93,10 +92,10 @@ int Client::check_game_state(const MenuDrawer::State& state, std::chrono::second
         return (-1);
     }
     if (state == MenuDrawer::State::WAITING)
-        sender(_sfmlModule.getRoomName());
+        send(_sfmlModule.getRoomName());
     if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {
         if (*time >= std::chrono::seconds(1)) {
-            sender("210");
+            send("210");
             *start = std::chrono::system_clock::now();
         }
         changeState();
@@ -105,9 +104,9 @@ int Client::check_game_state(const MenuDrawer::State& state, std::chrono::second
     return (0);
 }
 
-void Client::start_receive(void)
+void Client::startReceive(void)
 {
-    _clientSocket.async_receive(boost::asio::buffer(_recvBuff), boost::bind(&Client::read_handler, this, boost::asio::placeholders::error,
+    _clientSocket.async_receive(boost::asio::buffer(_recvBuff), boost::bind(&Client::handleReceive, this, boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }
 
@@ -118,7 +117,7 @@ void Client::start_receive(void)
 //         std::cerr << "ERROR while writing " << bytes_transferred << " bytes on socket" << std::endl;
 // }
 
-void Client::read_handler(const boost::system::error_code& ec, std::size_t bytesTransferred)
+void Client::handleReceive(const boost::system::error_code& ec, std::size_t bytesTransferred)
 {
     BinaryProtocol::Packet p;
 
@@ -129,11 +128,11 @@ void Client::read_handler(const boost::system::error_code& ec, std::size_t bytes
     p = _binCodec.unserialize(_recvBuff);
     if (_binCodec.check_packet(p) != true) {
         std::cerr << "ERROR: packet not valid" << std::endl;
-        start_receive();
+        startReceive();
         return;
     }
     handleServerMessage(p._message);
-    start_receive();
+    startReceive();
 }
 
 void Client::handleServerMessage(std::string& update)
@@ -199,7 +198,7 @@ void Client::handleTooFast(std::string& update)
     std::cout << "code received" << std::endl;
 }
 
-void Client::sender(const std::string &str)
+void Client::send(const std::string &str)
 {
     boost::system::error_code err;
     std::size_t bytes = 0;
