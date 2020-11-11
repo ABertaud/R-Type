@@ -8,7 +8,8 @@
 #include "SFMLModule.hpp"
 
 SFMLModule::SFMLModule()  : _parser(Parser()), _winpos({1116, 797}), 
-_scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()), _menu(MenuDrawer()), _roomName("")
+_scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()), 
+_menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/sprites/Game/BackgroundGame.png", _scale)
 {
     std::map<entityType, std::string> paths = _parser.getPaths();
     loadAllSprite(paths);
@@ -22,7 +23,7 @@ SFMLModule::~SFMLModule()
 {
 }
 
-void SFMLModule::loadSprite(const std::string &path, const entityType &obj, sf::IntRect rect)
+void SFMLModule::loadSprite(const std::string &path, const entityType &obj)
 {
     sf::Sprite sprite;
 
@@ -31,16 +32,16 @@ void SFMLModule::loadSprite(const std::string &path, const entityType &obj, sf::
         std::cerr << "ERROR: cannot found " << path << "." << std::endl;
     _textures.back()->setSmooth(true);
     sprite.setTexture(*_textures.back());
-    (void)rect;
     //sprite.setTextureRect(rect);
-    _entities.insert(std::make_pair(obj, sprite));
+    _sprites.insert(std::make_pair(obj, sprite));
 }
 
 void SFMLModule::loadAllSprite(std::map<entityType, std::string> &paths)
 {
-    for (std::map<entityType, std::string>::iterator it = paths.begin(); it != paths.end(); it++) {
-        loadSprite((*it).second, (*it).first, sf::IntRect(0, 0, 28, 19));
-    }
+    //for (std::map<entityType, std::string>::iterator it = paths.begin(); it != paths.end(); it++) {
+      //  loadSprite((*it).second, (*it).first, sf::IntRect(0, 0, 28, 19));
+    //}
+    loadSprite("../../ressources/sprites/Game/player1.png", P1);
 }
 
 void SFMLModule::setState(const MenuDrawer::State &state)
@@ -72,7 +73,7 @@ void SFMLModule::init()
     if (_scale.x <= x && _scale.y <= y)
         _window.create(sf::VideoMode(_winpos.x, _winpos.y), "R-Type", sf::Style::Close | sf::Style::Titlebar | sf::Style::Default);
     else
-        _window.create(sf::VideoMode(_winpos.x * _scale.x, _winpos.y * _scale.y), "Arcade", sf::Style::Close | sf::Style::Titlebar);
+        _window.create(sf::VideoMode(_winpos.x * _scale.x, _winpos.y * _scale.y), "R-Type", sf::Style::Close | sf::Style::Titlebar | sf::Style::Default);
     _window.setVerticalSyncEnabled(true);
    /* _background.setScale(_scale);
     _menu.setScale(_scale);
@@ -87,14 +88,44 @@ void SFMLModule::stop()
     _window.close();
 }
 
-Graphic::Command SFMLModule::eventHandler()
+Animation::StateAnim SFMLModule::convertState(const Graphic::Command &com, const Animation::StateAnim &state)
+{
+    if (com == Graphic::Command::DOWN)
+        return Animation::DOWN;
+    if (com == Graphic::Command::UP)
+        return Animation::UP;
+    if (com == Graphic::Command::RIGHT)
+        return Animation::RIGHT;
+    if (com == Graphic::Command::LEFT)
+        return Animation::LEFT;
+    return state;
+}
+
+void SFMLModule::setAnimatonPlayer(const Graphic::Command &com, const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray)
+{
+    Animation::StateAnim state = Animation::StateAnim::IDLE;
+    Animation::StateAnim currentState = Animation::StateAnim::IDLE;
+
+    for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) {
+        if ((*it)->getObject() == P1) {
+            currentState = (*it)->getAnimation().getState();
+            state = convertState(com, currentState);
+            if (state != currentState)
+                (*it)->getAnimation().setState(state);
+        }
+    }
+}
+
+Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray)
 {
     Graphic::Command command = Graphic::NOTHING;
 
     while (_window.pollEvent(_event))
     {
-        if (_event.type == sf::Event::KeyPressed)
+        if (_event.type == sf::Event::KeyPressed) {
             command = _key.traduceKey(_event.key.code);
+            setAnimatonPlayer(command, entityArray);
+        }
         if (_event.type == sf::Event::Closed) 
             command = Graphic::EXIT;
     }
@@ -102,16 +133,32 @@ Graphic::Command SFMLModule::eventHandler()
     {
         _scene = SFMLModule::MENU;
     }
+
     return (command);
+}
+
+Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray, sf::Clock &frameClock)
+{
+    Graphic::Command ret;
+    sf::Time frameTime = frameClock.restart();
+
+    for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++)
+        (*it)->getAnimation().update(frameTime, (*it)->getAnimation().getState());
+    ret = eventHandler(entityArray);
+    drawGame(entityArray);
+    return ret;
 }
 
 void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray)
 {
     _window.clear();
+    _parallaxShader.parallaxShaderDraw(_window);
    // _window.draw(_background);
-    for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++)
+    for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) 
         drawEntity((*it));
     //drawScore(score);
+    //sprite.setTextureRect(rect)
+    _window.display();
 }
 
 void SFMLModule::drawEntity(std::shared_ptr<Graphic::AEntity> entity)
@@ -121,15 +168,21 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::AEntity> entity)
     
     float x = entity->getPos().x;
     float y = entity->getPos().y;
-
+    sf::IntRect rect;
+    Animation::StateAnim state;
+    sf::IntRect error(-1, -1, -1, -1);
     sf::Vector2f pos(x, y);
 
-    for (std::map<entityType, sf::Sprite>::iterator it = _entities.begin(); it != _entities.end(); it++)
-    {
+    for (std::map<entityType, sf::Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
         if (((it)->first) == entity->getObject())
         {
+
           //  setRect(entity->getHorizon(), (it)->second, (it)->first);
             (it)->second.setPosition(pos);
+            state = entity->getAnimation().getState();
+            rect = entity->getAnimation().getFrame(state);
+            if (rect != error)
+                (it)->second.setTextureRect(rect);
            // setColor(entity->getId(), (it)->second);
             _window.draw((it)->second);
           //  std::cout << (it)->second.getGlobalBounds().height << std::endl;

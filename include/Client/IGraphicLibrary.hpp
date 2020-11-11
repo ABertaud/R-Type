@@ -31,7 +31,7 @@ enum Command
     //handled by game
     RIGHT,
     LEFT,
-    TOP,
+    UP,
     DOWN,
     SHOOT,
 };
@@ -42,7 +42,7 @@ public:
     virtual ~IGraphicLibrary() = default;
     virtual void init() = 0;
     virtual void stop() = 0;
-    virtual Command eventHandler() = 0;
+    virtual Command eventHandler(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray) = 0;
     virtual void drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>> &) = 0;
     /* data */
     virtual const std::string getPlayerName() = 0;

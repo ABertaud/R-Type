@@ -8,16 +8,16 @@
 #include "ParallaxShader.hpp"
 #include <iostream>
 
-ParallaxShader::ParallaxShader(const std::string &path) : _offset(0.f)
+ParallaxShader::ParallaxShader(const std::string &path, const sf::Vector2f &scale) : _offset(0.f), _scale({scale.x, scale.y})
 {
     if (!_texture.loadFromFile(path.c_str())) {
-        std::cout << "tt" << std::endl;
         return;
     }
     _texture.setRepeated(true);
     _sprite.setTexture(_texture);
     _sprite.setPosition(0, 0);
     _sprite.setColor(sf::Color(255, 255, 255, 200));
+    _sprite.setScale(_scale);
     _parallaxShader.loadFromMemory(
         "uniform float offset;"
 

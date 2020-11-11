@@ -11,12 +11,13 @@
 class ParallaxShader {
     private:
         float _offset;
+        sf::Vector2f _scale;
         sf::Clock _clock; 
         sf::Texture _texture;
         sf::Sprite _sprite;
         sf::Shader _parallaxShader;
     public:
-        ParallaxShader(const std::string &);
+        ParallaxShader(const std::string &, const sf::Vector2f &scale);
         ~ParallaxShader();
         void parallaxShaderDraw(sf::RenderWindow &window);
 };

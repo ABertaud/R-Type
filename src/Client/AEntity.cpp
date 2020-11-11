@@ -9,7 +9,7 @@
 
 
 Graphic::AEntity::AEntity(const entityType &type, bool bonus, const sf::Vector2f &pos) : _type(type), 
-_pos(pos), _bonus(bonus), _scale({1, 1})
+_pos(pos), _bonus(bonus), _scale({1, 1}), _animation(sf::seconds(0.2))
 {
 
 }
@@ -30,4 +30,9 @@ entityType Graphic::AEntity::getObject() const
 sf::Vector2f Graphic::AEntity::getPos() const
 {
     return (_pos);
+}
+
+Animation &Graphic::AEntity::getAnimation()
+{
+    return (_animation);
 }

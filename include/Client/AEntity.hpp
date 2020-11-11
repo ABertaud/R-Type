@@ -9,6 +9,7 @@
 #define AENTITY_HPP_
 
 #include "IEntity.hpp"
+#include "Animation.hpp"
 
 namespace Graphic {
 class AEntity : public Graphic::IEntity {
@@ -17,6 +18,7 @@ class AEntity : public Graphic::IEntity {
         AEntity(const AEntity &other) = default;
         AEntity &operator=(const AEntity &other) = default;
         virtual ~AEntity();
+        Animation &getAnimation();
         sf::Vector2f getPos()const;
         void setscale(const sf::Vector2f &scale);
         entityType getObject() const;    // return the type of the object
@@ -27,6 +29,8 @@ class AEntity : public Graphic::IEntity {
         sf::Vector2f _pos;           // tmp a revoir le type
         bool _bonus;
         sf::Vector2f _scale;
+        Animation _animation;
+        
 };
 }
 

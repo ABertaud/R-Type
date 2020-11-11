@@ -36,7 +36,7 @@ public:
         GAME = 12,
     };
 public:
-    MenuDrawer();
+    MenuDrawer(const sf::Vector2f &scale);
     ~MenuDrawer();
     void draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<players>>& players, const ClientState& clientS);
     State handleMenu(sf::RenderWindow &window, sf::Event &event);
