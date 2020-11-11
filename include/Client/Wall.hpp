@@ -16,7 +16,7 @@ class Wall : public Graphic::AEntity {
         Wall(const entityType &type, bool bonus, const sf::Vector2f &test);
         ~Wall();
         void update();             // update the object in your window
-        entityType getObject()const;   // return the type of the object
+        entityType getType()const;   // return the type of the object
     private:
     protected:
 };

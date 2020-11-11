@@ -232,7 +232,7 @@ void MenuDrawer::drawPlayerRoom(const std::shared_ptr<players> &player, sf::Rend
     sf::Vector2f posText(x_text, y_text);
     
     for (std::map<entityType, sf::Sprite>::iterator it = _players.begin(); it != _players.end(); it++) {
-        if ((it)->first == player->getObject() && player->getState() != players::OFF) {
+        if ((it)->first == player->getType() && player->getState() != players::OFF) {
             drawRect(pos, window);
             name = getPlayerName((it)->first);
             (it)->second.setPosition(posIcon);

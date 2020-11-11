@@ -18,7 +18,7 @@ class IEntity {
     public:
         virtual ~IEntity() = default;
         virtual void update() = 0;   // update the object in your window
-        virtual entityType getObject()const = 0;   // return the type of the object
+        virtual entityType getType()const = 0;   // return the type of the object
     protected:
     private:
 };

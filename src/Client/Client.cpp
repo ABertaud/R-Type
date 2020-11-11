@@ -6,9 +6,10 @@
 */
 
 #include "Client.hpp"
+#include <memory>
 
 Client::Client(const std::string &ip, unsigned short port)
-: _sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(), _state(UNREADY)
+: _builder(),_sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(), _state(UNREADY)
 {
     boost::system::error_code err;
 
@@ -160,10 +161,16 @@ void Client::handleUpdateGame(std::string& update)
     int y = std::atoi(update.substr(update.find_first_of(".") + 1).c_str());
 
     if (state == true) {
-        //créer un nouvel element ou modifier un element existant
-    } else {
-        //supprimer un élément
+        for (auto obj = _entities.begin(); obj != _entities.end(); obj++) {
+            if ((obj->get()->getId() == id)) {
+                updateEntity(id, sf::Vector2f{x, y});
+                return;
+            }
+        }
+        createEntity(id, type, false, sf::Vector2f{x, y});
     }
+    else
+       destroyEntity(id);
 }
 
 void Client::handleFine(std::string& update)
@@ -205,5 +212,30 @@ void Client::send(const std::string &str)
     if (err) {
         std::cerr << "ERROR while sending " << bytes << " bytes of data" << std::endl;
         return;
+    }
+}
+
+void Client::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
+{
+    _entities.push_back(std::make_shared<Graphic::AEntity>(_builder.createEntity(entityType, entityType, bonus, entityPos)));
+}
+
+void Client::updateEntity(int entityId, const sf::Vector2f& entityPos) const
+{
+    for (size_t index = 0; index != _entities.size(); index++) {
+        if ((_entities[index].get()->getId() == entityId)) {
+            // to decoment when possible
+            // _entities.at(index).get()->update(entityPos);
+            // ou
+            // _entities.at(index).get()->update(entityPos.x, entityPos.y);
+        }
+    }
+}
+
+void Client::destroyEntity(int entityId)
+{
+    for (size_t index = 0; index != _entities.size(); index++) {
+        if ((_entities[index].get()->getId() == entityId))
+            _entities.erase(_entities.begin() + index);
     }
 }

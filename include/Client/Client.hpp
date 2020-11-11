@@ -20,6 +20,7 @@
 #include "SignalHandler.hpp"
 #include "BinaryProtocol.hpp"
 #include "INetwork.hpp"
+#include "EntityBuilder.hpp"
 
 #include <chrono>
 
@@ -50,7 +51,11 @@ class Client : public INetwork
         void handleFullRoom(std::string& update);
         void handleTooFast(std::string& update);
         void changeState(void);
+        void createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos);
+        void updateEntity(int entityId, const sf::Vector2f& entityPos) const;
+        void destroyEntity(int entityId);
     private:
+        EntityBuilder _builder;
         SignalHandler _sigHandler;
         BinaryProtocol::Codec _binCodec;
         boost::asio::io_service _ioService;

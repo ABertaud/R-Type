@@ -107,7 +107,7 @@ void SFMLModule::setAnimatonPlayer(const Graphic::Command &com, const std::vecto
     Animation::StateAnim currentState = Animation::StateAnim::IDLE;
 
     for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) {
-        if ((*it)->getObject() == P1) {
+        if ((*it)->getType() == P1) {
             currentState = (*it)->getAnimation().getState();
             state = convertState(com, currentState);
             if (state != currentState)
@@ -174,7 +174,7 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::AEntity> entity)
     sf::Vector2f pos(x, y);
 
     for (std::map<entityType, sf::Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
-        if (((it)->first) == entity->getObject())
+        if (((it)->first) == entity->getType())
         {
 
           //  setRect(entity->getHorizon(), (it)->second, (it)->first);

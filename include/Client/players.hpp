@@ -24,7 +24,7 @@ public:
     ~players();
     void setState(const State &);
     State getState()const;
-    entityType getObject()const;
+    entityType getType()const;
 
 private:
     State _state;

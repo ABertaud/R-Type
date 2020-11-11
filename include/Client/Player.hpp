@@ -17,7 +17,7 @@ class Player : public Graphic::AEntity {
         Player(const entityType &type, bool bonus, const sf::Vector2f &test);
         ~Player();
         void update();
-        entityType getObject()const;   // return the type of the object
+        entityType getType()const;   // return the type of the object
     };
 }
 

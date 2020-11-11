@@ -34,7 +34,7 @@ void Graphic::Player::update()
     
 }
 
-entityType Graphic::Player::getObject()const
+entityType Graphic::Player::getType()const
 {
     return _type;
 }

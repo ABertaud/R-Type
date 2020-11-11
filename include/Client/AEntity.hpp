@@ -21,10 +21,12 @@ class AEntity : public Graphic::IEntity {
         Animation &getAnimation();
         sf::Vector2f getPos()const;
         void setscale(const sf::Vector2f &scale);
-        entityType getObject() const;    // return the type of the object
-        virtual void update() = 0;   // update the object in your window
+        int getId(void) const;
+        entityType getType() const;
+        virtual void update() = 0;
     private:
     protected:
+        int _id;
         entityType _type;
         sf::Vector2f _pos;           // tmp a revoir le type
         bool _bonus;

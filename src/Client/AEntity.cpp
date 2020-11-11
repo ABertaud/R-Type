@@ -22,7 +22,7 @@ void Graphic::AEntity::setscale(const sf::Vector2f &scale)
     _scale = scale;
 }
 
-entityType Graphic::AEntity::getObject() const
+entityType Graphic::AEntity::getType() const
 {
     return (_type);
 }
@@ -35,4 +35,9 @@ sf::Vector2f Graphic::AEntity::getPos() const
 Animation &Graphic::AEntity::getAnimation()
 {
     return (_animation);
+}
+
+int Graphic::AEntity::getId(void) const
+{
+    return (_id);
 }

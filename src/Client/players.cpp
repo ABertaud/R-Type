@@ -20,7 +20,7 @@ void players::setState(const State &state)
     _state = state;
 }
 
-entityType players::getObject()const
+entityType players::getType()const
 {
     return (_type);
 }
