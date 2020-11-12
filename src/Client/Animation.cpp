@@ -50,16 +50,13 @@ sf::IntRect Animation::getFrame(const StateAnim &state)
     sf::IntRect error(-1, -1, -1, -1);
     
     for (std::map<StateAnim, std::pair<int, std::vector<sf::IntRect>>>::iterator it = _frames.begin(); it != _frames.end(); it++) {
-           if (it->first == state) {
-               std::cout << "vec = " << it->second.second.size() << std::endl;
-            std::cout << "current = " <<  it->second.first<< std::endl;               
+           if (it->first == state) 
             return it->second.second.at(it->second.first);
-        }
     }
     return error;
 }
 
-int &Animation::getCurrentFrame(const StateAnim &state)
+int Animation::getCurrentFrame(const StateAnim &state)
 {
     for (std::map<StateAnim, std::pair<int, std::vector<sf::IntRect>>>::iterator it = _frames.begin(); it != _frames.end(); it++) {
            if (it->first == state)
@@ -80,9 +77,18 @@ std::vector<sf::IntRect> Animation::getFrames(const StateAnim &state)
     return error;
 }
 
+void Animation::setFramePos(int pos, const StateAnim &state)
+{
+    for (std::map<StateAnim, std::pair<int, std::vector<sf::IntRect>>>::iterator it = _frames.begin(); it != _frames.end(); it++) {
+        if (it->first == state)
+            it->second.first = pos;
+    }
+}
+
 sf::IntRect Animation::update(sf::Time deltaTime, const StateAnim &state)
 {
     int currentFrame = getCurrentFrame(state);
+    int frame = 0;
     
     // add delta time
     _currentTime += deltaTime;
@@ -93,15 +99,18 @@ sf::IntRect Animation::update(sf::Time deltaTime, const StateAnim &state)
         _currentTime = sf::microseconds(_currentTime.asMicroseconds() % _frameTime.asMicroseconds());
         
         // get next Frame index
-        std::cout << "current = " << currentFrame <<  " size = " << getFrames(state).size() << std::endl;
-        if (currentFrame + 1 < (int)getFrames(state).size()) {
+        frame = getFrames(state).size();
+        if (currentFrame + 1 < frame) {
             currentFrame++;
+            setFramePos(currentFrame, state);
         } else {
             // animation has ended
-            if (state == ACTION)
+            if (state == ACTION || state == DOWN || state == UP) {
                 _currentState = IDLE;
-            else
-            currentFrame = 0; // reset to start        
+                setFramePos(0, state);
+                setFramePos(0, IDLE);                
+            } else 
+                setFramePos(0, state); // reset to start        
         }
             // set the current frame, not reseting the time
         _currentTime = sf::Time::Zero;

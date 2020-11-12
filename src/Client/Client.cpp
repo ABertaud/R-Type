@@ -72,7 +72,7 @@ void Client::loop(void)
     while (_sigHandler.isInterrupted() != true) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-        if (_state == INLOBBY || _state == READY)
+        if (_state == INLOBBY || _state == READY || _state == NONE)
             stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
         else if (_state == INGAME)
             _sfmlModule.drawGame(_entities);
