@@ -150,6 +150,11 @@ MenuDrawer::State MenuDrawer::handleMenu(sf::RenderWindow &window, sf::Event &ev
     return _state;
 }
 
+MenuDrawer::State MenuDrawer::getState() const
+{
+    return _state;
+}
+
 bool MenuDrawer::checkSettings(const State &state)
 {
     if (state == BIG)
@@ -224,10 +229,14 @@ void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, s
         drawHome(window, playerName);
     if (_state == SETTINGS) 
         drawSettings(window);
-    if (_state == NEW)
+    if (_state == NEW) {
         _roomName = enterScene(window, event);
-    if (_state == JOIN || _state == WAITING)
+        return;
+    }
+    if (_state == JOIN || _state == WAITING) {
         _roomName = enterScene(window, event);
+        return;
+    }
     if (_state == ROOM || _state == READY || _state == UNREADY)
         drawRoom(window, playerName, event, entities, clientS);   // window()
 }
@@ -420,7 +429,7 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &ev
         window.draw(back);
     }
     port = port.substr(0, port.length() - 1);
-    _state = ROOM;
+    _state = WAITING;
     return (port);
 }
 

@@ -53,8 +53,9 @@ MenuDrawer::State SFMLModule::Menu(const std::string &name, const std::vector<st
 {
     MenuDrawer::State ret;
     
-    ret =_menu.handleMenu(_window, _event);
+    _menu.handleMenu(_window, _event);
     _menu.draw(_window, name, _event, entities, clientS);
+    ret = _menu.getState();
     return ret;
 }
 

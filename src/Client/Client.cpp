@@ -115,6 +115,8 @@ int Client::checkGameState(const MenuDrawer::State& state)
     //if (state == MenuDrawer::State::GAME)
       //  std::cout << "tt" <<std::endl;
     if (state == MenuDrawer::State::WAITING) {
+        std::cout << "young" << std::endl;
+        _sfmlModule.setState(MenuDrawer::State::ROOM);
         send("201 "+_sfmlModule.getRoomName());
     }
     if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {

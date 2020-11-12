@@ -44,6 +44,7 @@ public:
     std::string getRoomName()const;
     void setState(const State &);
     void reSize();
+    State getState() const;
 
 protected:
 private:
