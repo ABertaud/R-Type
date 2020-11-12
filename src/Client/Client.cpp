@@ -57,7 +57,7 @@ void Client::setState(const ClientState& state)
 
 void Client::changeState()
 {
-    if (_state == INLOBBY)
+    if (_state == INLOBBY || _state == NONE)
         _state = READY;
     else
         _state = INLOBBY;
@@ -102,10 +102,8 @@ void Client::loop(void)
 
 int Client::checkGameState(const MenuDrawer::State& state)
 {
-    if (state == MenuDrawer::State::QUIT) {
-        _sfmlModule.stop();
+    if (state == MenuDrawer::State::QUIT)
         return (-1);
-    }
     if (state == MenuDrawer::State::BIG) {
         _sfmlModule.init(sf::Vector2f(1.3, 1.3));
         _sfmlModule.setState(MenuDrawer::State::SETTINGS);

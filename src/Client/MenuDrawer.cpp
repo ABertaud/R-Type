@@ -142,7 +142,7 @@ MenuDrawer::State MenuDrawer::handleMenu(sf::RenderWindow &window, sf::Event &ev
 
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) 
-            window.close();
+            _state = QUIT;
         if (event.type == sf::Event::MouseButtonPressed) {
             _state = clickButton(window, event);
         }
@@ -344,7 +344,7 @@ void MenuDrawer::drawButton(const State &state, const sf::Vector2f &pos, sf::Ren
 
     for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
         if ((it)->first == state) {
-            if (defaultVal == pos)
+            if (defaultVal.x == pos.x && defaultVal.y == pos.y)
                 set = getPosButton(state);
             else
                 set = pos;
