@@ -28,14 +28,8 @@ const Graphic::AEntity &EntityBuilder::createEntity(int entityId, const entityTy
 {
     if (entityType == BACKGROUND)
         return (Graphic::Background(bonus, entityPos));
-    if (entityType == P1)
-        return (Graphic::Player(P1, bonus, entityPos));
-    if (entityType == P2)
-        return (Graphic::Player(P2, bonus, entityPos));
-    if (entityType == P3)
-        return (Graphic::Player(P3, bonus, entityPos));
-    if (entityType == P4)
-        return (Graphic::Player(P4, bonus, entityPos));
+    if (entityType == P1 || entityType == P2 || entityType == P3 || entityType == P4)
+        return (Graphic::Player(entityType, bonus, entityPos));
     if (entityType == WALL)
         return (Graphic::Wall(bonus, entityPos));
     if (entityType == OBSTACLE)
