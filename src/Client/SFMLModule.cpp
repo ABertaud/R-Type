@@ -63,17 +63,22 @@ std::string SFMLModule::getRoomName()const
     return (_menu.getRoomName());
 }
 
-void SFMLModule::init()
+void SFMLModule::init(const sf::Vector2f &scale)
 {
     float x = 1.0f;
     float y = 1.0f;
-
+    
     if (_window.isOpen())
         _window.close();
+    _scale = scale;
     if (_scale.x <= x && _scale.y <= y)
         _window.create(sf::VideoMode(_winpos.x, _winpos.y), "R-Type", sf::Style::Close | sf::Style::Titlebar | sf::Style::Default);
-    else
+    else 
         _window.create(sf::VideoMode(_winpos.x * _scale.x, _winpos.y * _scale.y), "R-Type", sf::Style::Close | sf::Style::Titlebar | sf::Style::Default);
+    _menu.setScale(_scale);
+    _menu.reSize();
+    _background.setScale(_scale.x, _scale.y);
+    _parallaxShader.setScale(_scale);
     _window.setVerticalSyncEnabled(true);
    /* _background.setScale(_scale);
     _menu.setScale(_scale);

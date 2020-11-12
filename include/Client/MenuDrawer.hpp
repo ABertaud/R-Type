@@ -43,6 +43,7 @@ public:
     void setScale(const sf::Vector2f &);
     std::string getRoomName()const;
     void setState(const State &);
+    void reSize();
 
 protected:
 private:
@@ -77,9 +78,11 @@ private:
     void drawPlayerRoom(const std::shared_ptr<Players> &player, sf::RenderWindow &window);
     void loadSpriteSize(const std::string &path, const entityType &obj, sf::IntRect, const posVector &scale);
     void drawRect(const sf::Vector2f &, sf::RenderWindow &window);
-    void drawState(const State &state, sf::RenderWindow &window, sf::Vector2f pos);
+    void drawState(const State &state, sf::RenderWindow &window, const sf::Vector2f &pos);
     void drawIconStat(const State &state, sf::RenderWindow &window, sf::Vector2f pos);
     bool checkRoom(const State &state);
+    bool checkSettings(const State &state);
+    void drawSettings(sf::RenderWindow &window);
 };
 
 #endif /* !MenuDrawer_HPP_ */

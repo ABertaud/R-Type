@@ -32,7 +32,7 @@ void Client::start(void)
     std::cout << "Welcome to the client !" << std::endl;
     startReceive();
     _thread = boost::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
-    _sfmlModule.init();
+    _sfmlModule.init(sf::Vector2f(1, 1));
     _clientName = _sfmlModule.getPlayerName();
     if (_clientName.size() > 8) {
         _sfmlModule.stop();
@@ -52,6 +52,14 @@ void Client::stop(void)
 void Client::setState(const ClientState& state)
 {
     _state = state;
+}
+
+void Client::changeState()
+{
+    if (_state == INLOBBY)
+        _state = READY;
+    else
+        _state = INLOBBY;
 }
 
 void Client::loop(void)
@@ -93,6 +101,16 @@ int Client::checkGameState(const MenuDrawer::State& state, const std::chrono::se
         _sfmlModule.stop();
         return (-1);
     }
+    if (state == MenuDrawer::State::BIG) {
+        _sfmlModule.init(sf::Vector2f(1.3, 1.3));
+        _sfmlModule.setState(MenuDrawer::State::SETTINGS);
+    }
+    if (state == MenuDrawer::State::NORMAL) {
+        _sfmlModule.init(sf::Vector2f(1, 1));
+        _sfmlModule.setState(MenuDrawer::State::SETTINGS);
+    }
+    //if (state == MenuDrawer::State::GAME)
+      //  std::cout << "tt" <<std::endl;
     if (state == MenuDrawer::State::WAITING)
         send(_sfmlModule.getRoomName());
     if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {
@@ -100,6 +118,7 @@ int Client::checkGameState(const MenuDrawer::State& state, const std::chrono::se
             send("210");
             start = std::chrono::system_clock::now();
         }
+        changeState();
         _sfmlModule.setState(MenuDrawer::State::ROOM);
     }
     return (0);
@@ -151,7 +170,7 @@ void Client::handleUpdateMenu(std::string& update)
     Players::State bufC(static_cast<Players::State>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
     Players player(bufE);
     player.setState(bufC);
-    if (_state == NONE || INGAME)
+    if (_state == NONE || _state == INGAME)
         _state = INLOBBY;
 }
 

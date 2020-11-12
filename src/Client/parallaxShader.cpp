@@ -33,6 +33,12 @@ ParallaxShader::~ParallaxShader()
 {
 }
 
+void ParallaxShader::setScale(const sf::Vector2f &scale)
+{
+    _scale = scale;
+    _sprite.setScale(_scale);
+}
+
 void ParallaxShader::parallaxShaderDraw(sf::RenderWindow &window)
 {
     _parallaxShader.setUniform("offset", _offset += _clock.restart().asSeconds() / 10);

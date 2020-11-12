@@ -54,6 +54,7 @@ class Client : public INetwork
         void createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos);
         void updateEntity(int entityId, const sf::Vector2f& entityPos) const;
         void destroyEntity(int entityId);
+        void changeState(void);
     private:
         EntityBuilder _builder;
         SignalHandler _sigHandler;

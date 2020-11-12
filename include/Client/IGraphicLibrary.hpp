@@ -40,7 +40,7 @@ class IGraphicLibrary
 
 public:
     virtual ~IGraphicLibrary() = default;
-    virtual void init() = 0;
+    virtual void init(const sf::Vector2f &scale) = 0;
     virtual void stop() = 0;
     virtual Command eventHandler(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray) = 0;
     virtual void drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>> &) = 0;

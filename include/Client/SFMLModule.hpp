@@ -26,7 +26,7 @@ public:
 public:
         SFMLModule();
         ~SFMLModule();
-        void init();
+        void init(const sf::Vector2f &scale);
         void stop();
         Graphic::Command eventHandler(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray);
         void drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>>&);
