@@ -127,7 +127,7 @@ void udpServer::parserNoneState(clientPtr& clt, std::string& buffer)
             _lobbies.push_back(Lobby(firstArg));
             _lobbies.back().addClient(clt);
             clt->setState(Client::INLOBBY);
-            std::string uuid = "111 " + firstArg;
+            std::string uuid = "121";
             send(uuid);
         } else {
             send("333");
@@ -140,7 +140,7 @@ void udpServer::parserNoneState(clientPtr& clt, std::string& buffer)
             } else {
                 lobby.addClient(clt);
                 clt->setState(Client::INLOBBY);
-                send("111");
+                send("121");
             }
         }
     } else if (std::strcmp(command.c_str(), "200") != 0) {
@@ -217,7 +217,7 @@ void udpServer::parserReadyState(clientPtr& clt, std::string& buffer)
     } else if (std::strcmp(command.c_str(), "206") == 0) {
         auto& lobby = findLobby(clt);
         if (lobby.isReadyToGo() == true) {
-            send("111");
+            send("131");
             lobby.startGame(_socket, _buffer, _libPath);
         } else
             send("555");  
