@@ -39,6 +39,7 @@ void MenuDrawer::setButton()
     loadSprite("../../ressources/sprites/play_button.png", GAME, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});    
     loadSprite("../../ressources/sprites/big_button.png", BIG, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});    
     loadSprite("../../ressources/sprites/small_button.png", NORMAL, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});       
+    loadSprite("../../ressources/sprites/jumelles.png", VIEW, sf::IntRect(0, 0, 28, 19), {0.35f, 0.35f}); 
 }
 
 void MenuDrawer::setScale(const sf::Vector2f &scale)
@@ -79,6 +80,7 @@ void MenuDrawer::initPosButton()
     sf::Vector2f posSet(x_settings, y_settings);
 
     _posButtons.insert(std::make_pair(HOME, posBack));
+    _posButtons.insert(std::make_pair(VIEW, posBack));
     _posButtons.insert(std::make_pair(NEW, pos));
     pos.y += 130 * _scale.y;
     _posButtons.insert(std::make_pair(JOIN, pos));
@@ -132,19 +134,29 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow &window, sf::Event &e
                 return (it)->first;
             if (checkSettings((it)->first) == true && _state == SETTINGS)
                 return (it)->first;
-        }
+            if (checkView((it)->first) == true && _state == VIEW)
+                return (it)->first;        
+            }
     }
     return _state;
 }
 
 MenuDrawer::State MenuDrawer::handleMenu(sf::RenderWindow &window, sf::Event &event)
 {
+    sf::Vector2i mouse_pos = sf::Mouse::getPosition(window); 
+    sf::Vector2f translated_pos = window.mapPixelToCoords(mouse_pos);
+    sf::Color color(128, 128, 128);
 
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) 
             _state = QUIT;
-        if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.type == sf::Event::MouseButtonPressed)
             _state = clickButton(window, event);
+        for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
+            if ((it)->second.getGlobalBounds().contains(translated_pos)) 
+               (it)->second.setColor(color);
+            else
+               (it)->second.setColor(sf::Color::White);
         }
     }
     return _state;
@@ -153,6 +165,13 @@ MenuDrawer::State MenuDrawer::handleMenu(sf::RenderWindow &window, sf::Event &ev
 MenuDrawer::State MenuDrawer::getState() const
 {
     return _state;
+}
+
+bool MenuDrawer::checkView(const State &state)
+{
+    if (state == HOME)
+        return true;
+    return false;
 }
 
 bool MenuDrawer::checkSettings(const State &state)
@@ -189,12 +208,15 @@ bool MenuDrawer::checkHome(const State &state)
         return true;
     if (state == QUIT)
         return true;
+    if (state == VIEW)
+        return true;
     return false;
 }
 
 void MenuDrawer::drawHome(sf::RenderWindow &window, const std::string &playerName)
 {
     sf::Vector2f pos;
+    sf::Vector2f defaultVal(-1, -1);
     std::string wel = "Welcome Capitain " + playerName + " !";
 
     window.clear();
@@ -205,15 +227,19 @@ void MenuDrawer::drawHome(sf::RenderWindow &window, const std::string &playerNam
             //setRect(entity->getHorizon(), (it)->second, (it)->first);
             pos = getPosButton((it)->first);
             pos.x *= _scale.x;
+            if ((it)->first == VIEW)
+                pos.y *= _scale.y;                
             (it)->second.setPosition(pos);
             //setColor(entity->getId(), (it)->second);
             window.draw((it)->second);
           //  std::cout << (it)->second.getGlobalBounds().height << std::endl;
         }
     }
+    
     pos = getPosButton(NEW);
     pos.x -= 80;
     pos.y -= 150;
+   // drawButton(VIEW, defaultVal, window);
     _text.drawPos(pos, wel, window, 45, _scale);
     window.display();
 }
@@ -225,10 +251,19 @@ std::string MenuDrawer::getRoomName()const
 
 void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&entities, const ClientState &clientS)
 {
+    sf::Vector2f defaultVal(-1, -1);
+
     if (_state == WAITING) {
         window.clear();
         _parallaxShader.parallaxShaderDraw(window);
         window.draw(_background);
+        window.display();
+    }
+    if (_state == VIEW) {
+        window.clear();
+        _parallaxShader.parallaxShaderDraw(window);
+        window.draw(_background);
+        drawButton(HOME, defaultVal, window);
         window.display();
     }
     if (_state == HOME)
@@ -404,6 +439,9 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &ev
     bool refresh = false;
     sf::Texture texture;
     sf::Sprite back;
+    sf::Vector2i mouse_pos; 
+    sf::Vector2f translated_pos;
+    sf::Color color(128, 128, 128);
 
     window.clear();
     back.setPosition(posBack);
@@ -415,14 +453,19 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &ev
     while (port.find("\n") == std::string::npos)
     {
         refresh = false;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
+            mouse_pos = sf::Mouse::getPosition(window);
+            translated_pos = window.mapPixelToCoords(mouse_pos);
             if (event.type == sf::Event::KeyPressed)
                 refresh = _key.traduceLetter(event.key.code, port);
             if (event.type == sf::Event::Closed) {
                 _state = QUIT;
                 return ("closssssssse");
             }
+            if (back.getGlobalBounds().contains(translated_pos)) 
+               back.setColor(color);
+            else
+               back.setColor(sf::Color::White);
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (back.getGlobalBounds().contains(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
                     _state = HOME;

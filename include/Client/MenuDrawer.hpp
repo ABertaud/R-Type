@@ -36,6 +36,7 @@ public:
         UNREADY = 12,
         GAME = 13,
         WAITING = 14,
+        VIEW = 15,
     };
 public:
     MenuDrawer(const sf::Vector2f &scale);
@@ -86,6 +87,7 @@ private:
     bool checkRoom(const State &state);
     bool checkSettings(const State &state);
     void drawSettings(sf::RenderWindow &window);
+    bool checkView(const State &state);
 };
 
 #endif /* !MenuDrawer_HPP_ */

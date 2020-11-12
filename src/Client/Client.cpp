@@ -46,6 +46,7 @@ void Client::start(void)
 
 void Client::stop(void)
 {
+    send("200");
     _sfmlModule.stop();
     _thread.detach();
     _ioService.stop();
