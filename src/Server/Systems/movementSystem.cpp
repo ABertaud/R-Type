@@ -7,6 +7,7 @@
 
 #include "movementSystem.hpp"
 #include "ECSEngine.hpp"
+#include <iostream>
 
 ECS::movementSystem::movementSystem() : ECS::ASystem()
 {

@@ -16,7 +16,7 @@ ECS::monsterSystem::monsterSystem(const std::string& libPath)
 
     for (auto& path : pathToDLL) {
         _loaders.push_back(std::unique_ptr<DLLoader>{new DLLoader(path)});
-    }    
+    }
 }
 
 std::unique_ptr<DLLoader>& ECS::monsterSystem::selectRandomMonster()
@@ -36,6 +36,6 @@ void ECS::monsterSystem::update(const float dt, ECS::ECSEngine& engine)
         _monsters.back()->init(engine);
     }
     for (auto& monster : _monsters) {
-        monster->update();
+        monster->update(dt, engine);
     }
 }

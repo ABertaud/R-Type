@@ -14,7 +14,7 @@ class IMonster {
     public:
         virtual ~IMonster() = default;
         virtual void init(ECS::ECSEngine&) = 0;
-        virtual void update() = 0;
+        virtual void update(const float dt, ECS::ECSEngine&) = 0;
     protected:
     private:
 };

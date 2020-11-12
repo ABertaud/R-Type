@@ -17,7 +17,7 @@ class sample : public AMonster
         sample(const sample& other) = default;
         sample& operator=(const sample& other) = default;
         void init(ECS::ECSEngine&);
-        void update();
+        void update(const float dt, ECS::ECSEngine&);
         ~sample() = default;
     private:
 };

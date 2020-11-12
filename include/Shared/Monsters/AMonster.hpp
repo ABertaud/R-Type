@@ -9,6 +9,7 @@
 #define AMONSTER_HPP_
 
 #include "IMonster.hpp"
+#include "Filter.hpp"
 
 class AMonster : public IMonster
 {
@@ -16,9 +17,10 @@ class AMonster : public IMonster
         AMonster();
         AMonster(const AMonster& other) = default;
         AMonster& operator=(const AMonster& other) = default;
-        virtual void update() = 0;
+        virtual void update(const float dt, ECS::ECSEngine&) = 0;
         virtual ~AMonster() = default;
     protected:
+        ECS::Filter _filter;
     private:
 };
 
