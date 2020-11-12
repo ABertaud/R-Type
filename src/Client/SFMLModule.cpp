@@ -106,11 +106,6 @@ Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Grap
         if (_event.type == sf::Event::Closed) 
             command = Graphic::EXIT;
     }
-    if (command == Graphic::MENU)
-    {
-        _scene = SFMLModule::MENU;
-    }
-
     return (command);
 }
 

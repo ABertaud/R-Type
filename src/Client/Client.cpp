@@ -67,6 +67,25 @@ void Client::changeState()
         _state = INLOBBY;
 }
 
+int Client::checkGameState(const Graphic::Command &com)
+{
+    if (com == Graphic::EXIT)
+        return -1;
+    if (com == Graphic::RIGHT)
+        send("101");
+    if (com == Graphic::LEFT)
+        send("102");
+    if (com == Graphic::UP)
+        send("103");
+    if (com == Graphic::DOWN)
+        send("104");
+    if (com == Graphic::SHOOT) {
+        std::cout << "SHOOT" << std::endl;
+        send("105");
+    }
+    return 0;
+}
+
 void Client::loop(void)
 {
     MenuDrawer::State stateMenu = MenuDrawer::State::UNREADY;
@@ -89,11 +108,11 @@ void Client::loop(void)
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
         if (_state == INLOBBY || _state == READY || _state == NONE) {
             stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
-            if (checkGameState(stateMenu) == -1)
+            if (checkMenuState(stateMenu) == -1)
                 break;
         } else if (_state == INGAME) {
             check = _sfmlModule.game(_entities);
-            if (check == Graphic::EXIT)
+            if (checkGameState(check) == -1)
                 break;
         }
         if (_state == INLOBBY || _state == READY) {
@@ -105,7 +124,7 @@ void Client::loop(void)
     };
 }
 
-int Client::checkGameState(const MenuDrawer::State& stateMenu)
+int Client::checkMenuState(const MenuDrawer::State& stateMenu)
 {
     if (stateMenu == MenuDrawer::State::QUIT)
         return (-1);
@@ -130,6 +149,10 @@ int Client::checkGameState(const MenuDrawer::State& stateMenu)
     if (stateMenu == MenuDrawer::State::ROOM_JOIN) {
         send("202 "+_sfmlModule.getRoomName());
         _sfmlModule.setState(MenuDrawer::State::WAITING);
+    }
+    if (stateMenu == MenuDrawer::State::HOME && (_state == READY || _state == INLOBBY)) {
+        send("204");
+        _state = NONE;
     }
     if (stateMenu == MenuDrawer::State::READY || stateMenu == MenuDrawer::State::UNREADY) {
         changeState();

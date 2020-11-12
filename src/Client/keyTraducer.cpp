@@ -55,7 +55,7 @@ keyTraducer::keyTraducer()
     _inputs.insert(std::make_pair(sf::Keyboard::Right, Graphic::Command::RIGHT));
     _inputs.insert(std::make_pair(sf::Keyboard::Left, Graphic::Command::LEFT));
     _inputs.insert(std::make_pair(sf::Keyboard::Up, Graphic::Command::UP));
-    _inputs.insert(std::make_pair(sf::Keyboard::Q, Graphic::Command::SHOOT));
+    _inputs.insert(std::make_pair(sf::Keyboard::Tab, Graphic::Command::SHOOT));
 }
 
 keyTraducer::~keyTraducer()
