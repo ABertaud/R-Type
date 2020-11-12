@@ -8,7 +8,7 @@
 #ifndef PIRATE_HPP_
 #define PIRATE_HPP_
 
-#include "Entityhpp"
+#include "Entity.hpp"
 
 namespace Graphic {
 class Pirate : public Graphic::Entity{
