@@ -14,7 +14,7 @@
 #include "Vector.hpp"
 #include "keyTraducer.hpp"
 #include <utility>
-#include "players.hpp"
+#include "Players.hpp"
 #include "ClientState.hpp"
 #include "ParallaxShader.hpp"
 
@@ -38,7 +38,7 @@ public:
 public:
     MenuDrawer(const sf::Vector2f &scale);
     ~MenuDrawer();
-    void draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<players>>& players, const ClientState& clientS);
+    void draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>& players, const ClientState& clientS);
     State handleMenu(sf::RenderWindow &window, sf::Event &event);
     void setScale(const sf::Vector2f &);
     std::string getRoomName()const;
@@ -73,8 +73,8 @@ private:
     const sf::Vector2f &posEnter, const std::string &port, sf::RenderWindow &window,  const sf::Sprite &back);
     const std::string enterScene(sf::RenderWindow &window, sf::Event &event);
     sf::RectangleShape createRectangleShape(const sf::Vector2f &size, const sf::Vector2f &pos, const sf::Color &color);
-    void drawRoom(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<players>>&players, const ClientState &clientS);
-    void drawPlayerRoom(const std::shared_ptr<players> &player, sf::RenderWindow &window);
+    void drawRoom(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&players, const ClientState &clientS);
+    void drawPlayerRoom(const std::shared_ptr<Players> &player, sf::RenderWindow &window);
     void loadSpriteSize(const std::string &path, const entityType &obj, sf::IntRect, const posVector &scale);
     void drawRect(const sf::Vector2f &, sf::RenderWindow &window);
     void drawState(const State &state, sf::RenderWindow &window, sf::Vector2f pos);

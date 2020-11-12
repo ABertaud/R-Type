@@ -30,7 +30,7 @@ public:
         void stop();
         Graphic::Command eventHandler(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray);
         void drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>>&);
-        MenuDrawer::State Menu(const std::string &name, const std::vector<std::shared_ptr<players>>&, const ClientState &);
+        MenuDrawer::State Menu(const std::string &name, const std::vector<std::shared_ptr<Players>>&, const ClientState &);
         const std::string getPlayerName();
         void displayWindow();
         std::string getRoomName()const;

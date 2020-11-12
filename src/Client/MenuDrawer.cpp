@@ -4,7 +4,6 @@
 ** File description:
 ** MenuDrawer.cpp
 */
-
 #include "MenuDrawer.hpp"
 #include <iostream>
 
@@ -184,7 +183,7 @@ std::string MenuDrawer::getRoomName()const
     return (_roomName);
 }
 
-void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<players>>&entities, const ClientState &clientS)
+void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&entities, const ClientState &clientS)
 {
     if (_state == HOME)
         drawHome(window, playerName);
@@ -218,7 +217,7 @@ std::string MenuDrawer::getPlayerName(const entityType &type)
     return std::string("");    
 }
 
-void MenuDrawer::drawPlayerRoom(const std::shared_ptr<players> &player, sf::RenderWindow &window)
+void MenuDrawer::drawPlayerRoom(const std::shared_ptr<Players> &player, sf::RenderWindow &window)
 {
     float x = (_winpos.x / 6 - 20) * _scale.x;
     float y = (_winpos.y / 6) * _scale.y;
@@ -232,13 +231,13 @@ void MenuDrawer::drawPlayerRoom(const std::shared_ptr<players> &player, sf::Rend
     sf::Vector2f posText(x_text, y_text);
     
     for (std::map<entityType, sf::Sprite>::iterator it = _players.begin(); it != _players.end(); it++) {
-        if ((it)->first == player->getType() && player->getState() != players::OFF) {
+        if ((it)->first == player->getType() && player->getState() != Players::OFF) {
             drawRect(pos, window);
             name = getPlayerName((it)->first);
             (it)->second.setPosition(posIcon);
             window.draw((it)->second);
             _text.drawSize(posText, name, window, 45);
-            if (player->getState() == players::READY)
+            if (player->getState() == Players::READY)
                 drawIconStat(READY, window, pos);
             else
                 drawIconStat(UNREADY, window, pos);
@@ -307,7 +306,7 @@ void MenuDrawer::drawButton(const State &state, const sf::Vector2f &pos, sf::Ren
     }
 }
 
-void MenuDrawer::drawRoom(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<players>>&players, const ClientState &clientS)
+void MenuDrawer::drawRoom(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&Players, const ClientState &clientS)
 {
     float x = (_winpos.x / 2 + 250) * _scale.x;
     float y = (_winpos.y / 6 - 100) * _scale.y;
@@ -318,7 +317,7 @@ void MenuDrawer::drawRoom(sf::RenderWindow &window, const std::string &playerNam
     _parallaxShader.parallaxShaderDraw(window);
     window.draw(_background);
     drawButton(HOME, posBack, window);
-    for (auto it = players.begin(); it != players.end(); it++) {
+    for (auto it = Players.begin(); it != Players.end(); it++) {
        drawPlayerRoom((*it), window);
     }
     if (clientS == ClientState::READY)

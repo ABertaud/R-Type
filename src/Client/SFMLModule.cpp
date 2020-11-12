@@ -49,7 +49,7 @@ void SFMLModule::setState(const MenuDrawer::State &state)
     _menu.setState(state);
 }
 
-MenuDrawer::State SFMLModule::Menu(const std::string &name, const std::vector<std::shared_ptr<players>>& entities, const ClientState &clientS)
+MenuDrawer::State SFMLModule::Menu(const std::string &name, const std::vector<std::shared_ptr<Players>>& entities, const ClientState &clientS)
 {
     MenuDrawer::State ret;
     

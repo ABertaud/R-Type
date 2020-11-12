@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-501-NAN-5-1-rtype-arthur.bertaud
 ** File description:
-** players.hpp
+** Players.hpp
 */
 
 #ifndef PLAYERS_HPP_
@@ -10,7 +10,7 @@
 
 #include "entityType.hpp"
 
-class players
+class Players
 {
 public:
     enum State
@@ -20,8 +20,8 @@ public:
         READY = 3,
     };
 public:
-    players(const entityType &type);
-    ~players();
+    Players(const entityType &type);
+    ~Players();
     void setState(const State &);
     State getState()const;
     entityType getType()const;

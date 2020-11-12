@@ -61,14 +61,14 @@ void Client::loop(void)
     timeType end;
     std::chrono::seconds time;
 
-    _players.push_back(std::shared_ptr<players>(new players(P1)));
-    _players.back()->setState(players::READY);
-    _players.push_back(std::shared_ptr<players>(new players(P2)));
-    _players.back()->setState(players::ACTIVE);
-    _players.push_back(std::shared_ptr<players>(new players(P3)));
-    _players.back()->setState(players::READY);
-    _players.push_back(std::shared_ptr<players>(new players(P4)));
-    _players.back()->setState(players::READY);
+    _players.push_back(std::shared_ptr<Players>(new Players(P1)));
+    _players.back()->setState(Players::READY);
+    _players.push_back(std::shared_ptr<Players>(new Players(P2)));
+    _players.back()->setState(Players::ACTIVE);
+    _players.push_back(std::shared_ptr<Players>(new Players(P3)));
+    _players.back()->setState(Players::READY);
+    _players.push_back(std::shared_ptr<Players>(new Players(P4)));
+    _players.back()->setState(Players::READY);
     while (_sigHandler.isInterrupted() != true) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
@@ -142,8 +142,8 @@ void Client::handleServerMessage(std::string& update)
 void Client::handleUpdateMenu(std::string& update)
 {
     entityType bufE(static_cast<entityType>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
-    players::State bufC(static_cast<players::State>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
-    players player(bufE);
+    Players::State bufC(static_cast<Players::State>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
+    Players player(bufE);
     player.setState(bufC);
     if (_state == NONE || INGAME)
         _state = INLOBBY;

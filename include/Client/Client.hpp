@@ -67,7 +67,7 @@ class Client : public INetwork
         boost::asio::ip::udp::endpoint _remoteEndpoint;
         std::string _clientName;
         std::vector<std::shared_ptr<Graphic::AEntity>> _entities;
-        std::vector<std::shared_ptr<players>> _players;
+        std::vector<std::shared_ptr<Players>> _players;
         std::map<int, hsmFunction> _serverResponse;
 };
 
