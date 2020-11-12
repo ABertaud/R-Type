@@ -106,26 +106,34 @@ void Client::loop(void)
     
 }
 
-int Client::checkGameState(const MenuDrawer::State& state)
+int Client::checkGameState(const MenuDrawer::State& stateMenu)
 {
-    if (state == MenuDrawer::State::QUIT)
+    if (stateMenu == MenuDrawer::State::QUIT)
         return (-1);
-    if (state == MenuDrawer::State::BIG) {
+    if (stateMenu == MenuDrawer::State::BIG) {
         _sfmlModule.init(sf::Vector2f(1.3, 1.3));
         _sfmlModule.setState(MenuDrawer::State::SETTINGS);
     }
-    if (state == MenuDrawer::State::NORMAL) {
+    if (stateMenu == MenuDrawer::State::NORMAL) {
         _sfmlModule.init(sf::Vector2f(1, 1));
         _sfmlModule.setState(MenuDrawer::State::SETTINGS);
     }
-    //if (state == MenuDrawer::State::GAME)
-      //  std::cout << "tt" <<std::endl;
-    if (state == MenuDrawer::State::WAITING) {
-        _sfmlModule.setState(MenuDrawer::State::ROOM);
-        send("201 "+_sfmlModule.getRoomName());
+    if (stateMenu == MenuDrawer::State::GAME) {
+        if (_state == READY)
+            send("206");
+        else
+            std::cout << "You are not ready" << std::endl;
     }
-    if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {
+    if (stateMenu == MenuDrawer::State::CREATE)
+        send("201 "+_sfmlModule.getRoomName());
+    if (stateMenu == MenuDrawer::State::ROOM_JOIN)
+        send("202 "+_sfmlModule.getRoomName());
+    if (stateMenu == MenuDrawer::State::READY || stateMenu == MenuDrawer::State::UNREADY) {
         changeState();
+        if (_state == READY)
+            send("203");
+        else
+            send("205");
         _sfmlModule.setState(MenuDrawer::State::ROOM);
     }
     return (0);
@@ -216,13 +224,13 @@ void Client::handleInvalidCommand(std::string& update)
 void Client::handleGhostRoom(std::string& update)
 {
     (void)update;
-    std::cout << "code received" << std::endl;
+    _sfmlModule.setState(MenuDrawer::State::HOME);
 }
 
 void Client::handleFullRoom(std::string& update)
 {
     (void)update;
-    std::cout << "code received" << std::endl;
+    _sfmlModule.setState(MenuDrawer::State::HOME);
 }
 
 void Client::handleTooFast(std::string& update)
@@ -236,12 +244,14 @@ void Client::handleJoinLobby(std::string& update)
 {
     (void)update;
     _state = INLOBBY;
+    _sfmlModule.setState(MenuDrawer::State::ROOM);
 }
 
 void Client::handleStartGame(std::string& update)
 {
     (void)update;
     _state = INGAME;
+    _sfmlModule.setState(MenuDrawer::State::GAME);
 }
 
 void Client::handleBusy(std::string& update)

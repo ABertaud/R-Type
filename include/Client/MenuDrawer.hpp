@@ -29,11 +29,12 @@ public:
         QUIT = 5,
         NORMAL = 6,
         BIG = 7,
-        WAITING = 8,
-        ROOM = 9,
-        READY = 10,
-        UNREADY = 11,
-        GAME = 12,
+        CREATE = 8,
+        ROOM_JOIN = 9,
+        ROOM = 10,
+        READY = 11,
+        UNREADY = 12,
+        GAME = 13,
     };
 public:
     MenuDrawer(const sf::Vector2f &scale);
@@ -73,7 +74,7 @@ private:
     std::string getPlayerName(const entityType &type);
     void displayJoinScene(const sf::Vector2f &posConditions, const sf::Vector2f &posName, const sf::RectangleShape &rect, \
     const sf::Vector2f &posEnter, const std::string &port, sf::RenderWindow &window,  const sf::Sprite &back);
-    const std::string enterScene(sf::RenderWindow &window, sf::Event &event);
+    const std::string enterScene(sf::RenderWindow &window, sf::Event &event, const State& state);
     sf::RectangleShape createRectangleShape(const sf::Vector2f &size, const sf::Vector2f &pos, const sf::Color &color);
     void drawRoom(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&players, const ClientState &clientS);
     void drawPlayerRoom(const std::shared_ptr<Players> &player, sf::RenderWindow &window);

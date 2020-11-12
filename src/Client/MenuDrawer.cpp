@@ -230,11 +230,11 @@ void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, s
     if (_state == SETTINGS) 
         drawSettings(window);
     if (_state == NEW) {
-        _roomName = enterScene(window, event);
+        _roomName = enterScene(window, event, CREATE);
         return;
     }
-    if (_state == JOIN || _state == WAITING) {
-        _roomName = enterScene(window, event);
+    if (_state == JOIN) {
+        _roomName = enterScene(window, event, ROOM_JOIN);
         return;
     }
     if (_state == ROOM || _state == READY || _state == UNREADY)
@@ -387,7 +387,7 @@ void MenuDrawer::drawRoom(sf::RenderWindow &window, const std::string &playerNam
     window.display();
 }
 
-const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &event)
+const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &event, const State& state)
 {
     std::string port = "";
     sf::Vector2f posConditions((50* _scale.x), (_winpos.y /4 - 50)* _scale.y);
@@ -429,7 +429,7 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &ev
         window.draw(back);
     }
     port = port.substr(0, port.length() - 1);
-    _state = WAITING;
+    _state = state;
     return (port);
 }
 
