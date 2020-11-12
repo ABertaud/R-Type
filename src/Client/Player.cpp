@@ -29,12 +29,18 @@ Graphic::Player::~Player()
 {
 }
 
-void Graphic::Player::update()
+void Graphic::Player::update(const sf::Vector2f& pos)
 {
-    
+    _pos = pos;
 }
 
-entityType Graphic::Player::getType()const
+void Graphic::Player::update(int x, int y)
+{
+    _pos.x = x;
+    _pos.y = y;
+}
+
+entityType Graphic::Player::getType() const
 {
     return _type;
 }

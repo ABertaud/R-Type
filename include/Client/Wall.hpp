@@ -13,10 +13,11 @@
 namespace Graphic {
 class Wall : public Graphic::AEntity {
     public:
-        Wall(const entityType &type, bool bonus, const sf::Vector2f &test);
+        Wall(bool bonus, const sf::Vector2f &test);
         ~Wall();
-        void update();             // update the object in your window
-        entityType getType()const;   // return the type of the object
+        void update(const sf::Vector2f& pos);
+        void update(int x, int y);
+        entityType getType()const;
     private:
     protected:
 };

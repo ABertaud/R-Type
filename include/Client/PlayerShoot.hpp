@@ -2,25 +2,25 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-501-NAN-5-1-rtype-arthur.bertaud
 ** File description:
-** Player.hpp
+** PlayerShoot
 */
 
-#ifndef PLAYER_HPP_
-#define PLAYER_HPP_
+#ifndef PLAYERSHOOT_HPP_
+#define PLAYERSHOOT_HPP_
 
 #include "AEntity.hpp"
 
 namespace Graphic {
-class Player : public Graphic::AEntity {
+class PlayerShoot : public Graphic::AEntity {
     public:
-        Player(const entityType &type, bool bonus, const sf::Vector2f &test);
-        ~Player();
+        PlayerShoot(bool bonus, const sf::Vector2f &test);
+        ~PlayerShoot();
         void update(const sf::Vector2f& pos);
         void update(int x, int y);
         entityType getType()const;
     private:
     protected:
-    };
+};
 }
 
-#endif
+#endif /* !PLAYERSHOOT_HPP_ */

@@ -10,9 +10,11 @@
 
 enum ClientState
 {
+    NONE,
+    INLOBBY,
     READY,
-    UNREADY,
-    GAME,
+    INGAME,
+    OFF
 };
 
 #endif

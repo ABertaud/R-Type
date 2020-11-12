@@ -9,7 +9,7 @@
 #include <memory>
 
 Client::Client(const std::string &ip, unsigned short port)
-: _builder(),_sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(), _state(UNREADY)
+: _builder(),_sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(), _state(NONE)
 {
     boost::system::error_code err;
 
@@ -49,12 +49,9 @@ void Client::stop(void)
     std::cout << "Bye bye !" << std::endl;
 }
 
-void Client::changeState()
+void Client::setState(const ClientState& state)
 {
-    if (_state == UNREADY)
-        _state = READY;
-    else
-        _state = UNREADY;
+    _state = state;
 }
 
 void Client::loop(void)
@@ -75,9 +72,9 @@ void Client::loop(void)
     while (_sigHandler.isInterrupted() != true) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-        if (_state == UNREADY || _state == READY)
+        if (_state == INLOBBY || _state == READY)
             stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
-        else if (_state == GAME)
+        else if (_state == INGAME)
             _sfmlModule.drawGame(_entities);
         if (checkGameState(stateMenu, time, end, start) == -1)
             break;
@@ -97,7 +94,6 @@ int Client::checkGameState(const MenuDrawer::State& state, const std::chrono::se
             send("210");
             start = std::chrono::system_clock::now();
         }
-        changeState();
         _sfmlModule.setState(MenuDrawer::State::ROOM);
     }
     return (0);
@@ -145,12 +141,14 @@ void Client::handleServerMessage(std::string& update)
 
 void Client::handleUpdateMenu(std::string& update)
 {
-    (void)update;
-    // entityState bufE(static_cast<entityState>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
-    // ClientState bufC(static_cast<ClientState>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
-    // players player(bufE);
-    // player.setState(bufC);
+    entityType bufE(static_cast<entityType>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
+    players::State bufC(static_cast<players::State>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
+    players player(bufE);
+    player.setState(bufC);
+    if (_state == NONE || INGAME)
+        _state = INLOBBY;
 }
+
 
 void Client::handleUpdateGame(std::string& update)
 {
@@ -161,16 +159,20 @@ void Client::handleUpdateGame(std::string& update)
     int y = std::atoi(update.substr(update.find_first_of(".") + 1).c_str());
 
     if (state == true) {
-        for (auto obj = _entities.begin(); obj != _entities.end(); obj++) {
-            if ((obj->get()->getId() == id)) {
-                updateEntity(id, sf::Vector2f{x, y});
-                return;
+        int found(0);
+        for (auto it = _entities.begin(); it != _entities.end(); ++it)
+            if (it->get()->getId() == id) {
+                it->get()->update(x, y);
+                found++;
             }
+        if (found == 0) {
+            createEntity(id, type, false, sf::Vector2f{x, y});
         }
-        createEntity(id, type, false, sf::Vector2f{x, y});
+    } else {
+        for (auto it = _entities.begin(); it != _entities.end(); ++it)
+            if (it->get()->getId() == id)
+                _entities.erase(it);
     }
-    else
-       destroyEntity(id);
 }
 
 void Client::handleFine(std::string& update)
@@ -217,17 +219,14 @@ void Client::send(const std::string &str)
 
 void Client::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
 {
-    _entities.push_back(std::make_shared<Graphic::AEntity>(_builder.createEntity(entityType, entityType, bonus, entityPos)));
+    //_entities.push_back(std::make_shared<Graphic::AEntity>(_builder.createEntity(entityType, entityType, bonus, entityPos)));
 }
 
 void Client::updateEntity(int entityId, const sf::Vector2f& entityPos) const
 {
     for (size_t index = 0; index != _entities.size(); index++) {
         if ((_entities[index].get()->getId() == entityId)) {
-            // to decoment when possible
-            // _entities.at(index).get()->update(entityPos);
-            // ou
-            // _entities.at(index).get()->update(entityPos.x, entityPos.y);
+            _entities.at(index).get()->update(entityPos.x, entityPos.y);
         }
     }
 }

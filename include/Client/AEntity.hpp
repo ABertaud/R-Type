@@ -23,7 +23,8 @@ class AEntity : public Graphic::IEntity {
         void setscale(const sf::Vector2f &scale);
         int getId(void) const;
         entityType getType() const;
-        virtual void update() = 0;
+        virtual void update(const sf::Vector2f& pos) = 0;
+        virtual void update(int x, int y) = 0;
     private:
     protected:
         int _id;

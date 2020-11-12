@@ -17,7 +17,8 @@ namespace Graphic {
 class IEntity {
     public:
         virtual ~IEntity() = default;
-        virtual void update() = 0;   // update the object in your window
+        virtual void update(const sf::Vector2f& pos) = 0;
+        virtual void update(int x, int y) = 0;
         virtual entityType getType()const = 0;   // return the type of the object
     protected:
     private:
