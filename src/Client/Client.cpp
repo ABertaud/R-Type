@@ -183,7 +183,6 @@ void Client::handleReceive(const boost::system::error_code& ec, std::size_t byte
 {
     BinaryProtocol::Packet p;
 
-    std::cout << "bytes: "<< bytesTransferred << " size: " << _recvBuff.size() << std::endl;
     if (ec) {
         std::cerr << "ERROR while reading " << bytesTransferred << " bytes on socket" << std::endl;
         return;

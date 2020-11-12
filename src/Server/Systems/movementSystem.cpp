@@ -50,5 +50,6 @@ void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& v
         case ECS::NONE:
             break;
     }
+    std::cout << "posy: " << pos._y << ", posx: " << pos._x << std::endl;
     player._direction = ECS::NONE;
 }

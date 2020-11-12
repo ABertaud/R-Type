@@ -39,7 +39,6 @@ void ECS::routineSystem::sendUpdates(const Entity ent, const entityDetails& deta
     toSend += std::to_string(details._state) + "|";
     toSend += std::to_string(position._x) + ".";
     toSend += std::to_string(position._y);
-    toSend = "222";
     for (auto it : Zipper::zip(_clients, _players)) {
         if (it.get<0>()->getState() == Client::clientState::INGAME && *it.get<1>() != ECS::SPEC) {
             _socket->async_send_to(boost::asio::buffer(_binCodec.serialize(_binCodec.createPacket(toSend))), it.get<0>()->getEndpoint(),
