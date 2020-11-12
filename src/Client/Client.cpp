@@ -85,10 +85,6 @@ void Client::loop(void)
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
         if (_state == INLOBBY || _state == READY || _state == NONE) {
-            if (time >= std::chrono::seconds(1)) {
-                send("210");
-                start = std::chrono::system_clock::now();
-            }
             stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
             if (checkGameState(stateMenu) == -1)
                 break;
@@ -97,7 +93,14 @@ void Client::loop(void)
             if (check == Graphic::EXIT)
                 break;
         }
+        if (_state == INLOBBY || _state == READY) {
+            if (time >= std::chrono::seconds(1)) {
+                send("210");
+                start = std::chrono::system_clock::now();
+            }
+        }
     };
+    
 }
 
 int Client::checkGameState(const MenuDrawer::State& state)
@@ -115,7 +118,6 @@ int Client::checkGameState(const MenuDrawer::State& state)
     //if (state == MenuDrawer::State::GAME)
       //  std::cout << "tt" <<std::endl;
     if (state == MenuDrawer::State::WAITING) {
-        std::cout << "young" << std::endl;
         _sfmlModule.setState(MenuDrawer::State::ROOM);
         send("201 "+_sfmlModule.getRoomName());
     }
