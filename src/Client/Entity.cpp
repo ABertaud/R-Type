@@ -9,7 +9,7 @@
 
 
 Graphic::Entity::Entity(const entityType &type, bool bonus, const sf::Vector2f &pos) : _type(type), 
-_pos(pos), _bonus(bonus), _scale({1, 1}), _animation(sf::seconds(0.2))
+_pos(pos), _bonus(bonus), _scale({1, 1})
 {
 
 }
@@ -44,12 +44,16 @@ sf::Vector2f Graphic::Entity::getPos() const
     return (_pos);
 }
 
-Animation &Graphic::Entity::getAnimation()
-{
-    return (_animation);
-}
-
 int Graphic::Entity::getId(void) const
 {
     return (_id);
+}
+
+sf::IntRect Graphic::Entity::getRectAnime(const animation &anime)
+{
+    for (std::map <animation, sf::IntRect>::iterator it = _animation.begin(); it != _animation.end(); it++) {
+        if ((it)->first == anime)
+            return (it)->second;
+    }
+    return sf::IntRect(-1, -1, -1, -1);
 }

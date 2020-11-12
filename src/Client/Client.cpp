@@ -73,7 +73,6 @@ void Client::loop(void)
     timeType end;
     std::chrono::seconds time;
     Graphic::Command check = Graphic::Command::NOTHING;
-    sf::Clock frameClock;
 
     _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(P1, false, {100,100})));
     _players.push_back(std::shared_ptr<Players>(new Players(P1)));
@@ -92,7 +91,7 @@ void Client::loop(void)
             if (checkGameState(stateMenu) == -1)
                 break;
         } else if (_state == INGAME) {
-            check = _sfmlModule.game(_entities, frameClock);
+            check = _sfmlModule.game(_entities);
             if (check == Graphic::EXIT)
                 break;
         }

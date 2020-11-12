@@ -94,36 +94,6 @@ void SFMLModule::stop()
     _window.close();
 }
 
-Animation::StateAnim SFMLModule::convertState(const Graphic::Command &com, const Animation::StateAnim &state)
-{
-    if (com == Graphic::Command::DOWN)
-        return Animation::DOWN;
-    if (com == Graphic::Command::UP)
-        return Animation::UP;
-    if (com == Graphic::Command::RIGHT)
-        return Animation::RIGHT;
-    if (com == Graphic::Command::LEFT)
-        return Animation::LEFT;
-    return state;
-}
-
-void SFMLModule::setAnimatonPlayer(const Graphic::Command &com, const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
-{
-    Animation::StateAnim state = Animation::StateAnim::IDLE;
-    Animation::StateAnim currentState = Animation::StateAnim::IDLE;
-
-    if (com == Graphic::Command::RIGHT || com == Graphic::Command::LEFT)
-        return;
-    for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) {
-        if ((*it)->getType() == P1) {
-            currentState = (*it)->getAnimation().getState();
-            state = convertState(com, currentState);
-            if (state != currentState)
-                (*it)->getAnimation().setState(state);
-        }
-    }
-}
-
 Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
 {
     Graphic::Command command = Graphic::NOTHING;
@@ -132,7 +102,6 @@ Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Grap
     {
         if (_event.type == sf::Event::KeyPressed) {
             command = _key.traduceKey(_event.key.code);
-            setAnimatonPlayer(command, entityArray);
         }
         if (_event.type == sf::Event::Closed) 
             command = Graphic::EXIT;
@@ -145,13 +114,10 @@ Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Grap
     return (command);
 }
 
-Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray, sf::Clock &frameClock)
+Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
 {
     Graphic::Command ret;
-    sf::Time frameTime = frameClock.restart();
 
-    for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++)
-        (*it)->getAnimation().update(frameTime, (*it)->getAnimation().getState());
     ret = eventHandler(entityArray);
     drawGame(entityArray);
     return ret;
@@ -177,7 +143,6 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
     float x = entity->getPos().x;
     float y = entity->getPos().y;
     sf::IntRect rect;
-    Animation::StateAnim state;
     sf::IntRect error(-1, -1, -1, -1);
     sf::Vector2f pos(x, y);
 
@@ -187,10 +152,9 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
 
           //  setRect(entity->getHorizon(), (it)->second, (it)->first);
             (it)->second.setPosition(pos);
-            state = entity->getAnimation().getState();
-            rect = entity->getAnimation().getFrame(state);
-            if (rect != error)
-                (it)->second.setTextureRect(rect);
+
+    //        if (rect != error)
+      //          (it)->second.setTextureRect(rect);
            // setColor(entity->getId(), (it)->second);
             _window.draw((it)->second);
           //  std::cout << (it)->second.getGlobalBounds().height << std::endl;

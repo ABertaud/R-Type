@@ -12,15 +12,18 @@ Graphic::Entity(type, bonus, test)
 {
     sf::IntRect rect(0, 0, 33.2, 20);
 
-    _animation.addFrame(Animation::StateAnim::DOWN, rect);
+    //animation down
+    _animation.insert(std::make_pair(ANIMATION_0, rect));
     rect.left += 33.2;
-    _animation.addFrame(Animation::StateAnim::DOWN, rect);
+    _animation.insert(std::make_pair(ANIMATION_1, rect));
     rect.left += 33.2;
-    _animation.addFrame(Animation::StateAnim::IDLE, rect);
+    //IDLE
+    _animation.insert(std::make_pair(ANIMATION_2, rect));
     rect.left += 33.2;
-    _animation.addFrame(Animation::StateAnim::UP, rect);
+    //UP
+    _animation.insert(std::make_pair(ANIMATION_3, rect));
     rect.left += 33.2;
-    _animation.addFrame(Animation::StateAnim::UP, rect);
+    _animation.insert(std::make_pair(ANIMATION_4, rect));
 
 }
 

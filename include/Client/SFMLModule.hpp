@@ -12,7 +12,6 @@
 #include "IGraphicLibrary.hpp"
 #include "Vector.hpp"
 #include "MenuDrawer.hpp"
-#include "Animation.hpp"
 
 class SFMLModule : public Graphic::IGraphicLibrary {
 
@@ -35,7 +34,7 @@ public:
         void displayWindow();
         std::string getRoomName()const;
         void setState(const MenuDrawer::State &);
-        Graphic::Command game(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray, sf::Clock &frameClock);
+        Graphic::Command game(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray);
     protected:
     private:
        Parser _parser;
@@ -58,8 +57,6 @@ public:
        void drawEntity(std::shared_ptr<Graphic::Entity>);
        void displayPlayerScene(const sf::Vector2f &posConditions, const sf::Vector2f &posName, const sf::RectangleShape &rect, const sf::Vector2f &, const std::string &playerName);
        sf::RectangleShape createRectangleShape(const sf::Vector2f &size, const sf::Vector2f &pos, const sf::Color &color);
-       void setAnimatonPlayer(const Graphic::Command &, const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray);
-       Animation::StateAnim convertState(const Graphic::Command &com, const Animation::StateAnim &state);
 };
 
 

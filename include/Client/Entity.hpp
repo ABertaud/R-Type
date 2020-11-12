@@ -9,7 +9,6 @@
 #define ENTITY_HPP_
 
 #include "IEntity.hpp"
-#include "Animation.hpp"
 
 namespace Graphic {
 class Entity : public Graphic::IEntity {
@@ -18,11 +17,11 @@ class Entity : public Graphic::IEntity {
         Entity(const Entity &other) = default;
         Entity &operator=(const Entity &other) = default;
         virtual ~Entity();
-        Animation &getAnimation();
         sf::Vector2f getPos()const;
         void setscale(const sf::Vector2f &scale);
         int getId(void) const;
         entityType getType() const;
+        sf::IntRect getRectAnime(const animation &);
         virtual void update(const sf::Vector2f& pos);
         virtual void update(int x, int y);
     protected:
@@ -31,7 +30,8 @@ class Entity : public Graphic::IEntity {
         sf::Vector2f _pos;
         bool _bonus;
         sf::Vector2f _scale;
-        Animation _animation;    
+        std::map <animation, sf::IntRect> _animation;
+        
 };
 }
 
