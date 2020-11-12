@@ -223,6 +223,9 @@ void udpServer::parserReadyState(clientPtr& clt, std::string& buffer)
             lobby.startGame(_socket, _buffer, _libPath);
         } else
             send("555");
+    } else if (std::strcmp(command.c_str(), "210") == 0) {
+        auto& lobby = findLobby(clt);
+        routineMenu(lobby.getClients(), lobby.getPlayers(), lobby.getQueuePlayers());
     } else if (std::strcmp(command.c_str(), "200") == 0) {
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
