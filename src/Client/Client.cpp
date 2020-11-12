@@ -244,7 +244,7 @@ void Client::handleStartGame(std::string& update)
     _state = INGAME;
 }
 
-void handleBusy(std::string& update)
+void Client::handleBusy(std::string& update)
 {
     (void)update;
     std::cout << "code received" << std::endl;

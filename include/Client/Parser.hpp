@@ -17,7 +17,7 @@
 
 class Parser {
     public:    
-        Parser(std::string configFilePath = "ressources/config_file.txt");
+        Parser(std::string configFilePath = "../../ressources/config_file.txt");
         bool openFile(std::string configFilePath);
         bool linkEntitiesToSprites();
         std::map<entityType, std::string> getPaths() const;
