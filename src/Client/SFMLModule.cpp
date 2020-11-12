@@ -145,6 +145,8 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
     sf::IntRect rect;
     sf::IntRect error(-1, -1, -1, -1);
     sf::Vector2f pos(x, y);
+    animation anime;
+
 
     for (std::map<entityType, sf::Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
         if (((it)->first) == entity->getType())
@@ -152,9 +154,10 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
 
           //  setRect(entity->getHorizon(), (it)->second, (it)->first);
             (it)->second.setPosition(pos);
-
+            anime = entity->getCurrentAnimation();
+            rect = entity->getRectAnime(anime);
     //        if (rect != error)
-      //          (it)->second.setTextureRect(rect);
+           (it)->second.setTextureRect(rect);
            // setColor(entity->getId(), (it)->second);
             _window.draw((it)->second);
           //  std::cout << (it)->second.getGlobalBounds().height << std::endl;

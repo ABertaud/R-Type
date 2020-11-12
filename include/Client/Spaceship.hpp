@@ -13,7 +13,7 @@
 namespace Graphic {
 class Spaceship : public Graphic::Entity {
     public:
-        Spaceship(bool bonus, const sf::Vector2f &test);
+        Spaceship(bool bonus, const sf::Vector2f &test, const animation &anime);
         ~Spaceship();
         entityType getType()const;
     private:

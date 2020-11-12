@@ -35,6 +35,7 @@ public:
         READY = 11,
         UNREADY = 12,
         GAME = 13,
+        WAITING = 14,
     };
 public:
     MenuDrawer(const sf::Vector2f &scale);

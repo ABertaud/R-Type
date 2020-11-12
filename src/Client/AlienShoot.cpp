@@ -8,8 +8,8 @@
 #include "AlienShoot.hpp"
 #include <iostream>
 
-Graphic::AlienShoot::AlienShoot(bool bonus, const sf::Vector2f &test) : 
-Graphic::Entity(ALIEN_SHOOT, bonus, test)
+Graphic::AlienShoot::AlienShoot(bool bonus, const sf::Vector2f &test, const animation &anime) : 
+Graphic::Entity(ALIEN_SHOOT, bonus, test, anime)
 {
 }
 

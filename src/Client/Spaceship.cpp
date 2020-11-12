@@ -8,8 +8,8 @@
 #include "Spaceship.hpp"
 #include <iostream>
 
-Graphic::Spaceship::Spaceship(bool bonus, const sf::Vector2f &test) : 
-Graphic::Entity(SPACESHIP, bonus, test)
+Graphic::Spaceship::Spaceship(bool bonus, const sf::Vector2f &test, const animation &anime) : 
+Graphic::Entity(SPACESHIP, bonus, test, anime)
 {
 }
 

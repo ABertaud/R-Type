@@ -74,7 +74,7 @@ void Client::loop(void)
     std::chrono::seconds time;
     Graphic::Command check = Graphic::Command::NOTHING;
 
-    _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(P1, false, {100,100})));
+    _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(P1, false, {100,100}, animation::ANIMATION_2)));
     _players.push_back(std::shared_ptr<Players>(new Players(P1)));
     _players.back()->setState(Players::READY);
     _players.push_back(std::shared_ptr<Players>(new Players(P2)));
@@ -123,10 +123,14 @@ int Client::checkGameState(const MenuDrawer::State& stateMenu)
         else
             std::cout << "You are not ready" << std::endl;
     }
-    if (stateMenu == MenuDrawer::State::CREATE)
+    if (stateMenu == MenuDrawer::State::CREATE) {
         send("201 "+_sfmlModule.getRoomName());
-    if (stateMenu == MenuDrawer::State::ROOM_JOIN)
+        _sfmlModule.setState(MenuDrawer::State::WAITING);
+    }
+    if (stateMenu == MenuDrawer::State::ROOM_JOIN) {
         send("202 "+_sfmlModule.getRoomName());
+        _sfmlModule.setState(MenuDrawer::State::WAITING);
+    }
     if (stateMenu == MenuDrawer::State::READY || stateMenu == MenuDrawer::State::UNREADY) {
         changeState();
         if (_state == READY)

@@ -225,6 +225,12 @@ std::string MenuDrawer::getRoomName()const
 
 void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&entities, const ClientState &clientS)
 {
+    if (_state == WAITING) {
+        window.clear();
+        _parallaxShader.parallaxShaderDraw(window);
+        window.draw(_background);
+        window.display();
+    }
     if (_state == HOME)
         drawHome(window, playerName);
     if (_state == SETTINGS) 

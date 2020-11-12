@@ -8,8 +8,8 @@
 #include "PirateShoot.hpp"
 #include <iostream>
 
-Graphic::PirateShoot::PirateShoot(bool bonus, const sf::Vector2f &test) : 
-Graphic::Entity(PIRATE_SHOOT, bonus, test)
+Graphic::PirateShoot::PirateShoot(bool bonus, const sf::Vector2f &test, const animation &anime) : 
+Graphic::Entity(PIRATE_SHOOT, bonus, test, anime)
 {
 }
 

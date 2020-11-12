@@ -8,8 +8,8 @@
 #include "Background.hpp"
 #include <iostream>
 
-Graphic::Background::Background(bool bonus, const sf::Vector2f &test) : 
-Graphic::Entity(BACKGROUND, bonus, test)
+Graphic::Background::Background(bool bonus, const sf::Vector2f &test, const animation &anime) : 
+Graphic::Entity(BACKGROUND, bonus, test, anime)
 {
 }
 

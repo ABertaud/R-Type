@@ -27,29 +27,29 @@ EntityBuilder::EntityBuilder()
 const Graphic::Entity &EntityBuilder::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
 {
     if (entityType == BACKGROUND)
-        return (Graphic::Background(bonus, entityPos));
+        return (Graphic::Background(bonus, entityPos, ANIMATION_0));
     else if (entityType == P1 || entityType == P2 || entityType == P3 ||  entityType == P4)
-        return (Graphic::Player(entityType, bonus, entityPos));
+        return (Graphic::Player(entityType, bonus, entityPos, ANIMATION_0));
     else if (entityType == WALL)
-        return (Graphic::Wall(bonus, entityPos));
+        return (Graphic::Wall(bonus, entityPos, ANIMATION_0));
     else if (entityType == OBSTACLE)
-        return (Graphic::Obstacle(bonus, entityPos));
+        return (Graphic::Obstacle(bonus, entityPos, ANIMATION_0));
     else if (entityType == PLAYER_SHOOT)
-        return (Graphic::PlayerShoot(bonus, entityPos));
+        return (Graphic::PlayerShoot(bonus, entityPos, ANIMATION_0));
     else if (entityType == ALIEN)
-        return (Graphic::Alien(bonus, entityPos));
+        return (Graphic::Alien(bonus, entityPos, ANIMATION_0));
     else if (entityType == ALIEN_SHOOT)
-        return (Graphic::AlienShoot(bonus, entityPos));
+        return (Graphic::AlienShoot(bonus, entityPos, ANIMATION_0));
     else if (entityType == UFO)
-        return (Graphic::Ufo(bonus, entityPos));
+        return (Graphic::Ufo(bonus, entityPos, ANIMATION_0));
     else if (entityType == UFO_SHOOT)
-        return (Graphic::UfoShoot(bonus, entityPos));
+        return (Graphic::UfoShoot(bonus, entityPos, ANIMATION_0));
     else if (entityType == SPACESHIP)
-        return (Graphic::Spaceship(bonus, entityPos));
+        return (Graphic::Spaceship(bonus, entityPos, ANIMATION_0));
     else if (entityType == SPACESHIP_SHOOT)
-        return (Graphic::SpaceshipShoot(bonus, entityPos));
+        return (Graphic::SpaceshipShoot(bonus, entityPos, ANIMATION_0));
     else if (entityType == PIRATE)
-        return (Graphic::Pirate(bonus, entityPos));
+        return (Graphic::Pirate(bonus, entityPos, ANIMATION_0));
     else if (entityType == PIRATE_SHOOT)
-        return (Graphic::PirateShoot(bonus, entityPos));
+        return (Graphic::PirateShoot(bonus, entityPos, ANIMATION_0));
 }

@@ -8,8 +8,8 @@
 #include "Entity.hpp"
 
 
-Graphic::Entity::Entity(const entityType &type, bool bonus, const sf::Vector2f &pos) : _type(type), 
-_pos(pos), _bonus(bonus), _scale({1, 1})
+Graphic::Entity::Entity(const entityType &type, bool bonus, const sf::Vector2f &pos, const animation &anime) : _type(type), 
+_pos(pos), _bonus(bonus), _scale({1, 1}), _currentAnimation(anime)
 {
 
 }
@@ -47,6 +47,11 @@ sf::Vector2f Graphic::Entity::getPos() const
 int Graphic::Entity::getId(void) const
 {
     return (_id);
+}
+
+animation Graphic::Entity::getCurrentAnimation() const
+{
+    return  _currentAnimation;
 }
 
 sf::IntRect Graphic::Entity::getRectAnime(const animation &anime)

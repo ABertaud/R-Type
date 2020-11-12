@@ -8,8 +8,8 @@
 #include "Alien.hpp"
 #include <iostream>
 
-Graphic::Alien::Alien(bool bonus, const sf::Vector2f &test) : 
-Graphic::Entity(ALIEN, bonus, test)
+Graphic::Alien::Alien(bool bonus, const sf::Vector2f &test, const animation &anime) : 
+Graphic::Entity(ALIEN, bonus, test, anime)
 {
 }
 
