@@ -13,5 +13,6 @@ namespace ECS {
         ENTITY_DETAILS,
         LIFE,
         DIMENSIONS,
+        BOMB,
     };
 }

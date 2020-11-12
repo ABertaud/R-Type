@@ -55,6 +55,7 @@ void udpServer::parseData()
         std::cerr << "ERROR: packet not valid" << std::endl;
         return;
     }
+    std::cout << p._message << std::endl;
     for (auto it = _parser.begin(); it != _parser.end(); ++it)
         if (it->first == clt->getState() && alreadyDone == false) {
             (this->*(it->second))(clt, p._message);

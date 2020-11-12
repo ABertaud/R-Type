@@ -22,6 +22,7 @@ namespace ECS {
         ~eventSystem() = default;
     private:
         void handleEvent(std::vector<std::string>& events, ECS::ECSEngine& engine, const Entity entity, ECS::Player& player);
+        void createShoot(ECS::ECSEngine& engine, const Entity entity);
         std::shared_ptr<Buffer> _buffer;
         std::map<std::string, ECS::currentMovement> _moves;
     };

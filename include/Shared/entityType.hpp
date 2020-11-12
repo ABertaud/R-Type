@@ -26,6 +26,7 @@ enum entityType
     SPACESHIP_SHOOT,
     PIRATE,
     PIRATE_SHOOT,
+    BOMB,
 };
 
 enum entityState

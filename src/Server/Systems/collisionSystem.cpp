@@ -95,3 +95,11 @@ ECS::Position ECS::collisionSystem::findIntersection(const Position& playerPos, 
     }
     return (Position((x5 + x6) / 2, (y5 + y6) / 2));
 }
+
+void createBomb(const Position& pos, ECS::ECSEngine& engine)
+{
+    Entity ent = engine.getNewEntity();
+
+    engine.addComponent(ent, pos, ECS::POSITION);
+    engine.addComponent(ent, ECS::entityDetails(BOMB, entityState::BASIC), ECS::ENTITY_DETAILS);
+}

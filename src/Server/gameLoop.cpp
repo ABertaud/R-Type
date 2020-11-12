@@ -12,6 +12,7 @@
 #include "winSystem.hpp"
 #include "Zipper.hpp"
 #include "monsterSystem.hpp"
+#include "bombSystem.hpp"
 #include "collisionSystem.hpp"
 #include <iostream>
 
@@ -36,6 +37,7 @@ void gameLoop::registerSystems(std::vector<clientPtr>& clients, std::vector<std:
     _engine.registerSystem<ECS::winSystem>(_end);
     _engine.registerSystem<ECS::monsterSystem>(libPath);
     _engine.registerSystem<ECS::collisionSystem>();
+    _engine.registerSystem<ECS::bombSystem>();
 }
 
 void gameLoop::prepareGame(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
@@ -96,7 +98,7 @@ void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::s
         auto ent = _engine.getNewEntity();
         unsigned int pNumber = *it.get<1>();
         _engine.addComponent(ent, ECS::Position(x, y), ECS::POSITION);
-         _engine.addComponent(ent, pDimensions[*it.get<1>()], ECS::DIMENSIONS);
+        _engine.addComponent(ent, pDimensions[*it.get<1>()], ECS::DIMENSIONS);
         _engine.addComponent(ent, ECS::Velocity(30, 30), ECS::VELOCITY);
         _engine.addComponent(ent, ECS::Player(*it.get<1>(), it.get<0>()->getUuid()), ECS::PLAYER);
         _engine.addComponent(ent, ECS::entityDetails(static_cast<entityType>(pNumber), entityState::BASIC), ECS::ENTITY_DETAILS);
