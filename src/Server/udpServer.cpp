@@ -27,6 +27,7 @@ _buffer(std::make_shared<Buffer>()), _libPath(libPath), _sigHandler(), _t(ioCont
 
 void udpServer::startReceive()
 {
+    _data.fill(0);
     _socket->async_receive_from(boost::asio::buffer(_data), _remoteEndpoint,
     boost::bind(&udpServer::handleReceive, this, boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
@@ -221,7 +222,7 @@ void udpServer::parserReadyState(clientPtr& clt, std::string& buffer)
             send("131");
             lobby.startGame(_socket, _buffer, _libPath);
         } else
-            send("555");  
+            send("555");
     } else if (std::strcmp(command.c_str(), "200") == 0) {
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);

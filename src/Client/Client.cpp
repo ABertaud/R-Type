@@ -144,6 +144,7 @@ int Client::checkGameState(const MenuDrawer::State& stateMenu)
 
 void Client::startReceive(void)
 {
+    _recvBuff.fill(0);
     _clientSocket.async_receive(boost::asio::buffer(_recvBuff), boost::bind(&Client::handleReceive, this, boost::asio::placeholders::error,
     boost::asio::placeholders::bytes_transferred));
 }
@@ -169,6 +170,7 @@ void Client::handleReceive(const boost::system::error_code& ec, std::size_t byte
         startReceive();
         return;
     }
+    // std::cout << "message: " << p._message << std::endl;
     handleServerMessage(p._message);
     startReceive();
 }

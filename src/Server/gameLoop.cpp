@@ -13,6 +13,7 @@
 #include "Zipper.hpp"
 #include "monsterSystem.hpp"
 #include "bombSystem.hpp"
+#include "Bomb.hpp"
 #include "collisionSystem.hpp"
 #include <iostream>
 
@@ -27,6 +28,9 @@ void gameLoop::registerComponents()
     _engine.registerComponent<ECS::Player>(ECS::PLAYER);
     _engine.registerComponent<ECS::entityDetails>(ECS::ENTITY_DETAILS);
     _engine.registerComponent<ECS::Life>(ECS::LIFE);
+    _engine.registerComponent<ECS::Bomb>(ECS::BOMB);
+    _engine.registerComponent<ECS::Dimensions>(ECS::DIMENSIONS);
+
 }
 
 void gameLoop::registerSystems(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
@@ -88,10 +92,10 @@ void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::s
     int y = 200;
 
     std::map<ECS::playerNumber, ECS::Dimensions> pDimensions = {
-        {ECS::P1, ECS::Dimensions(200, 200)},
-        {ECS::P2, ECS::Dimensions(200, 200)},
-        {ECS::P3, ECS::Dimensions(200, 200)},
-        {ECS::P4, ECS::Dimensions(200, 200)},
+        {ECS::P1, ECS::Dimensions(166, 20)},
+        {ECS::P2, ECS::Dimensions(166, 20)},
+        {ECS::P3, ECS::Dimensions(166, 20)},
+        {ECS::P4, ECS::Dimensions(166, 20)},
     };
 
     for (auto it : Zipper::zip(clients, players)) {
