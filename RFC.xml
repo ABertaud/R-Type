@@ -302,6 +302,16 @@
                     send back the code "111" to validate that everything is OK.
                     <vspace blankLines='1'/>
 
+                    121<vspace blankLines='0'/>
+                    The code "121" is the code that the Server will send to the
+                    Client when he creates or joins a lobby successfully.
+                    <vspace blankLines='1'/>
+
+                    131<vspace blankLines='0'/>
+                    The code "131" is the code that the Server will send to the
+                    Client when he starts a game successfully.
+                    <vspace blankLines='1'/>
+
                     222<vspace blankLines='0'/>
                     The code "222" is the basic error code for the server.
                     When a command is invalid, the server will send back this code.
