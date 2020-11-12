@@ -39,7 +39,7 @@ target_compile_features(r-type_server PRIVATE cxx_std_17)
 target_compile_options(r-type_server
                        PRIVATE
                        $<$<CXX_COMPILER_ID:MSVC>:/W3 /permissive- /TP>
-                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs -g>)
+                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs>)
 target_include_directories(r-type_server PRIVATE SYSTEM ${INCLUDES_SERVER_DIR})
 target_include_directories(r-type_server PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
 target_include_directories(r-type_server PRIVATE SYSTEM ${INCLUDE_COMPONENTS_DIR})
@@ -55,7 +55,7 @@ target_compile_features(r-type_client PRIVATE cxx_std_17)
 target_compile_options(r-type_client
                        PRIVATE
                        $<$<CXX_COMPILER_ID:MSVC>:/W3 /permissive- /TP>
-                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs -lpthread -lboost_system -lboost_thread >)
+                       $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3 -Wno-unused-local-typedefs -lpthread -lboost_system -lboost_thread>)
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_CLIENT_DIR})
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_DIR})
 target_include_directories(r-type_client PRIVATE SYSTEM ${INCLUDES_SHARED_MONSTERS_DIR})

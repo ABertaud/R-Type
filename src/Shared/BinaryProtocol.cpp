@@ -35,25 +35,25 @@ std::vector<uint8_t> BinaryProtocol::Codec::serialize(const Packet& input)
 {
     std::size_t str_size = input._message.size();
     int index = 0;
-    std::vector<uint8_t> outuput;
+    std::vector<uint8_t> output;
     unsigned int packet_size = sizeof(input._magicNumber) + 
         (str_size * (sizeof(char) * sizeof(str_size)));
 
-    outuput.resize(packet_size);
+    output.resize(packet_size);
 
     // ecriture de l'id
-    memcpy(outuput.data(), &(input._magicNumber), sizeof(input._magicNumber));
+    memcpy(output.data(), &(input._magicNumber), sizeof(input._magicNumber));
     index += static_cast<int>(sizeof(input._magicNumber));
 
     // ecriture de la taille de la string
-    memcpy(outuput.data() + index, &str_size, sizeof(str_size));
+    memcpy(output.data() + index, &str_size, sizeof(str_size));
     index += static_cast<int>(sizeof(str_size));
 
     // ecriture de la string
-    memcpy(outuput.data() + index, input._message.data(), str_size * sizeof(char));
+    memcpy(output.data() + index, input._message.data(), str_size * sizeof(char));
     index += static_cast<int>(str_size * sizeof(char));
 
-    return (outuput);
+    return (output);
 }
 
 BinaryProtocol::Packet BinaryProtocol::Codec::unserialize(const boost::array<uint8_t, 1024>& input)

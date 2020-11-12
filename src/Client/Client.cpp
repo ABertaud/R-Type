@@ -102,7 +102,6 @@ void Client::loop(void)
             }
         }
     };
-    
 }
 
 int Client::checkGameState(const MenuDrawer::State& stateMenu)
@@ -160,6 +159,7 @@ void Client::handleReceive(const boost::system::error_code& ec, std::size_t byte
 {
     BinaryProtocol::Packet p;
 
+    std::cout << "bytes: "<< bytesTransferred << " size: " << _recvBuff.size() << std::endl;
     if (ec) {
         std::cerr << "ERROR while reading " << bytesTransferred << " bytes on socket" << std::endl;
         return;
@@ -170,7 +170,6 @@ void Client::handleReceive(const boost::system::error_code& ec, std::size_t byte
         startReceive();
         return;
     }
-    // std::cout << "message: " << p._message << std::endl;
     handleServerMessage(p._message);
     startReceive();
 }

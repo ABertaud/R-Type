@@ -10,6 +10,7 @@
 #include <iostream>
 #include "gameLoop.hpp"
 #include "Zipper.hpp"
+#include "BinaryProtocol.hpp"
 #include "boost/uuid/uuid_io.hpp"
 
 Lobby::Lobby(const std::string &name) : _name(name), _state(FREE)
@@ -42,13 +43,15 @@ void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socke
     auto game = std::make_shared<gameLoop>();
     unsigned int playerIndex = 0;
     _state = INGAME;
+    std::string toSend("131");
+    BinaryProtocol::Codec binCodec;
 
     for (auto clt = _clients.begin(); clt != _clients.end(); clt++, playerIndex++) {
         if (*_players.at(playerIndex) == ECS::SPEC) {
             _clients.erase(clt);
         } else { 
-            socket->async_send_to(boost::asio::buffer("/Started"), (*clt)->getEndpoint(),
-            boost::bind(&Lobby::handleSend, this, "/Started",
+            socket->async_send_to(boost::asio::buffer(binCodec.serialize(binCodec.createPacket(toSend))), (*clt)->getEndpoint(),
+            boost::bind(&Lobby::handleSend, this, toSend,
             boost::asio::placeholders::error,
             boost::asio::placeholders::bytes_transferred));
             (*clt)->setState(Client::INGAME);
