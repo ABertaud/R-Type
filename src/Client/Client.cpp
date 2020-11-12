@@ -60,7 +60,10 @@ void Client::loop(void)
     static timeType start = std::chrono::system_clock::now();
     timeType end;
     std::chrono::seconds time;
+    Graphic::Command check = Graphic::Command::NOTHING;
+    sf::Clock frameClock;
 
+    _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(P1, false, {100,100})));
     _players.push_back(std::shared_ptr<Players>(new Players(P1)));
     _players.back()->setState(Players::READY);
     _players.push_back(std::shared_ptr<Players>(new Players(P2)));
@@ -72,12 +75,15 @@ void Client::loop(void)
     while (_sigHandler.isInterrupted() != true) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-        if (_state == INLOBBY || _state == READY || _state == NONE)
+        if (_state == INLOBBY || _state == READY || _state == NONE) {
             stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
-        else if (_state == INGAME)
-            _sfmlModule.drawGame(_entities);
-        if (checkGameState(stateMenu, time, end, start) == -1)
-            break;
+            if (checkGameState(stateMenu, time, end, start) == -1)
+                break;
+        } else if (_state == INGAME) {
+            check = _sfmlModule.game(_entities, frameClock);
+            if (check == Graphic::EXIT)
+                _sfmlModule.stop();
+        }
     };
 }
 

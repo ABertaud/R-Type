@@ -106,6 +106,8 @@ void SFMLModule::setAnimatonPlayer(const Graphic::Command &com, const std::vecto
     Animation::StateAnim state = Animation::StateAnim::IDLE;
     Animation::StateAnim currentState = Animation::StateAnim::IDLE;
 
+    if (com == Graphic::Command::RIGHT || com == Graphic::Command::LEFT)
+        return;
     for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) {
         if ((*it)->getType() == P1) {
             currentState = (*it)->getAnimation().getState();

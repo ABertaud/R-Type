@@ -15,7 +15,7 @@
 #include <boost/thread.hpp>
 #include <iostream>
 #include <map>
-
+#include "Player.hpp"
 #include "SFMLModule.hpp"
 #include "SignalHandler.hpp"
 #include "BinaryProtocol.hpp"

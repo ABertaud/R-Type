@@ -15,7 +15,6 @@ Graphic::AEntity(type, bonus, test)
     _animation.addFrame(Animation::StateAnim::DOWN, rect);
     rect.left += 33.2;
     _animation.addFrame(Animation::StateAnim::DOWN, rect);
-    _animation.addFrame(Animation::StateAnim::IDLE, rect);
     rect.left += 33.2;
     _animation.addFrame(Animation::StateAnim::IDLE, rect);
     rect.left += 33.2;
