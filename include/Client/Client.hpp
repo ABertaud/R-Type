@@ -50,6 +50,9 @@ class Client : public INetwork
         void handleGhostRoom(std::string& update);
         void handleFullRoom(std::string& update);
         void handleTooFast(std::string& update);
+        void handleJoinLobby(std::string& update);
+        void handleStartGame(std::string& update);
+        void handleBusy(std::string& update);
         void setState(const ClientState&);
         void createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos);
         void updateEntity(int entityId, const sf::Vector2f& entityPos) const;

@@ -25,6 +25,9 @@ Client::Client(const std::string &ip, unsigned short port)
     _serverResponse.insert(std::make_pair(333, &Client::handleGhostRoom));
     _serverResponse.insert(std::make_pair(444, &Client::handleFullRoom));
     _serverResponse.insert(std::make_pair(555, &Client::handleTooFast));
+    _serverResponse.insert(std::make_pair(121, &Client::handleJoinLobby));
+    _serverResponse.insert(std::make_pair(131, &Client::handleStartGame));
+    _serverResponse.insert(std::make_pair(666, &Client::handleBusy));
 }
 
 void Client::start(void)
@@ -174,8 +177,6 @@ void Client::handleUpdateMenu(std::string& update)
     Players::State bufC(static_cast<Players::State>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
     Players player(bufE);
     player.setState(bufC);
-    if (_state == NONE || _state == INGAME)
-        _state = INLOBBY;
 }
 
 
@@ -225,6 +226,25 @@ void Client::handleFullRoom(std::string& update)
 }
 
 void Client::handleTooFast(std::string& update)
+{
+    (void)update;
+    std::cout << "code received" << std::endl;
+}
+
+
+void Client::handleJoinLobby(std::string& update)
+{
+    (void)update;
+    _state = INLOBBY;
+}
+
+void Client::handleStartGame(std::string& update)
+{
+    (void)update;
+    _state = INGAME;
+}
+
+void handleBusy(std::string& update)
 {
     (void)update;
     std::cout << "code received" << std::endl;
