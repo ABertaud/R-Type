@@ -8,15 +8,13 @@
 #ifndef PIRATESHOOT_HPP_
 #define PIRATESHOOT_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class PirateShoot : public Graphic::AEntity {
+class PirateShoot : public Graphic::Entity {
     public:
         PirateShoot(bool bonus, const sf::Vector2f &test);
         ~PirateShoot();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

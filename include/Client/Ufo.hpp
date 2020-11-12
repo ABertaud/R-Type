@@ -8,15 +8,13 @@
 #ifndef UFO_HPP_
 #define UFO_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class Ufo : public Graphic::AEntity {
+class Ufo : public Graphic::Entity {
     public:
         Ufo(bool bonus, const sf::Vector2f &test);
         ~Ufo();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

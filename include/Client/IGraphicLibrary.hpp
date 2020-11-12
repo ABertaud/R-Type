@@ -17,7 +17,7 @@
 #include <memory>
 
 #include "entityType.hpp"
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 
 namespace Graphic
@@ -42,8 +42,8 @@ public:
     virtual ~IGraphicLibrary() = default;
     virtual void init(const sf::Vector2f &scale) = 0;
     virtual void stop() = 0;
-    virtual Command eventHandler(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray) = 0;
-    virtual void drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>> &) = 0;
+    virtual Command eventHandler(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray) = 0;
+    virtual void drawGame(const std::vector<std::shared_ptr<Graphic::Entity>> &) = 0;
     /* data */
     virtual const std::string getPlayerName() = 0;
     virtual void displayWindow() = 0;

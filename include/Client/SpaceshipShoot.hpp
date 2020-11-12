@@ -8,15 +8,13 @@
 #ifndef SPACESHIPSHOOT_HPP_
 #define SPACESHIPSHOOT_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class SpaceshipShoot : public Graphic::AEntity {
+class SpaceshipShoot : public Graphic::Entity {
     public:
         SpaceshipShoot(bool bonus, const sf::Vector2f &test);
         ~SpaceshipShoot();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

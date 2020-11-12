@@ -8,15 +8,13 @@
 #ifndef BACKGROUND_HPP_
 #define BACKGROUND_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class Background : public Graphic::AEntity {
+class Background : public Graphic::Entity {
     public:
         Background(bool bonus, const sf::Vector2f &test);
         ~Background();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

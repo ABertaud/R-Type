@@ -8,15 +8,13 @@
 #ifndef ALIEN_HPP_
 #define ALIEN_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class Alien : public Graphic::AEntity {
+class Alien : public Graphic::Entity {
     public:
         Alien(bool bonus, const sf::Vector2f &test);
         ~Alien();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

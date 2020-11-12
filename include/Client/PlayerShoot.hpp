@@ -8,15 +8,13 @@
 #ifndef PLAYERSHOOT_HPP_
 #define PLAYERSHOOT_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class PlayerShoot : public Graphic::AEntity {
+class PlayerShoot : public Graphic::Entity {
     public:
         PlayerShoot(bool bonus, const sf::Vector2f &test);
         ~PlayerShoot();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

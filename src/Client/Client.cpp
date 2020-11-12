@@ -43,6 +43,7 @@ void Client::start(void)
 
 void Client::stop(void)
 {
+    _sfmlModule.stop();
     _thread.detach();
     _ioService.stop();
     _clientSocket.close();
@@ -84,18 +85,22 @@ void Client::loop(void)
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
         if (_state == INLOBBY || _state == READY || _state == NONE) {
+            if (time >= std::chrono::seconds(1)) {
+                send("210");
+                start = std::chrono::system_clock::now();
+            }
             stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
-            if (checkGameState(stateMenu, time, end, start) == -1)
+            if (checkGameState(stateMenu) == -1)
                 break;
         } else if (_state == INGAME) {
             check = _sfmlModule.game(_entities, frameClock);
             if (check == Graphic::EXIT)
-                _sfmlModule.stop();
+                break;
         }
     };
 }
 
-int Client::checkGameState(const MenuDrawer::State& state, const std::chrono::seconds &time, const timeType &end, timeType &start)
+int Client::checkGameState(const MenuDrawer::State& state)
 {
     if (state == MenuDrawer::State::QUIT) {
         _sfmlModule.stop();
@@ -111,13 +116,10 @@ int Client::checkGameState(const MenuDrawer::State& state, const std::chrono::se
     }
     //if (state == MenuDrawer::State::GAME)
       //  std::cout << "tt" <<std::endl;
-    if (state == MenuDrawer::State::WAITING)
-        send(_sfmlModule.getRoomName());
+    if (state == MenuDrawer::State::WAITING) {
+        send("201 "+_sfmlModule.getRoomName());
+    }
     if (state == MenuDrawer::State::READY || state == MenuDrawer::State::UNREADY) {
-        if (time >= std::chrono::seconds(1)) {
-            send("210");
-            start = std::chrono::system_clock::now();
-        }
         changeState();
         _sfmlModule.setState(MenuDrawer::State::ROOM);
     }
@@ -184,20 +186,16 @@ void Client::handleUpdateGame(std::string& update)
     int y = std::atoi(update.substr(update.find_first_of(".") + 1).c_str());
 
     if (state == true) {
-        int found(0);
-        for (auto it = _entities.begin(); it != _entities.end(); ++it)
-            if (it->get()->getId() == id) {
-                it->get()->update(x, y);
-                found++;
+        for (auto obj = _entities.begin(); obj != _entities.end(); obj++) {
+            if ((obj->get()->getId() == id)) {
+                updateEntity(id, sf::Vector2f{x, y});
+                return;
             }
-        if (found == 0) {
-            createEntity(id, type, false, sf::Vector2f{x, y});
         }
-    } else {
-        for (auto it = _entities.begin(); it != _entities.end(); ++it)
-            if (it->get()->getId() == id)
-                _entities.erase(it);
+        createEntity(id, type, false, sf::Vector2f{x, y});
     }
+    else
+       destroyEntity(id);
 }
 
 void Client::handleFine(std::string& update)
@@ -244,7 +242,7 @@ void Client::send(const std::string &str)
 
 void Client::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
 {
-    //_entities.push_back(std::make_shared<Graphic::AEntity>(_builder.createEntity(entityType, entityType, bonus, entityPos)));
+    _entities.push_back(std::make_shared<Graphic::Entity>(_builder.createEntity(entityType, entityType, bonus, entityPos)));
 }
 
 void Client::updateEntity(int entityId, const sf::Vector2f& entityPos) const

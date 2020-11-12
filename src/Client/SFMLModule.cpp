@@ -106,14 +106,14 @@ Animation::StateAnim SFMLModule::convertState(const Graphic::Command &com, const
     return state;
 }
 
-void SFMLModule::setAnimatonPlayer(const Graphic::Command &com, const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray)
+void SFMLModule::setAnimatonPlayer(const Graphic::Command &com, const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
 {
     Animation::StateAnim state = Animation::StateAnim::IDLE;
     Animation::StateAnim currentState = Animation::StateAnim::IDLE;
 
     if (com == Graphic::Command::RIGHT || com == Graphic::Command::LEFT)
         return;
-    for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) {
+    for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) {
         if ((*it)->getType() == P1) {
             currentState = (*it)->getAnimation().getState();
             state = convertState(com, currentState);
@@ -123,7 +123,7 @@ void SFMLModule::setAnimatonPlayer(const Graphic::Command &com, const std::vecto
     }
 }
 
-Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray)
+Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
 {
     Graphic::Command command = Graphic::NOTHING;
 
@@ -144,31 +144,31 @@ Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Grap
     return (command);
 }
 
-Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray, sf::Clock &frameClock)
+Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray, sf::Clock &frameClock)
 {
     Graphic::Command ret;
     sf::Time frameTime = frameClock.restart();
 
-    for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++)
+    for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++)
         (*it)->getAnimation().update(frameTime, (*it)->getAnimation().getState());
     ret = eventHandler(entityArray);
     drawGame(entityArray);
     return ret;
 }
 
-void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray)
+void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
 {
     _window.clear();
     _parallaxShader.parallaxShaderDraw(_window);
    // _window.draw(_background);
-    for (std::vector<std::shared_ptr<Graphic::AEntity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) 
+    for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) 
         drawEntity((*it));
     //drawScore(score);
     //sprite.setTextureRect(rect)
     _window.display();
 }
 
-void SFMLModule::drawEntity(std::shared_ptr<Graphic::AEntity> entity)
+void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
 {
    // float x = (((entity->getPos().x * 28.5) + ((_winpos.x - 800) / 2)) * _scale.x);
     //float y = (((entity->getPos().y * 19.3) + ((_winpos.y - 600) / 2)) * _scale.y);

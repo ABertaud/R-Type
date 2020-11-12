@@ -9,23 +9,12 @@
 #include <iostream>
 
 Graphic::PlayerShoot::PlayerShoot(bool bonus, const sf::Vector2f &test) : 
-Graphic::AEntity(PLAYER_SHOOT, bonus, test)
+Graphic::Entity(PLAYER_SHOOT, bonus, test)
 {
 }
 
 Graphic::PlayerShoot::~PlayerShoot()
 {}
-
-void Graphic::PlayerShoot::update(const sf::Vector2f& pos)
-{
-    _pos = pos;
-}
-
-void Graphic::PlayerShoot::update(int x, int y)
-{
-    _pos.x = x;
-    _pos.y = y;
-}
 
 entityType Graphic::PlayerShoot::getType() const
 {

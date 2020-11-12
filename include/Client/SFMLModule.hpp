@@ -28,14 +28,14 @@ public:
         ~SFMLModule();
         void init(const sf::Vector2f &scale);
         void stop();
-        Graphic::Command eventHandler(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray);
-        void drawGame(const std::vector<std::shared_ptr<Graphic::AEntity>>&);
+        Graphic::Command eventHandler(const std::vector<std::shared_ptr<Graphic::Entity> &entityArray);
+        void drawGame(const std::vector<std::shared_ptr<Graphic::Entity>&);
         MenuDrawer::State Menu(const std::string &name, const std::vector<std::shared_ptr<Players>>&, const ClientState &);
         const std::string getPlayerName();
         void displayWindow();
         std::string getRoomName()const;
         void setState(const MenuDrawer::State &);
-        Graphic::Command game(const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray, sf::Clock &frameClock);
+        Graphic::Command game(const std::vector<std::shared_ptr<Graphic::Entity> &entityArray, sf::Clock &frameClock);
     protected:
     private:
        Parser _parser;
@@ -55,10 +55,10 @@ public:
        
        void loadSprite(const std::string &path, const entityType &obj);
        void loadAllSprite(std::map<entityType, std::string> &paths);
-       void drawEntity(std::shared_ptr<Graphic::AEntity>);
+       void drawEntity(std::shared_ptr<Graphic::Entity);
        void displayPlayerScene(const sf::Vector2f &posConditions, const sf::Vector2f &posName, const sf::RectangleShape &rect, const sf::Vector2f &, const std::string &playerName);
        sf::RectangleShape createRectangleShape(const sf::Vector2f &size, const sf::Vector2f &pos, const sf::Color &color);
-       void setAnimatonPlayer(const Graphic::Command &, const std::vector<std::shared_ptr<Graphic::AEntity>> &entityArray);
+       void setAnimatonPlayer(const Graphic::Command &, const std::vector<std::shared_ptr<Graphic::Entity> &entityArray);
        Animation::StateAnim convertState(const Graphic::Command &com, const Animation::StateAnim &state);
 };
 

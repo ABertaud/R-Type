@@ -8,15 +8,13 @@
 #ifndef WALL_HPP_
 #define WALL_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class Wall : public Graphic::AEntity {
+class Wall : public Graphic::Entity {
     public:
         Wall(bool bonus, const sf::Vector2f &test);
         ~Wall();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

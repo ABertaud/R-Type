@@ -8,15 +8,13 @@
 #ifndef ALIENSHOOT_HPP_
 #define ALIENSHOOT_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class AlienShoot : public Graphic::AEntity {
+class AlienShoot : public Graphic::Entity {
     public:
         AlienShoot(bool bonus, const sf::Vector2f &test);
         ~AlienShoot();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

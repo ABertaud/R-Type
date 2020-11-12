@@ -24,11 +24,11 @@ EntityBuilder::EntityBuilder()
 {
 }
 
-const Graphic::AEntity &EntityBuilder::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
+const Graphic::Entity &EntityBuilder::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
 {
     if (entityType == BACKGROUND)
         return (Graphic::Background(bonus, entityPos));
-    else if (entityType == P1 || entityType == P2 || entityType == P3 || entityType == P4)
+    else if (entityType == P1 || entityType == P2 || entityType == P3 ||  entityType == P4)
         return (Graphic::Player(entityType, bonus, entityPos));
     else if (entityType == WALL)
         return (Graphic::Wall(bonus, entityPos));
@@ -52,5 +52,4 @@ const Graphic::AEntity &EntityBuilder::createEntity(int entityId, const entityTy
         return (Graphic::Pirate(bonus, entityPos));
     else if (entityType == PIRATE_SHOOT)
         return (Graphic::PirateShoot(bonus, entityPos));
-
 }

@@ -9,23 +9,12 @@
 #include <iostream>
 
 Graphic::Alien::Alien(bool bonus, const sf::Vector2f &test) : 
-Graphic::AEntity(ALIEN, bonus, test)
+Graphic::Entity(ALIEN, bonus, test)
 {
 }
 
 Graphic::Alien::~Alien()
 {}
-
-void Graphic::Alien::update(const sf::Vector2f& pos)
-{
-    _pos = pos;
-}
-
-void Graphic::Alien::update(int x, int y)
-{
-    _pos.x = x;
-    _pos.y = y;
-}
 
 entityType Graphic::Alien::getType() const
 {

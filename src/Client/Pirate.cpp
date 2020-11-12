@@ -9,23 +9,12 @@
 #include <iostream>
 
 Graphic::Pirate::Pirate(bool bonus, const sf::Vector2f &test) : 
-Graphic::AEntity(PIRATE, bonus, test)
+Graphic::Entity(PIRATE, bonus, test)
 {
 }
 
 Graphic::Pirate::~Pirate()
 {}
-
-void Graphic::Pirate::update(const sf::Vector2f& pos)
-{
-    _pos = pos;
-}
-
-void Graphic::Pirate::update(int x, int y)
-{
-    _pos.x = x;
-    _pos.y = y;
-}
 
 entityType Graphic::Pirate::getType() const
 {

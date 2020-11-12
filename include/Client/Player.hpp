@@ -8,15 +8,13 @@
 #ifndef PLAYER_HPP_
 #define PLAYER_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class Player : public Graphic::AEntity {
+class Player : public Graphic::Entity {
     public:
         Player(const entityType &type, bool bonus, const sf::Vector2f &test);
         ~Player();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

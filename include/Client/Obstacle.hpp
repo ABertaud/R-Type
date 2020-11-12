@@ -8,15 +8,13 @@
 #ifndef OBSTACLE_HPP_
 #define OBSTACLE_HPP_
 
-#include "AEntity.hpp"
+#include "Entity.hpp"
 
 namespace Graphic {
-class Obstacle : public Graphic::AEntity {
+class Obstacle : public Graphic::Entity {
     public:
         Obstacle(bool bonus, const sf::Vector2f &test);
         ~Obstacle();
-        void update(const sf::Vector2f& pos);
-        void update(int x, int y);
         entityType getType()const;
     private:
     protected:

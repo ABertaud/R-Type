@@ -8,7 +8,7 @@
 #include "Player.hpp"
 
 Graphic::Player::Player(const entityType &type, bool bonus, const sf::Vector2f &test) :
-Graphic::AEntity(type, bonus, test)
+Graphic::Entity(type, bonus, test)
 {
     sf::IntRect rect(0, 0, 33.2, 20);
 
@@ -26,17 +26,6 @@ Graphic::AEntity(type, bonus, test)
 
 Graphic::Player::~Player()
 {
-}
-
-void Graphic::Player::update(const sf::Vector2f& pos)
-{
-    _pos = pos;
-}
-
-void Graphic::Player::update(int x, int y)
-{
-    _pos.x = x;
-    _pos.y = y;
 }
 
 entityType Graphic::Player::getType() const

@@ -39,7 +39,7 @@ class Client : public INetwork
         void send(const std::string& str);
         void startReceive(void);
         void loop(void);
-        int checkGameState(const MenuDrawer::State& state, const std::chrono::seconds& time, const timeType& end, timeType& start);
+        int checkGameState(const MenuDrawer::State& state);
         // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
         void handleReceive(const boost::system::error_code&, std::size_t);
         void handleServerMessage(std::string& update);
@@ -67,7 +67,7 @@ class Client : public INetwork
         boost::array<uint8_t, 1024> _recvBuff;
         boost::asio::ip::udp::endpoint _remoteEndpoint;
         std::string _clientName;
-        std::vector<std::shared_ptr<Graphic::AEntity>> _entities;
+        std::vector<std::shared_ptr<Graphic::Entity>> _entities;
         std::vector<std::shared_ptr<Players>> _players;
         std::map<int, hsmFunction> _serverResponse;
 };
