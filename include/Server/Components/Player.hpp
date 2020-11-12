@@ -9,7 +9,6 @@
 #define PLAYER_HPP_
 
 #include "IComponents.hpp"
-#include "Client.hpp"
 #include <boost/uuid/uuid.hpp>
 
 namespace ECS {
@@ -20,14 +19,20 @@ namespace ECS {
         LEFT,
         NONE,
     };
-
+    enum playerNumber {
+        P1,
+        P2,
+        P3,
+        P4,
+        SPEC,
+    };
     struct Player : public IComponents {
         Player() = default;
-        Player(const Client::playerNumber player, const boost::uuids::uuid& uuid);
+        Player(const playerNumber player, const boost::uuids::uuid& uuid);
         Player(const Player& other) = default;
         Player& operator=(const Player& other) = default; 
         ~Player() = default;
-        Client::playerNumber _player;
+        playerNumber _player;
         currentMovement _direction;
         boost::uuids::uuid _uuid;
     };

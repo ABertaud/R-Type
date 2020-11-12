@@ -7,6 +7,6 @@
 
 #include "Player.hpp"
 
-ECS::Player::Player(const Client::playerNumber player, const boost::uuids::uuid& uuid) : _player(player), _direction(ECS::NONE), _uuid(uuid)
+ECS::Player::Player(const ECS::playerNumber player, const boost::uuids::uuid& uuid) : _player(player), _direction(ECS::NONE), _uuid(uuid)
 {
 }

@@ -19,7 +19,7 @@ void ECS::bombSystem::update(const float dt, ECS::ECSEngine& engine)
 
     for (auto& ent: entities) {
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
-        if (details._type == ECS::BOMB)
+        if (details._type == entityType::BOMB)
             updateBomb(dt, ent, engine, details);
     }
 }

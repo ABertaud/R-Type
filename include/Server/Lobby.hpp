@@ -34,18 +34,18 @@ class Lobby {
         std::string getName() const;
         bool hasClient(const clientPtr& client);
         std::vector<clientPtr>& getClients();
-        std::vector<std::shared_ptr<Client::playerNumber>>& getPlayers();
-        Client::playerNumber getPlayerNumber(const clientPtr& client);
+        std::vector<std::shared_ptr<ECS::playerNumber>>& getPlayers();
+        ECS::playerNumber getPlayerNumber(const clientPtr& client);
         Lobby::lobbyState getState() const;
-        std::queue<Client::playerNumber>& getQueuePlayers();
+        std::queue<ECS::playerNumber>& getQueuePlayers();
         ~Lobby() = default;
     protected:
     private:
         void handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred);
         std::string _name;
-        std::vector<std::shared_ptr<Client::playerNumber>> _players;
+        std::vector<std::shared_ptr<ECS::playerNumber>> _players;
         std::vector<clientPtr> _clients;
-        std::queue<Client::playerNumber> _available;
+        std::queue<ECS::playerNumber> _available;
         lobbyState _state;
 };
 

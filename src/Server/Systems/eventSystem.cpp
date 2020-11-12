@@ -12,6 +12,7 @@
 #include "Velocity.hpp"
 #include "entityDetails.hpp"
 #include <iostream>
+#include <cstring>
 
 ECS::eventSystem::eventSystem(const std::shared_ptr<Buffer>& buffer) : ECS::ASystem(), _buffer(buffer)
 {

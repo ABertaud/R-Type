@@ -29,7 +29,7 @@ void gameLoop::registerComponents()
     _engine.registerComponent<ECS::Life>(ECS::LIFE);
 }
 
-void gameLoop::registerSystems(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
+void gameLoop::registerSystems(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
 {
     _engine.registerSystem<ECS::movementSystem>();
     _engine.registerSystem<ECS::routineSystem>(socket, clients, players);
@@ -40,14 +40,14 @@ void gameLoop::registerSystems(std::vector<clientPtr>& clients, std::vector<std:
     _engine.registerSystem<ECS::bombSystem>();
 }
 
-void gameLoop::prepareGame(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
+void gameLoop::prepareGame(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
 {
     registerComponents();
     registerSystems(clients, players, socket, buffer, libPath);
     createPlayers(clients, players);
 }
 
-void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, Lobby::lobbyState& lobbyState)
+void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, Lobby::lobbyState& lobbyState)
 {
     static std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     std::chrono::time_point<std::chrono::system_clock> end;
@@ -63,7 +63,7 @@ void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<
         }
     }
     for (auto clt = clients.begin(); clt != clients.end() && playerIndex != players.size(); clt++, playerIndex++) {
-        if (*players.at(playerIndex) != Client::SPEC)
+        if (*players.at(playerIndex) != ECS::SPEC)
             (*clt)->setState(Client::INLOBBY);
         else {
             (*clt)->setState(Client::NONE);
@@ -82,16 +82,16 @@ void gameLoop::update(const float dt)
         system->update(dt, _engine);
 }
 
-void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players)
+void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players)
 {
     int x = 50;
     int y = 200;
 
-    std::map<Client::playerNumber, ECS::Dimensions> pDimensions = {
-        {Client::P1, ECS::Dimensions(200, 200)},
-        {Client::P2, ECS::Dimensions(200, 200)},
-        {Client::P3, ECS::Dimensions(200, 200)},
-        {Client::P4, ECS::Dimensions(200, 200)},
+    std::map<ECS::playerNumber, ECS::Dimensions> pDimensions = {
+        {ECS::P1, ECS::Dimensions(200, 200)},
+        {ECS::P2, ECS::Dimensions(200, 200)},
+        {ECS::P3, ECS::Dimensions(200, 200)},
+        {ECS::P4, ECS::Dimensions(200, 200)},
     };
 
     for (auto it : Zipper::zip(clients, players)) {

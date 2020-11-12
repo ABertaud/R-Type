@@ -14,16 +14,16 @@
 
 Lobby::Lobby(const std::string &name) : _name(name), _state(FREE)
 {
-    _available.push(Client::P1);
-    _available.push(Client::P2);
-    _available.push(Client::P3);
-    _available.push(Client::P4);
+    _available.push(ECS::P1);
+    _available.push(ECS::P2);
+    _available.push(ECS::P3);
+    _available.push(ECS::P4);
 }
 
 void Lobby::addClient(clientPtr& client)
 {
     _clients.push_back(client);
-    _players.push_back(std::make_shared<Client::playerNumber>(_available.front()));
+    _players.push_back(std::make_shared<ECS::playerNumber>(_available.front()));
     _available.pop();
 }
 
@@ -31,7 +31,7 @@ bool Lobby::isReadyToGo()
 {
 
     for (auto it : Zipper::zip(_clients, _players)) {
-        if (it.get<0>()->getState() != Client::READY && *it.get<1>() != Client::SPEC)
+        if (it.get<0>()->getState() != Client::READY && *it.get<1>() != ECS::SPEC)
             return (false);
     }
     return (true);
@@ -44,7 +44,7 @@ void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socke
     _state = INGAME;
 
     for (auto clt = _clients.begin(); clt != _clients.end(); clt++, playerIndex++) {
-        if (*_players.at(playerIndex) == Client::SPEC) {
+        if (*_players.at(playerIndex) == ECS::SPEC) {
             _clients.erase(clt);
         } else { 
             socket->async_send_to(boost::asio::buffer("/Started"), (*clt)->getEndpoint(),
@@ -67,7 +67,7 @@ void Lobby::removeClient(const clientPtr& client)
         if ((*clt)->getUuid() == client->getUuid()) {
             if ((*clt)->getState() == Client::INGAME) {
                 _available.push(*_players.at(playerIndex));
-                *_players.at(playerIndex) = Client::SPEC;
+                *_players.at(playerIndex) = ECS::SPEC;
             } else {
                 _available.push(*_players.at(playerIndex));
                 _clients.erase(clt);
@@ -100,13 +100,13 @@ bool Lobby::hasClient(const clientPtr& client)
     return (false);
 }
 
-Client::playerNumber Lobby::getPlayerNumber(const clientPtr& client)
+ECS::playerNumber Lobby::getPlayerNumber(const clientPtr& client)
 {
     for (auto it : Zipper::zip(_clients, _players)) {
         if (it.get<0>() == client)
             return (*it.get<1>());
     }
-    return (Client::SPEC);
+    return (ECS::SPEC);
 }
 
 Lobby::lobbyState Lobby::getState() const
@@ -124,12 +124,12 @@ std::vector<clientPtr>& Lobby::getClients()
     return (_clients);
 }
 
-std::vector<std::shared_ptr<Client::playerNumber>>& Lobby::getPlayers()
+std::vector<std::shared_ptr<ECS::playerNumber>>& Lobby::getPlayers()
 {
     return (_players);
 }
 
-std::queue<Client::playerNumber>& Lobby::getQueuePlayers()
+std::queue<ECS::playerNumber>& Lobby::getQueuePlayers()
 {
     return (_available);
 }

@@ -46,7 +46,7 @@ private:
     void handleReceive(const boost::system::error_code& error, std::size_t);
     void handleSend(const std::string&, const boost::system::error_code&, std::size_t);
     bool isLobbyNameAvailable(const std::string &name);
-    void routineMenu(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, std::queue<Client::playerNumber>& available);
+    void routineMenu(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, std::queue<ECS::playerNumber>& available);
     void serverEndHandler(const boost::system::error_code& /*e*/);
     std::shared_ptr<boost::asio::ip::udp::socket> _socket;
     boost::asio::ip::udp::endpoint _remoteEndpoint;

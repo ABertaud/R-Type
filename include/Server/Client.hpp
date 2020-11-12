@@ -14,6 +14,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/asio.hpp>
+#include "Player.hpp"
 
 class Client {
     public:
@@ -23,13 +24,6 @@ class Client {
             READY,
             INGAME,
             OFF,
-        };
-        enum playerNumber {
-            P1,
-            P2,
-            P3,
-            P4,
-            SPEC,
         };
     public:
         Client(const boost::asio::ip::address& adr, const unsigned short port);

@@ -142,7 +142,8 @@ void udpServer::parserNoneState(clientPtr& clt, std::string& buffer)
                 clt->setState(Client::INLOBBY);
                 send("121");
             }
-        }
+        } else
+            send("777");
     } else if (std::strcmp(command.c_str(), "200") != 0) {
         send("222");
     }
@@ -175,10 +176,10 @@ void udpServer::parserInLobbyState(clientPtr& clt, std::string& buffer)
         send("222");  
 }
 
-void udpServer::routineMenu(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<Client::playerNumber>>& players, std::queue<Client::playerNumber>& available)
+void udpServer::routineMenu(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, std::queue<ECS::playerNumber>& available)
 {
     std::string toSend("110 ");
-    Client::playerNumber sample = Client::SPEC;
+    ECS::playerNumber sample = ECS::SPEC;
 
     for (auto it : Zipper::zip(clients, players)) {
         toSend += std::to_string(*it.get<1>());
@@ -230,7 +231,7 @@ void udpServer::parserReadyState(clientPtr& clt, std::string& buffer)
 
 void udpServer::parserInGameState(clientPtr& clt, std::string& buffer)
 {
-    if (findLobby(clt).getPlayerNumber(clt) == Client::SPEC) {
+    if (findLobby(clt).getPlayerNumber(clt) == ECS::SPEC) {
         send("666");
         return;
     }

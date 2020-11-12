@@ -332,6 +332,11 @@
                     lauch a game when all the players aren't ready.
                     <vspace blankLines='1'/>
 
+                    777<vspace blankLines='0'/>
+                    The server will send code "777" if someone is trying to join
+                    a room which doesn't exist.
+                    <vspace blankLines='1'/>
+
                     <vspace blankLines='3'/>
                     As a routine menu, the Server will send updates of
                     menu informations to the client. To activate the routine the 
