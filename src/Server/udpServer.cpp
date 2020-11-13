@@ -252,7 +252,7 @@ void udpServer::parserInGameState(clientPtr& clt, std::string& buffer)
         // send("111");
         _buffer->addData(clt->getUuid(), "Up");
     }
-    else if (std::strcmp(command.c_str(), "Down") == 0) {
+    else if (std::strcmp(command.c_str(), "103") == 0) {
         // send("111");
         _buffer->addData(clt->getUuid(), "Down");
     }
