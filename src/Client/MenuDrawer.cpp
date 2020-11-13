@@ -421,7 +421,7 @@ void MenuDrawer::drawRoom(sf::RenderWindow& window, const std::string& playerNam
     for (auto it = Players.begin(); it != Players.end(); it++) {
        drawPlayerRoom((*it), window);
     }
-    if (clientS == ClientState::READY)
+    if (clientS != ClientState::READY)
         drawState(READY, window, pos);
     else
         drawState(UNREADY, window, pos);
