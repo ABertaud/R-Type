@@ -206,29 +206,34 @@ void Client::handleServerMessage(std::string& update)
 
 void Client::handleUpdateMenu(std::string& update)
 {
-    entityType bufE(static_cast<entityType>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
-    Players::State bufS(static_cast<Players::State>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
+    std::cout << update << "\n";
+    Players::State state1(static_cast<Players::State>(std::atoi(update.substr(6, 1).c_str())));
+    Players::State state2(static_cast<Players::State>(std::atoi(update.substr(10, 1).c_str())));
+    Players::State state3(static_cast<Players::State>(std::atoi(update.substr(14, 1).c_str())));
+    Players::State state4(static_cast<Players::State>(std::atoi(update.substr(18, 1).c_str())));
 
-    for (auto obj = _players.begin(); obj != _players.end(); obj++)
-        if ((obj->get()->getType() == bufE))
-            obj->get()->setState(bufS);
+    for (auto obj = _players.begin(); obj != _players.end(); obj++) {
+        if ((obj->get()->getType() == P1))
+            obj->get()->setState(state1);
+        if ((obj->get()->getType() == P2))
+            obj->get()->setState(state2);
+        if ((obj->get()->getType() == P3))
+            obj->get()->setState(state3);
+        if ((obj->get()->getType() == P4))
+            obj->get()->setState(state4);
+    }
 }
 
 
 void Client::handleUpdateGame(std::string& update)
 {
-    std::cout << update << "\n";
-    int id = std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str());
-    bool state = std::atoi(update.substr(update.find_last_of(" ") + 1, 1).c_str());
-    entityType type = static_cast<entityType>(std::atoi(update.substr(update.find_first_of("|") + 1, update.find_last_of("|") - update.find_first_of("|")).c_str()));
-    float x = std::atof(update.substr(update.find_last_of("|") + 1, update.find_first_of(".") - update.find_last_of("|")).c_str());
-    float y = std::atof(update.substr(update.find_first_of(".") + 1).c_str());
+    entityType type = (static_cast<entityType>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
+    int id = std::atoi(update.substr(update.find_last_of(" ") + 1, update.find_first_of("|") + 1 - update.find_last_of(" ")).c_str());
+    animationState animation = (static_cast<animationState>(std::atoi(update.substr(update.find_first_of("|") + 1, update.find_last_of("|") - update.find_first_of("|")).c_str())));
+    bool state = std::atoi(update.substr(update.find_last_of("|") + 1, update.find_first_of(".") + 1 - update.find_last_of("|")).c_str());
+    float x = std::atof(update.substr(update.find_first_of(".") + 1, update.find_last_of(".") + 1 - update.find_first_of(".")).c_str());
+    float y = std::atof(update.substr(update.find_last_of(".") + 1).c_str());
 
-    std::cout << "\n\nID: " << id << "\n";
-    std::cout << "STATE: " << state << "\n";
-    std::cout << "TYPE: " << type << "\n";
-    std::cout << "X: " << x << "\n";
-    std::cout << "Y: " << y << "\n\n\n";
     if (state == true) {
         for (auto obj = _entities.begin(); obj != _entities.end(); obj++) {
             if ((obj->get()->getId() == id)) {
