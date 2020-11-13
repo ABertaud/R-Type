@@ -34,10 +34,10 @@ void ECS::routineSystem::sendUpdates(const Entity ent, const entityDetails& deta
 {
     std::string toSend("100 ");
 
-    toSend += std::to_string(ent) + " ";
     toSend += std::to_string(details._type) + " ";
-    toSend += std::to_string(details._state) + " ";
-    toSend += std::to_string(details._toUpdate) + " ";
+    toSend += std::to_string(ent) + "|";
+    toSend += std::to_string(details._state) + "|";
+    toSend += std::to_string(details._toUpdate) + ".";
     toSend += std::to_string(position._x) + ".";
     toSend += std::to_string(position._y);
     for (auto it : Zipper::zip(_clients, _players)) {
