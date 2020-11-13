@@ -130,7 +130,9 @@ void Client::loop(void)
                 start = std::chrono::system_clock::now();
             }
         }
-    };
+    }
+    if (_sigHandler.isInterrupted())
+        send("200");
 }
 
 int Client::checkMenuState(const MenuDrawer::State& stateMenu)
