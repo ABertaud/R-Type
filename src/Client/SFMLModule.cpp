@@ -23,7 +23,7 @@ SFMLModule::~SFMLModule()
 {
 }
 
-void SFMLModule::loadSprite(const std::string &path, const entityType &obj)
+void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
 {
     sf::Sprite sprite;
 
@@ -36,7 +36,7 @@ void SFMLModule::loadSprite(const std::string &path, const entityType &obj)
     _sprites.insert(std::make_pair(obj, sprite));
 }
 
-void SFMLModule::loadAllSprite(std::map<entityType, std::string> &paths)
+void SFMLModule::loadAllSprite(std::map<entityType, std::string>& paths)
 {
     //for (std::map<entityType, std::string>::iterator it = paths.begin(); it != paths.end(); it++) {
       //  loadSprite((*it).second, (*it).first, sf::IntRect(0, 0, 28, 19));
@@ -44,12 +44,12 @@ void SFMLModule::loadAllSprite(std::map<entityType, std::string> &paths)
     loadSprite("../../ressources/sprites/Game/player1.png", P1);
 }
 
-void SFMLModule::setState(const MenuDrawer::State &state)
+void SFMLModule::setState(const MenuDrawer::State& state)
 {
     _menu.setState(state);
 }
 
-MenuDrawer::State SFMLModule::Menu(const std::string &name, const std::vector<std::shared_ptr<Players>>& entities, const ClientState &clientS)
+MenuDrawer::State SFMLModule::Menu(const std::string& name, const std::vector<std::shared_ptr<Players>>& entities, const ClientState& clientS)
 {
     MenuDrawer::State ret;
     
@@ -64,7 +64,7 @@ std::string SFMLModule::getRoomName()const
     return (_menu.getRoomName());
 }
 
-void SFMLModule::init(const sf::Vector2f &scale)
+void SFMLModule::init(const sf::Vector2f& scale)
 {
     float x = 1.0f;
     float y = 1.0f;
@@ -94,7 +94,7 @@ void SFMLModule::stop()
     _window.close();
 }
 
-Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
+Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Graphic::Entity>>& entityArray)
 {
     Graphic::Command command = Graphic::NOTHING;
 
@@ -109,7 +109,7 @@ Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Grap
     return (command);
 }
 
-Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
+Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::Entity>>& entityArray)
 {
     Graphic::Command ret;
 
@@ -118,7 +118,7 @@ Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::Ent
     return ret;
 }
 
-void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::Entity>> &entityArray)
+void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::Entity>>& entityArray)
 {
     _window.clear();
     _parallaxShader.parallaxShaderDraw(_window);
@@ -160,7 +160,7 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
     }
 }
 
-sf::RectangleShape SFMLModule::createRectangleShape(const sf::Vector2f &size, const sf::Vector2f &pos, const sf::Color &color)
+sf::RectangleShape SFMLModule::createRectangleShape(const sf::Vector2f& size, const sf::Vector2f& pos, const sf::Color& color)
 {
     sf::RectangleShape rect(size);
 
@@ -197,7 +197,7 @@ const std::string SFMLModule::getPlayerName()
     return (playerName);
 }
 
-void SFMLModule::displayPlayerScene(const sf::Vector2f &posConditions, const sf::Vector2f &posName, const sf::RectangleShape &rect, const sf::Vector2f &posEnter, const std::string &playerName)
+void SFMLModule::displayPlayerScene(const sf::Vector2f& posConditions, const sf::Vector2f& posName, const sf::RectangleShape& rect, const sf::Vector2f& posEnter, const std::string& playerName)
 {
     _window.clear();
     _window.draw(_background);

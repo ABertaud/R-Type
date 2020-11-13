@@ -22,7 +22,7 @@ class Lobby {
             FREE,
             INGAME,
         };
-        Lobby(const std::string &name);
+        Lobby(const std::string& name);
         Lobby(const Lobby& other) = default;
         Lobby& operator=(const Lobby& other) = default;
         void addClient(clientPtr& client);

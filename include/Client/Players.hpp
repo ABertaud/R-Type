@@ -15,9 +15,9 @@ class Players
 public:
     enum State
     {
-        ACTIVE = 1,
-        OFF = 2,
-        READY = 3,
+        ACTIVE,
+        OFF,
+        READY
     };
 public:
     Players(const entityType& type, const State& state = OFF);

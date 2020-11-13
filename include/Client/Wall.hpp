@@ -13,7 +13,7 @@
 namespace Graphic {
 class Wall : public Graphic::Entity {
     public:
-        Wall(int id, bool bonus, const sf::Vector2f &test, const animation &anime);
+        Wall(int id, bool bonus, const sf::Vector2f& test, const animation& anime);
         ~Wall();
         entityType getType()const;
     private:

@@ -14,7 +14,7 @@ class EntityBuilder {
     public:
         EntityBuilder();
         ~EntityBuilder()=default;
-        const Graphic::Entity &createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos);
+        const Graphic::Entity& createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos);
 };
 
 #endif /* !ENTITYBUILDER_HPP_ */

@@ -24,7 +24,7 @@ namespace BinaryProtocol
 {
     struct Packet
     {
-        bool operator==(const Packet &other) const;
+        bool operator==(const Packet& other) const;
         uint32_t _magicNumber;
         std::string _message;
     };
@@ -36,7 +36,7 @@ namespace BinaryProtocol
             ~Codec() = default;
             Codec(const Codec& other) = default;
             Codec& operator=(const Codec& other) = default;
-            Packet createPacket(const std::string &message);
+            Packet createPacket(const std::string& message);
             bool check_packet(const Packet& toCheck);
             std::vector<uint8_t> serialize(const Packet& input);
             Packet unserialize(const boost::array<uint8_t, 1024>& input);

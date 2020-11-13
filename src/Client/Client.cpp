@@ -8,7 +8,7 @@
 #include "Client.hpp"
 #include <memory>
 
-Client::Client(const std::string &ip, unsigned short port)
+Client::Client(const std::string& ip, unsigned short port)
 : _builder(),_sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(), _state(NONE)
 {
     boost::system::error_code err;
@@ -72,7 +72,7 @@ void Client::changeState()
         _state = INLOBBY;
 }
 
-int Client::checkGameState(const Graphic::Command &com)
+int Client::checkGameState(const Graphic::Command& com)
 {
     if (com == Graphic::EXIT)
         return -1;
@@ -126,11 +126,11 @@ int Client::checkMenuState(const MenuDrawer::State& stateMenu)
     if (stateMenu == MenuDrawer::State::QUIT)
         return (-1);
     if (stateMenu == MenuDrawer::State::BIG) {
-        _sfmlModule.init(sf::Vector2f(1.3, 1.3));
+        _sfmlModule.init(sf::Vector2f((static_cast<float>(1.3)), static_cast<float>(1.3)));
         _sfmlModule.setState(MenuDrawer::State::SETTINGS);
     }
     if (stateMenu == MenuDrawer::State::NORMAL) {
-        _sfmlModule.init(sf::Vector2f(1, 1));
+        _sfmlModule.init(sf::Vector2f((static_cast<float>(1)), static_cast<float>(1)));
         _sfmlModule.setState(MenuDrawer::State::SETTINGS);
     }
     if (stateMenu == MenuDrawer::State::GAME) {
@@ -190,6 +190,7 @@ void Client::handleReceive(const boost::system::error_code& ec, std::size_t byte
         startReceive();
         return;
     }
+    std::cout << "MMMMMEEEEEEESSSSSSAAAAAGGGGGGEEEEE:\n\n\n\n\n\n" << p._message << "\n\n\n\n\n\n";
     handleServerMessage(p._message);
     startReceive();
 }
@@ -295,7 +296,7 @@ void Client::handleBusy(std::string& update)
     std::cout << "code received" << std::endl;
 }
 
-void Client::send(const std::string &str)
+void Client::send(const std::string& str)
 {
     boost::system::error_code err;
     std::size_t bytes = 0;
@@ -316,7 +317,7 @@ void Client::updateEntity(int entityId, const sf::Vector2f& entityPos) const
 {
     for (size_t index = 0; index != _entities.size(); index++) {
         if ((_entities[index].get()->getId() == entityId)) {
-            _entities.at(index).get()->update(entityPos.x, entityPos.y);
+            _entities.at(index).get()->update((static_cast<int>(entityPos.x)), (static_cast<int>(entityPos.y)));
         }
     }
 }

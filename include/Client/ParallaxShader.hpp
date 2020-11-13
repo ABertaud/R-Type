@@ -17,8 +17,8 @@ class ParallaxShader {
         sf::Sprite _sprite;
         sf::Shader _parallaxShader;
     public:
-        ParallaxShader(const std::string &, const sf::Vector2f &scale);
+        ParallaxShader(const std::string& , const sf::Vector2f& scale);
         ~ParallaxShader();
-        void setScale(const sf::Vector2f &);
-        void parallaxShaderDraw(sf::RenderWindow &window);
+        void setScale(const sf::Vector2f& );
+        void parallaxShaderDraw(sf::RenderWindow& window);
 };

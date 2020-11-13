@@ -29,18 +29,18 @@ class Animation
         int _error;
         std::map<StateAnim, std::pair<int, std::vector<sf::IntRect>>> _frames;
 
-        int getCurrentFrame(const StateAnim &);
-        std::vector<sf::IntRect> getFrames(const StateAnim &state);
-        void setFramePos(int pos, const StateAnim &state);
+        int getCurrentFrame(const StateAnim& );
+        std::vector<sf::IntRect> getFrames(const StateAnim& state);
+        void setFramePos(int pos, const StateAnim& state);
 
     public:
-        Animation(const sf::Time &frameTime);
+        Animation(const sf::Time& frameTime);
         ~Animation();
-        void addFrame(const StateAnim &, const sf::IntRect&);
-        sf::IntRect getFrame(const StateAnim &);
-        sf::IntRect update(sf::Time deltaTime, const StateAnim &state);
+        void addFrame(const StateAnim& , const sf::IntRect&);
+        sf::IntRect getFrame(const StateAnim& );
+        sf::IntRect update(sf::Time deltaTime, const StateAnim& state);
         StateAnim getState()const;
-        void setState(const StateAnim &);
+        void setState(const StateAnim& );
 
 };
 

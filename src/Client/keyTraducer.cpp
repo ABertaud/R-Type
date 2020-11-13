@@ -62,7 +62,7 @@ keyTraducer::~keyTraducer()
 {
 }
 
-bool keyTraducer::traduceLetter(const sf::Keyboard::Key &key, std::string &c)
+bool keyTraducer::traduceLetter(const sf::Keyboard::Key& key, std::string& c)
 {
     if ((c.length() == 8) && (key != sf::Keyboard::Enter) && (key != sf::Keyboard::Backspace))
         return (false);
@@ -82,7 +82,7 @@ bool keyTraducer::traduceLetter(const sf::Keyboard::Key &key, std::string &c)
     return (false);
 }
 
-Graphic::Command keyTraducer::traduceKey(const sf::Keyboard::Key &key)
+Graphic::Command keyTraducer::traduceKey(const sf::Keyboard::Key& key)
 {
     for (std::map<sf::Keyboard::Key, Graphic::Command>::iterator it = _inputs.begin(); it != _inputs.end(); it++)
     {

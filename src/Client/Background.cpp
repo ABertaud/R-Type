@@ -8,7 +8,7 @@
 #include "Background.hpp"
 #include <iostream>
 
-Graphic::Background::Background(int id, bool bonus, const sf::Vector2f &test, const animation &anime) : 
+Graphic::Background::Background(int id, bool bonus, const sf::Vector2f& test, const animation& anime) : 
 Graphic::Entity(id, BACKGROUND, bonus, test, anime)
 {
 }

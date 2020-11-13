@@ -20,8 +20,8 @@ class keyTraducer
 public:
     keyTraducer();
     ~keyTraducer();
-    bool traduceLetter(const sf::Keyboard::Key &key, std::string &);
-    Graphic::Command traduceKey(const sf::Keyboard::Key &key);
+    bool traduceLetter(const sf::Keyboard::Key& key, std::string& );
+    Graphic::Command traduceKey(const sf::Keyboard::Key& key);
 
 private:
     std::map<sf::Keyboard::Key, char> _keys;

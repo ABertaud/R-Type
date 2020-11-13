@@ -7,7 +7,7 @@
 
 #include "Player.hpp"
 
-Graphic::Player::Player(int id, const entityType &type, bool bonus, const sf::Vector2f &test, const animation &anime) :
+Graphic::Player::Player(int id, const entityType& type, bool bonus, const sf::Vector2f& test, const animation& anime) :
 Graphic::Entity(id, type, bonus, test, anime)
 {
     sf::IntRect rect(0, 0, 33.2, 20);

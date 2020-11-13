@@ -8,7 +8,7 @@
 #include "ParallaxShader.hpp"
 #include <iostream>
 
-ParallaxShader::ParallaxShader(const std::string &path, const sf::Vector2f &scale) : _offset(0.f), _scale({scale.x, scale.y})
+ParallaxShader::ParallaxShader(const std::string& path, const sf::Vector2f& scale) : _offset(0.f), _scale({scale.x, scale.y})
 {
     if (!_texture.loadFromFile(path.c_str())) {
         return;
@@ -33,13 +33,13 @@ ParallaxShader::~ParallaxShader()
 {
 }
 
-void ParallaxShader::setScale(const sf::Vector2f &scale)
+void ParallaxShader::setScale(const sf::Vector2f& scale)
 {
     _scale = scale;
     _sprite.setScale(_scale);
 }
 
-void ParallaxShader::parallaxShaderDraw(sf::RenderWindow &window)
+void ParallaxShader::parallaxShaderDraw(sf::RenderWindow& window)
 {
     _parallaxShader.setUniform("offset", _offset += _clock.restart().asSeconds() / 10);
     window.draw(_sprite, &_parallaxShader);

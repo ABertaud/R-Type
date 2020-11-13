@@ -7,7 +7,7 @@
 #include "MenuDrawer.hpp"
 #include <iostream>
 
-MenuDrawer::MenuDrawer(const sf::Vector2f &scale) : _state(HOME), _winpos({1116, 797}), _scale(scale), _text(TextDrawer()), 
+MenuDrawer::MenuDrawer(const sf::Vector2f& scale) : _state(HOME), _winpos({1116, 797}), _scale(scale), _text(TextDrawer()), 
 _key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale)
 {
     setButton();
@@ -42,7 +42,7 @@ void MenuDrawer::setButton()
     loadSprite("../../ressources/sprites/jumelles.png", VIEW, sf::IntRect(0, 0, 28, 19), {0.35f, 0.35f}); 
 }
 
-void MenuDrawer::setScale(const sf::Vector2f &scale)
+void MenuDrawer::setScale(const sf::Vector2f& scale)
 {
     _scale = scale;
 }
@@ -53,7 +53,7 @@ void MenuDrawer::reSize(void)
     _parallaxShader.setScale(_scale);
 }
 
-sf::Vector2f MenuDrawer::getPosButton(const State &obj)
+sf::Vector2f MenuDrawer::getPosButton(const State& obj)
 {
     sf::Vector2f error(-1, -1);
 
@@ -97,7 +97,7 @@ void MenuDrawer::initPosButton()
 
 }
 
-void MenuDrawer::loadSpriteSize(const std::string &path, const entityType &obj, sf::IntRect rect, const posVector &scale)
+void MenuDrawer::loadSpriteSize(const std::string& path, const entityType& obj, sf::IntRect rect, const posVector& scale)
 {
     sf::Sprite sprite;
 
@@ -111,7 +111,7 @@ void MenuDrawer::loadSpriteSize(const std::string &path, const entityType &obj, 
 }
 
 
-void MenuDrawer::loadSprite(const std::string &path, const State &obj, sf::IntRect rect,  const posVector &scale)
+void MenuDrawer::loadSprite(const std::string& path, const State& obj, sf::IntRect rect,  const posVector& scale)
 {
     sf::Sprite sprite;
 
@@ -124,7 +124,7 @@ void MenuDrawer::loadSprite(const std::string &path, const State &obj, sf::IntRe
     _buttons.insert(std::make_pair(obj, sprite));
 }
 
-MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow &window, sf::Event &event)
+MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& event)
 {
     for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
         if ((it)->second.getGlobalBounds().contains(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
@@ -141,7 +141,7 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow &window, sf::Event &e
     return _state;
 }
 
-MenuDrawer::State MenuDrawer::handleMenu(sf::RenderWindow &window, sf::Event &event)
+MenuDrawer::State MenuDrawer::handleMenu(sf::RenderWindow& window, sf::Event& event)
 {
     sf::Vector2i mouse_pos = sf::Mouse::getPosition(window); 
     sf::Vector2f translated_pos = window.mapPixelToCoords(mouse_pos);
@@ -167,14 +167,14 @@ MenuDrawer::State MenuDrawer::getState() const
     return _state;
 }
 
-bool MenuDrawer::checkView(const State &state)
+bool MenuDrawer::checkView(const State& state)
 {
     if (state == HOME)
         return true;
     return false;
 }
 
-bool MenuDrawer::checkSettings(const State &state)
+bool MenuDrawer::checkSettings(const State& state)
 {
     if (state == BIG)
         return true;
@@ -185,7 +185,7 @@ bool MenuDrawer::checkSettings(const State &state)
     return false;
 }
 
-bool MenuDrawer::checkRoom(const State &state)
+bool MenuDrawer::checkRoom(const State& state)
 {
     if (state == READY)
         return true;
@@ -198,7 +198,7 @@ bool MenuDrawer::checkRoom(const State &state)
     return false;
 }
 
-bool MenuDrawer::checkHome(const State &state)
+bool MenuDrawer::checkHome(const State& state)
 {
     if (state == NEW)
         return true;
@@ -213,7 +213,7 @@ bool MenuDrawer::checkHome(const State &state)
     return false;
 }
 
-void MenuDrawer::drawHome(sf::RenderWindow &window, const std::string &playerName)
+void MenuDrawer::drawHome(sf::RenderWindow& window, const std::string& playerName)
 {
     sf::Vector2f pos;
     sf::Vector2f defaultVal(-1, -1);
@@ -249,7 +249,7 @@ std::string MenuDrawer::getRoomName()const
     return (_roomName);
 }
 
-void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&entities, const ClientState &clientS)
+void MenuDrawer::draw(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&entities, const ClientState& clientS)
 {
     sf::Vector2f defaultVal(-1, -1);
 
@@ -282,7 +282,7 @@ void MenuDrawer::draw(sf::RenderWindow &window, const std::string &playerName, s
         drawRoom(window, playerName, event, entities, clientS);   // window()
 }
 
-void MenuDrawer::drawSettings(sf::RenderWindow &window)
+void MenuDrawer::drawSettings(sf::RenderWindow& window)
 {
     sf::Vector2f defaultVal(-1, -1);
 
@@ -295,7 +295,7 @@ void MenuDrawer::drawSettings(sf::RenderWindow &window)
     window.display();
 }
 
-std::string MenuDrawer::getPlayerName(const entityType &type)
+std::string MenuDrawer::getPlayerName(const entityType& type)
 {
     if (type == P1)
         return std::string("player 1");
@@ -308,7 +308,7 @@ std::string MenuDrawer::getPlayerName(const entityType &type)
     return std::string("");    
 }
 
-void MenuDrawer::drawPlayerRoom(const std::shared_ptr<Players> &player, sf::RenderWindow &window)
+void MenuDrawer::drawPlayerRoom(const std::shared_ptr<Players>& player, sf::RenderWindow& window)
 {
     float x = (_winpos.x / 6 - 20) * _scale.x;
     float y = (_winpos.y / 6) * _scale.y;
@@ -339,7 +339,7 @@ void MenuDrawer::drawPlayerRoom(const std::shared_ptr<Players> &player, sf::Rend
     }
 }
 
-void MenuDrawer::drawRect(const sf::Vector2f &pos, sf::RenderWindow &window)
+void MenuDrawer::drawRect(const sf::Vector2f& pos, sf::RenderWindow& window)
 {
     for (std::map<entityType, sf::Sprite>::iterator it = _players.begin(); it != _players.end(); it++) {
         if ((it)->first == WALL) {
@@ -351,7 +351,7 @@ void MenuDrawer::drawRect(const sf::Vector2f &pos, sf::RenderWindow &window)
     }
 }
 
-void MenuDrawer::drawIconStat(const State &state, sf::RenderWindow &window, sf::Vector2f pos)
+void MenuDrawer::drawIconStat(const State& state, sf::RenderWindow& window, sf::Vector2f pos)
 {
     sf::Texture texture;
     sf::Sprite go;
@@ -369,7 +369,7 @@ void MenuDrawer::drawIconStat(const State &state, sf::RenderWindow &window, sf::
     window.draw(go);    
 }
 
-void MenuDrawer::drawState(const State &state, sf::RenderWindow &window, const sf::Vector2f &pos)
+void MenuDrawer::drawState(const State& state, sf::RenderWindow& window, const sf::Vector2f& pos)
 {
     for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
         if ((it)->first == state) {
@@ -382,12 +382,12 @@ void MenuDrawer::drawState(const State &state, sf::RenderWindow &window, const s
     }
 }
 
-void MenuDrawer::setState(const State &state)
+void MenuDrawer::setState(const State& state)
 {
     _state = state;
 }
 
-void MenuDrawer::drawButton(const State &state, const sf::Vector2f &pos, sf::RenderWindow &window)
+void MenuDrawer::drawButton(const State& state, const sf::Vector2f& pos, sf::RenderWindow& window)
 {
     sf::Vector2f defaultVal(-1, -1);
     sf::Vector2f set;
@@ -406,7 +406,7 @@ void MenuDrawer::drawButton(const State &state, const sf::Vector2f &pos, sf::Ren
     }
 }
 
-void MenuDrawer::drawRoom(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&Players, const ClientState &clientS)
+void MenuDrawer::drawRoom(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&Players, const ClientState& clientS)
 {
     float x = (_winpos.x / 2 + 250) * _scale.x;
     float y = (_winpos.y / 6 - 100) * _scale.y;
@@ -428,7 +428,7 @@ void MenuDrawer::drawRoom(sf::RenderWindow &window, const std::string &playerNam
     window.display();
 }
 
-const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &event, const State& state)
+const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& event, const State& state)
 {
     std::string port = "";
     sf::Vector2f posConditions((50* _scale.x), (_winpos.y /4 - 50)* _scale.y);
@@ -482,7 +482,7 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow &window, sf::Event &ev
     return (port);
 }
 
-sf::RectangleShape MenuDrawer::createRectangleShape(const sf::Vector2f &size, const sf::Vector2f &pos, const sf::Color &color)
+sf::RectangleShape MenuDrawer::createRectangleShape(const sf::Vector2f& size, const sf::Vector2f& pos, const sf::Color& color)
 {
     sf::RectangleShape rect(size);
 
@@ -491,8 +491,8 @@ sf::RectangleShape MenuDrawer::createRectangleShape(const sf::Vector2f &size, co
     return (rect);
 }
 
-void MenuDrawer::displayJoinScene(const sf::Vector2f &posConditions, const sf::Vector2f &posName, \
-const sf::RectangleShape &rect, const sf::Vector2f &posEnter, const std::string &port, sf::RenderWindow &window, const sf::Sprite &back)
+void MenuDrawer::displayJoinScene(const sf::Vector2f& posConditions, const sf::Vector2f& posName, \
+const sf::RectangleShape& rect, const sf::Vector2f& posEnter, const std::string& port, sf::RenderWindow& window, const sf::Sprite& back)
 {
     window.clear();
     _parallaxShader.parallaxShaderDraw(window);

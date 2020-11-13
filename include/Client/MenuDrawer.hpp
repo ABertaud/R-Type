@@ -39,13 +39,13 @@ public:
         VIEW = 15,
     };
 public:
-    MenuDrawer(const sf::Vector2f &scale);
+    MenuDrawer(const sf::Vector2f& scale);
     ~MenuDrawer();
-    void draw(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>& players, const ClientState& clientS);
-    State handleMenu(sf::RenderWindow &window, sf::Event &event);
-    void setScale(const sf::Vector2f &);
+    void draw(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>& players, const ClientState& clientS);
+    State handleMenu(sf::RenderWindow& window, sf::Event& event);
+    void setScale(const sf::Vector2f& );
     std::string getRoomName()const;
-    void setState(const State &);
+    void setState(const State& );
     void reSize();
     State getState() const;
 
@@ -66,28 +66,28 @@ private:
     std::vector<std::shared_ptr<sf::Texture>> _textures;
 
     void setButton();
-    void drawButton(const State &state, const sf::Vector2f &pos, sf::RenderWindow &window);
-    void loadSprite(const std::string &path, const State &obj, sf::IntRect,  const posVector &scale);
-    void drawHome(sf::RenderWindow &window, const std::string &playerName);
-    bool checkHome(const State &);
-    State clickButton(sf::RenderWindow &window, sf::Event &event);
-    sf::Vector2f getPosButton(const State &obj);
+    void drawButton(const State& state, const sf::Vector2f& pos, sf::RenderWindow& window);
+    void loadSprite(const std::string& path, const State& obj, sf::IntRect,  const posVector& scale);
+    void drawHome(sf::RenderWindow& window, const std::string& playerName);
+    bool checkHome(const State& );
+    State clickButton(sf::RenderWindow& window, sf::Event& event);
+    sf::Vector2f getPosButton(const State& obj);
     void initPosButton();
-    std::string getPlayerName(const entityType &type);
-    void displayJoinScene(const sf::Vector2f &posConditions, const sf::Vector2f &posName, const sf::RectangleShape &rect, \
-    const sf::Vector2f &posEnter, const std::string &port, sf::RenderWindow &window,  const sf::Sprite &back);
-    const std::string enterScene(sf::RenderWindow &window, sf::Event &event, const State& state);
-    sf::RectangleShape createRectangleShape(const sf::Vector2f &size, const sf::Vector2f &pos, const sf::Color &color);
-    void drawRoom(sf::RenderWindow &window, const std::string &playerName, sf::Event &event, const std::vector<std::shared_ptr<Players>>&players, const ClientState &clientS);
-    void drawPlayerRoom(const std::shared_ptr<Players> &player, sf::RenderWindow &window);
-    void loadSpriteSize(const std::string &path, const entityType &obj, sf::IntRect, const posVector &scale);
-    void drawRect(const sf::Vector2f &, sf::RenderWindow &window);
-    void drawState(const State &state, sf::RenderWindow &window, const sf::Vector2f &pos);
-    void drawIconStat(const State &state, sf::RenderWindow &window, sf::Vector2f pos);
-    bool checkRoom(const State &state);
-    bool checkSettings(const State &state);
-    void drawSettings(sf::RenderWindow &window);
-    bool checkView(const State &state);
+    std::string getPlayerName(const entityType& type);
+    void displayJoinScene(const sf::Vector2f& posConditions, const sf::Vector2f& posName, const sf::RectangleShape& rect, \
+    const sf::Vector2f& posEnter, const std::string& port, sf::RenderWindow& window,  const sf::Sprite& back);
+    const std::string enterScene(sf::RenderWindow& window, sf::Event& event, const State& state);
+    sf::RectangleShape createRectangleShape(const sf::Vector2f& size, const sf::Vector2f& pos, const sf::Color& color);
+    void drawRoom(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&players, const ClientState& clientS);
+    void drawPlayerRoom(const std::shared_ptr<Players>& player, sf::RenderWindow& window);
+    void loadSpriteSize(const std::string& path, const entityType& obj, sf::IntRect, const posVector& scale);
+    void drawRect(const sf::Vector2f& , sf::RenderWindow& window);
+    void drawState(const State& state, sf::RenderWindow& window, const sf::Vector2f& pos);
+    void drawIconStat(const State& state, sf::RenderWindow& window, sf::Vector2f pos);
+    bool checkRoom(const State& state);
+    bool checkSettings(const State& state);
+    void drawSettings(sf::RenderWindow& window);
+    bool checkView(const State& state);
 };
 
 #endif /* !MenuDrawer_HPP_ */

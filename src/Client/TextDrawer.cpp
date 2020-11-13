@@ -27,7 +27,7 @@ TextDrawer::~TextDrawer()
 {
 }
 
-void TextDrawer::draw(sf::Vector2f pos, const std::string &to_print, sf::RenderWindow &window, const sf::Color &color)
+void TextDrawer::draw(sf::Vector2f pos, const std::string& to_print, sf::RenderWindow& window, const sf::Color& color)
 {
     _text.setString(to_print);
     _text.setPosition(pos);
@@ -36,7 +36,7 @@ void TextDrawer::draw(sf::Vector2f pos, const std::string &to_print, sf::RenderW
     window.draw(_text);
 }
 
-void TextDrawer::drawSize(sf::Vector2f pos, const std::string &to_print, sf::RenderWindow &window, int size, const sf::Color &color)
+void TextDrawer::drawSize(sf::Vector2f pos, const std::string& to_print, sf::RenderWindow& window, int size, const sf::Color& color)
 {
     _text.setString(to_print);
     _text.setPosition(pos);
@@ -45,7 +45,7 @@ void TextDrawer::drawSize(sf::Vector2f pos, const std::string &to_print, sf::Ren
     window.draw(_text);
 }
 
-void TextDrawer::drawPos(sf::Vector2f pos, const std::string &to_print, sf::RenderWindow &window, int size, const sf::Vector2f &scale, const sf::Color &color)
+void TextDrawer::drawPos(sf::Vector2f pos, const std::string& to_print, sf::RenderWindow& window, int size, const sf::Vector2f& scale, const sf::Color& color)
 {
     pos.x *= scale.x;
     pos.y *= scale.y;
@@ -56,7 +56,7 @@ void TextDrawer::drawPos(sf::Vector2f pos, const std::string &to_print, sf::Rend
     window.draw(_text);
 }
 
-void TextDrawer::setScale(const sf::Vector2f &scale)
+void TextDrawer::setScale(const sf::Vector2f& scale)
 {
     _scale = scale;
 }

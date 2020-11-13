@@ -13,7 +13,7 @@
 #include "BinaryProtocol.hpp"
 #include "boost/uuid/uuid_io.hpp"
 
-Lobby::Lobby(const std::string &name) : _name(name), _state(FREE)
+Lobby::Lobby(const std::string& name) : _name(name), _state(FREE)
 {
     _available.push(ECS::P1);
     _available.push(ECS::P2);

@@ -16,7 +16,7 @@
 #include <map>
 #include <boost/array.hpp>
 
-constexpr unsigned int SIZE = 1024;
+constexpr unsigned int BUFFSIZE = 1024;
 constexpr unsigned int PORT = 1666;
 
 class udpServer : public INetwork {
@@ -45,13 +45,13 @@ private:
     void removeClient(const boost::uuids::uuid& uuid);
     void handleReceive(const boost::system::error_code& error, std::size_t);
     void handleSend(const std::string&, const boost::system::error_code&, std::size_t);
-    bool isLobbyNameAvailable(const std::string &name);
+    bool isLobbyNameAvailable(const std::string& name);
     void routineMenu(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, std::queue<ECS::playerNumber>& available);
     void serverEndHandler(const boost::system::error_code& /*e*/);
     std::shared_ptr<boost::asio::ip::udp::socket> _socket;
     boost::asio::ip::udp::endpoint _remoteEndpoint;
     BinaryProtocol::Codec _binCodec;
-    boost::array<uint8_t, SIZE> _data;
+    boost::array<uint8_t, BUFFSIZE> _data;
     std::vector<clientPtr> _clients;
     std::vector<Lobby> _lobbies;
     std::shared_ptr<Buffer> _buffer;

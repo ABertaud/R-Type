@@ -16,7 +16,7 @@ class Error : public std::exception
         const std::string _message;
 
     public:
-        Error(std::string const &message);
+        Error(std::string const& message);
         Error(const Error& other) = default;
         const char *what() const noexcept override;
         Error& operator=(const Error& other) = default;
@@ -37,7 +37,7 @@ class ErrorArgs : public Error
     public:
         ErrorArgs(const std::string& err);
         ErrorArgs(const ErrorArgs& other) = default;
-        ErrorArgs &operator=(const ErrorArgs& other) = default;
+        ErrorArgs& operator=(const ErrorArgs& other) = default;
         ~ErrorArgs() = default;
 };
 
@@ -97,26 +97,4 @@ namespace ECS {
             ~ErrorEntitiesNumber() = default;
     };
 }
-
-/*namespace Client_err {
-
-    class ErrorClient : public Error
-    {
-        public:
-            ErrorClient(const std::string&);
-            ErrorClient(const ErrorClient& other) = default;
-            ErrorClient& operator=(const ErrorClient& other) = default;
-            ~ErrorClient() = default;
-    };
-
-    class ErrorClientNetwork : public ErrorClient
-    {
-        public:
-            ErrorClientNetwork();
-            ErrorClientNetwork(const ErrorClientNetwork& other) = default;
-            ErrorClientNetwork& operator=(const ErrorClientNetwork& other) = default;
-            ~ErrorClientNetwork() = default;
-    };
-}*/
-
 #endif /*ERROR_HPP_*/

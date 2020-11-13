@@ -28,24 +28,24 @@ void ECS::movementSystem::update(const float dt, ECS::ECSEngine& engine)
 
 void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& vel, const float dt)
 {
-    pos._x += vel._vx * dt;
-    pos._y += vel._vy * dt;
+    pos._x += static_cast<int>(vel._vx * dt);
+    pos._y += static_cast<int>(vel._vy * dt);
 }
 
 void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& vel, const float dt, ECS::Player& player)
 {
     switch (player._direction) {
         case ECS::UP:
-            pos._y -= vel._vy * dt;
+            pos._y -= static_cast<int>(vel._vy * dt);
             break;
         case ECS::DOWN:
-            pos._y += vel._vy * dt;
+            pos._y += static_cast<int>(vel._vy * dt);
             break;
         case ECS::RIGHT:
-            pos._x += vel._vx * dt;
+            pos._x += static_cast<int>(vel._vx * dt);
             break;
         case ECS::LEFT:
-            pos._x -= vel._vx * dt;
+            pos._x -= static_cast<int>(vel._vx * dt);
             break;
         case ECS::NONE:
             break;

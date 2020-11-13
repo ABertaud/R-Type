@@ -8,7 +8,7 @@
 #include "Animation.hpp"
 
 #include <iostream>
-Animation::Animation(const sf::Time &frameTime = sf::seconds(0.2)) : _frameTime(frameTime), _currentTime(sf::Time::Zero), _currentState(IDLE), _error(-1)
+Animation::Animation(const sf::Time& frameTime = sf::seconds((static_cast<float>(0.2)))) : _frameTime(frameTime), _currentTime(sf::Time::Zero), _currentState(IDLE), _error(-1)
 {
     std::vector<sf::IntRect> idle, action, left, rigth, down, up, shoot;
     _frames.insert(std::make_pair(IDLE, std::make_pair(0, idle)));
@@ -27,7 +27,7 @@ Animation::~Animation()
 {
 }
 
-void Animation::addFrame(const StateAnim &state, const sf::IntRect &frame)
+void Animation::addFrame(const StateAnim& state, const sf::IntRect& frame)
 {
     for (std::map<StateAnim, std::pair<int, std::vector<sf::IntRect>>>::iterator it = _frames.begin(); it != _frames.end(); it++) {
         if (it->first == state)
@@ -40,12 +40,12 @@ Animation::StateAnim Animation::getState()const
     return _currentState;
 }
 
-void Animation::setState(const StateAnim &state)
+void Animation::setState(const StateAnim& state)
 {
     _currentState = state;
 }
 
-sf::IntRect Animation::getFrame(const StateAnim &state)
+sf::IntRect Animation::getFrame(const StateAnim& state)
 {
     sf::IntRect error(-1, -1, -1, -1);
     
@@ -56,7 +56,7 @@ sf::IntRect Animation::getFrame(const StateAnim &state)
     return error;
 }
 
-int Animation::getCurrentFrame(const StateAnim &state)
+int Animation::getCurrentFrame(const StateAnim& state)
 {
     for (std::map<StateAnim, std::pair<int, std::vector<sf::IntRect>>>::iterator it = _frames.begin(); it != _frames.end(); it++) {
            if (it->first == state)
@@ -65,7 +65,7 @@ int Animation::getCurrentFrame(const StateAnim &state)
     return _error;
 }
 
-std::vector<sf::IntRect> Animation::getFrames(const StateAnim &state)
+std::vector<sf::IntRect> Animation::getFrames(const StateAnim& state)
 {
     std::vector<sf::IntRect> error;
 
@@ -77,7 +77,7 @@ std::vector<sf::IntRect> Animation::getFrames(const StateAnim &state)
     return error;
 }
 
-void Animation::setFramePos(int pos, const StateAnim &state)
+void Animation::setFramePos(int pos, const StateAnim& state)
 {
     for (std::map<StateAnim, std::pair<int, std::vector<sf::IntRect>>>::iterator it = _frames.begin(); it != _frames.end(); it++) {
         if (it->first == state)
@@ -85,7 +85,7 @@ void Animation::setFramePos(int pos, const StateAnim &state)
     }
 }
 
-sf::IntRect Animation::update(sf::Time deltaTime, const StateAnim &state)
+sf::IntRect Animation::update(sf::Time deltaTime, const StateAnim& state)
 {
     int currentFrame = getCurrentFrame(state);
     int frame = 0;
@@ -99,7 +99,7 @@ sf::IntRect Animation::update(sf::Time deltaTime, const StateAnim &state)
         _currentTime = sf::microseconds(_currentTime.asMicroseconds() % _frameTime.asMicroseconds());
         
         // get next Frame index
-        frame = getFrames(state).size();
+        frame = (static_cast<int>(getFrames(state).size()));
         if (currentFrame + 1 < frame) {
             currentFrame++;
             setFramePos(currentFrame, state);

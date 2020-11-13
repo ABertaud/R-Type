@@ -135,7 +135,7 @@ void udpServer::parserNoneState(clientPtr& clt, std::string& buffer)
         }
     } else if (std::strcmp(command.c_str(), "202") == 0) {
         if (doesLobbyExist(firstArg) == true) {
-            auto &lobby = findLobby(firstArg);
+            auto& lobby = findLobby(firstArg);
             if (lobby.isRoomFull() == true || lobby.getState() != Lobby::FREE) {
                 send("444");
             } else {
@@ -279,7 +279,7 @@ void udpServer::removeClient(const boost::uuids::uuid& uuid)
     }
 }
 
-void udpServer::send(const std::string &toSend)
+void udpServer::send(const std::string& toSend)
 {
     _socket->async_send_to(boost::asio::buffer(_binCodec.serialize(_binCodec.createPacket(toSend))), _remoteEndpoint,
     boost::bind(&udpServer::handleSend, this, toSend,
@@ -296,7 +296,7 @@ Lobby& udpServer::findLobby(const clientPtr& client)
     return (_lobbies.front());
 }
 
-bool udpServer::isLobbyNameAvailable(const std::string &name)
+bool udpServer::isLobbyNameAvailable(const std::string& name)
 {
     if (name == "")
         return (false);
@@ -306,7 +306,7 @@ bool udpServer::isLobbyNameAvailable(const std::string &name)
     return (true);
 }
 
-void udpServer::serverEndHandler(const boost::system::error_code& /*e*/)
+void udpServer::serverEndHandler(const boost::system::error_code&)
 {
     bool canLeave = true;
 

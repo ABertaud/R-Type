@@ -26,6 +26,6 @@ std::vector<std::string>& Buffer::getData(boost::uuids::uuid& uuid)
 
 void Buffer::addData(boost::uuids::uuid& uuid, const std::string& data)
 {
-    std::vector<std::string> &buff = _sBuffer[uuid];
+    std::vector<std::string>& buff = _sBuffer[uuid];
     buff.push_back(data);
 }

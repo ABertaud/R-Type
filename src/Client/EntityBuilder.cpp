@@ -24,7 +24,7 @@ EntityBuilder::EntityBuilder()
 {
 }
 
-const Graphic::Entity &EntityBuilder::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
+const Graphic::Entity& EntityBuilder::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
 {
     if (entityType == BACKGROUND)
         return (Graphic::Background(entityId, bonus, entityPos, ANIMATION_0));

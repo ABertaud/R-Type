@@ -27,7 +27,7 @@ namespace ECS {
         void update(const float dt, ECSEngine& engine);
         ~collisionSystem() = default;
     private: 
-        void checkCollision(const Entity ent, std::vector<Entity> &entities, ECS::ECSEngine& engine, std::vector<entityType>& CollisionTypes);
+        void checkCollision(const Entity ent, std::vector<Entity>& entities, ECS::ECSEngine& engine, std::vector<entityType>& CollisionTypes);
         void createBomb(const Position& pos, ECS::ECSEngine& engine);
         bool isPossibleCollision(const entityType type, std::vector<entityType>& types);
         bool isExplodable(const entityType type);

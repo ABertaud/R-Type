@@ -33,7 +33,7 @@ void ECS::collisionSystem::update(const float dt, ECS::ECSEngine& engine)
     }
 }
 
-void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity> &entities, ECS::ECSEngine& engine, std::vector<entityType>& CollisionTypes)
+void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity>& entities, ECS::ECSEngine& engine, std::vector<entityType>& CollisionTypes)
 {
     auto& playerPos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
     auto& playerDim = engine.getComponent<ECS::Dimensions>(ent, ECS::DIMENSIONS);

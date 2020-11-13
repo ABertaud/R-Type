@@ -13,7 +13,7 @@
 namespace Graphic {
 class PirateShoot : public Graphic::Entity {
     public:
-        PirateShoot(int id, bool bonus, const sf::Vector2f &test, const animation &anime);
+        PirateShoot(int id, bool bonus, const sf::Vector2f& test, const animation& anime);
         ~PirateShoot();
         entityType getType()const;
     private:

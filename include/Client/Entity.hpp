@@ -13,16 +13,16 @@
 namespace Graphic {
 class Entity : public Graphic::IEntity {
     public:
-        Entity(int id, const entityType &type, bool bonus, const sf::Vector2f &pos, const animation &anime);
-        Entity(const Entity &other) = default;
-        Entity &operator=(const Entity &other) = default;
+        Entity(int id, const entityType& type, bool bonus, const sf::Vector2f& pos, const animation& anime);
+        Entity(const Entity& other) = default;
+        Entity& operator=(const Entity& other) = default;
         virtual ~Entity();
         sf::Vector2f getPos()const;
-        void setscale(const sf::Vector2f &scale);
+        void setscale(const sf::Vector2f& scale);
         int getId(void) const;
         entityType getType() const;
         animation getCurrentAnimation()const;
-        sf::IntRect getRectAnime(const animation &);
+        sf::IntRect getRectAnime(const animation& );
         virtual void update(const sf::Vector2f& pos);
         virtual void update(int x, int y);
     protected:

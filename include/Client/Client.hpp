@@ -40,8 +40,7 @@ class Client : public INetwork
         void startReceive(void);
         void loop(void);
         int checkMenuState(const MenuDrawer::State& state);
-        int checkGameState(const Graphic::Command &com);
-        // void write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred);
+        int checkGameState(const Graphic::Command& com);
         void handleReceive(const boost::system::error_code&, std::size_t);
         void handleServerMessage(std::string& update);
         void handleUpdateMenu(std::string& update);
