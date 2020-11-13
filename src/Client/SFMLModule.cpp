@@ -203,7 +203,7 @@ void SFMLModule::displayPlayerScene(const sf::Vector2f& posConditions, const sf:
     _window.draw(_background);
     _window.draw(rect);
     _text.draw(posConditions, "Enter your playername.", _window);
-    _text.draw(posName, playerName, _window, sf::Color::Black);
+    _text.draw(posName, playerName, _window, sf::Color::White);
     _text.draw(posEnter, "Press enter to confirm.", _window);
     _window.display();
 }
