@@ -29,14 +29,14 @@ enum entityType
     BOMB,
 };
 
-enum entityState
-{
-   BASIC,
-   SPECIAL,
-   BONUS,
-};
+// enum animationState
+// {
+//    BASIC,
+//    SPECIAL,
+//    BONUS,
+// };
 
-enum animation
+enum animationState
 {
     ANIMATION_0,
     ANIMATION_1,

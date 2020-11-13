@@ -8,7 +8,7 @@
 #include "PirateShoot.hpp"
 #include <iostream>
 
-Graphic::PirateShoot::PirateShoot(int id, bool bonus, const sf::Vector2f& test, const animation& anime) : 
+Graphic::PirateShoot::PirateShoot(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
 Graphic::Entity(id, PIRATE_SHOOT, bonus, test, anime)
 {
 }

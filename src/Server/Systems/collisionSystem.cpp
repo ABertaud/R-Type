@@ -47,18 +47,19 @@ void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity>&
             auto& pos = engine.getComponent<ECS::Position>(*obstacle, ECS::POSITION);
             auto& dim = engine.getComponent<ECS::Dimensions>(*obstacle, ECS::DIMENSIONS);
             auto& details = engine.getComponent<ECS::entityDetails>(*obstacle, ECS::ENTITY_DETAILS);
-            if (isPossibleCollision(details._type, CollisionTypes) == true) {
+            if (isPossibleCollision(details._type, CollisionTypes) == true && details._toUpdate == true) {
                 posXMax = pos._x + dim._x;
                 posYMax = pos._y + dim._y;
                 Position interPos = findIntersection(playerPos, playerPosMax, pos, Position(posXMax, posYMax));
                 if (interPos._x != -1) {
                     playerLife._hp -= 1;
                     if (isExplodable(details._type) == true) {
-                        engine.removeEntity(*obstacle);
-                        entities.erase(obstacle);
-                        obstacle--;
+                        // engine.removeEntity(*obstacle);
+                        // entities.erase(obstacle);
+                        // obstacle--;
+                        details._toUpdate = false;
+                        createBomb(interPos, engine);
                     }
-                    // createBomb();
                 }
             }
         }
@@ -96,10 +97,10 @@ ECS::Position ECS::collisionSystem::findIntersection(const Position& playerPos, 
     return (Position((x5 + x6) / 2, (y5 + y6) / 2));
 }
 
-void createBomb(const Position& pos, ECS::ECSEngine& engine)
+void ECS::collisionSystem::createBomb(const Position& pos, ECS::ECSEngine& engine)
 {
     Entity ent = engine.getNewEntity();
 
     engine.addComponent(ent, pos, ECS::POSITION);
-    engine.addComponent(ent, ECS::entityDetails(BOMB, entityState::BASIC), ECS::ENTITY_DETAILS);
+    engine.addComponent(ent, ECS::entityDetails(entityType::BOMB, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }

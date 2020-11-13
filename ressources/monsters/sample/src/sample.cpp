@@ -26,7 +26,7 @@ void sample::init(ECS::ECSEngine& engine)
     // engine.addComponent(ent, ECS::Position(100, 100), ECS::POSITION);
     // engine.addComponent(ent, ECS::Velocity(0, 5), ECS::POSITION);
     // engine.addComponent(ent, ECS::Dimensions(200, 200), ECS::DIMENSIONS);
-    // engine.addComponent(ent, ECS::entityDetails(entityType::ALIEN, entityState::BASIC), ECS::ENTITY_DETAILS);
+    // engine.addComponent(ent, ECS::entityDetails(entityType::ALIEN, animationState::BASIC), ECS::ENTITY_DETAILS);
     std::cout << "INIT WELL" << std::endl;
 }
 

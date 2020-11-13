@@ -30,9 +30,11 @@ void ECS::bombSystem::updateBomb(const float dt, const Entity ent, ECS::ECSEngin
 
     bomb._dt += dt;
     if (bomb._dt >= 2)
-        details._state = entityState::SPECIAL;
+        details._state = animationState::ANIMATION_1;
     else if (bomb._dt >= 4)
-        details._state = entityState::BONUS;
-    else if (bomb._dt >= 6)
-        engine.removeEntity(ent);
+        details._state = animationState::ANIMATION_2;
+    else if (bomb._dt >= 6) {
+        // engine.removeEntity(ent);
+        details._toUpdate = false;
+    }
 }

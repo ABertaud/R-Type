@@ -8,7 +8,7 @@
 #include "Ufo.hpp"
 #include <iostream>
 
-Graphic::Ufo::Ufo(int id, bool bonus, const sf::Vector2f& test, const animation& anime) : 
+Graphic::Ufo::Ufo(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
 Graphic::Entity(id, UFO, bonus, test, anime)
 {
 }

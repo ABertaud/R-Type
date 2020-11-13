@@ -23,7 +23,7 @@ namespace ECS {
         void update(const float dt, ECSEngine& engine);
         ~routineSystem() = default;
     private:
-        void sendUpdates(const Entity ent, const entityDetails& details, const Position& position);
+        void sendUpdates(const Entity ent, const entityDetails& details, const Position& position, ECS::ECSEngine& engine);
         void handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred);
         std::shared_ptr<boost::asio::ip::udp::socket> _socket;
         std::vector<std::shared_ptr<Client>> _clients;

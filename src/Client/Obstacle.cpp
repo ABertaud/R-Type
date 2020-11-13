@@ -8,7 +8,7 @@
 #include "Obstacle.hpp"
 #include <iostream>
 
-Graphic::Obstacle::Obstacle(int id, bool bonus, const sf::Vector2f& test, const animation& anime) : 
+Graphic::Obstacle::Obstacle(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
 Graphic::Entity(id, OBSTACLE, bonus, test, anime)
 {
 }

@@ -39,7 +39,8 @@ void ECS::eventSystem::handleEvent(std::vector<std::string>& events, ECS::ECSEng
     std::string event(events.front());
 
     if (std::strcmp(event.c_str(), "Off") == 0) {
-        engine.removeEntity(entity);
+        // engine.removeEntity(entity);
+        engine.getComponent<ECS::entityDetails>(entity, ECS::ENTITY_DETAILS)._toUpdate = false;
     } else if (std::strcmp(event.c_str(), "Shoot") == 0)
         createShoot(engine, entity);
     else {
@@ -58,5 +59,5 @@ void ECS::eventSystem::createShoot(ECS::ECSEngine& engine, const Entity entity)
     engine.addComponent(ent, pos, ECS::POSITION);
     engine.addComponent(ent, ECS::Dimensions(100, 100), ECS::DIMENSIONS);
     engine.addComponent(ent, ECS::Velocity(30, 0), ECS::VELOCITY);
-    engine.addComponent(ent, ECS::entityDetails(PLAYER_SHOOT, entityState::BASIC), ECS::ENTITY_DETAILS);
+    engine.addComponent(ent, ECS::entityDetails(PLAYER_SHOOT, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }

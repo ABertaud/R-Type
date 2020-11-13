@@ -13,7 +13,7 @@
 namespace Graphic {
 class Entity : public Graphic::IEntity {
     public:
-        Entity(int id, const entityType& type, bool bonus, const sf::Vector2f& pos, const animation& anime);
+        Entity(int id, const entityType& type, bool bonus, const sf::Vector2f& pos, const animationState& anime);
         Entity(const Entity& other) = default;
         Entity& operator=(const Entity& other) = default;
         virtual ~Entity();
@@ -21,8 +21,8 @@ class Entity : public Graphic::IEntity {
         void setscale(const sf::Vector2f& scale);
         int getId(void) const;
         entityType getType() const;
-        animation getCurrentAnimation()const;
-        sf::IntRect getRectAnime(const animation& );
+        animationState getCurrentAnimation()const;
+        sf::IntRect getRectAnime(const animationState& );
         virtual void update(const sf::Vector2f& pos);
         virtual void update(int x, int y);
     protected:
@@ -31,8 +31,8 @@ class Entity : public Graphic::IEntity {
         sf::Vector2f _pos;
         bool _bonus;
         sf::Vector2f _scale;
-        animation _currentAnimation;
-        std::map <animation, sf::IntRect> _animation;
+        animationState _currentAnimation;
+        std::map <animationState, sf::IntRect> _animation;
         
 };
 }

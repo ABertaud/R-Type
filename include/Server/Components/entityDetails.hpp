@@ -14,12 +14,13 @@
 namespace ECS {
     struct entityDetails : public IComponents {
         entityDetails() = default;
-        entityDetails(const entityType type, const entityState state);
+        entityDetails(const entityType type, const animationState state);
         entityDetails(const entityDetails& other) = default;
         entityDetails& operator=(const entityDetails& other) = default; 
         ~entityDetails() = default;
         entityType _type;
-        entityState _state;
+        animationState _state;
+        bool _toUpdate;
     };
 }
 

@@ -99,7 +99,7 @@ void Client::loop(void)
     std::chrono::seconds time;
     Graphic::Command check = Graphic::Command::NOTHING;
 
-    _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(0, P1, false, {100,100}, animation::ANIMATION_2)));
+    _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(0, P1, false, {100,100}, animationState::ANIMATION_2)));
     while (_sigHandler.isInterrupted() != true) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);

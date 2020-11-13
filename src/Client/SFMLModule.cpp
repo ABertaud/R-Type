@@ -140,7 +140,7 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
     sf::IntRect rect;
     sf::IntRect error(-1, -1, -1, -1);
     sf::Vector2f pos(x, y);
-    animation anime;
+    animationState anime;
 
 
     for (std::map<entityType, sf::Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {

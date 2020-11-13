@@ -26,17 +26,18 @@ void ECS::routineSystem::update(const float dt, ECS::ECSEngine& engine)
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), entities);
 
     for (auto& ent: entities) {
-        sendUpdates(ent, engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS), engine.getComponent<ECS::Position>(ent, ECS::POSITION));
+        sendUpdates(ent, engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS), engine.getComponent<ECS::Position>(ent, ECS::POSITION), engine);
     }
 }
 
-void ECS::routineSystem::sendUpdates(const Entity ent, const entityDetails& details, const Position& position)
+void ECS::routineSystem::sendUpdates(const Entity ent, const entityDetails& details, const Position& position, ECS::ECSEngine& engine)
 {
     std::string toSend("100 ");
 
     toSend += std::to_string(ent) + " ";
-    toSend += std::to_string(details._type) + "|";
-    toSend += std::to_string(details._state) + "|";
+    toSend += std::to_string(details._type) + " ";
+    toSend += std::to_string(details._state) + " ";
+    toSend += std::to_string(details._toUpdate) + " ";
     toSend += std::to_string(position._x) + ".";
     toSend += std::to_string(position._y);
     for (auto it : Zipper::zip(_clients, _players)) {
@@ -47,6 +48,8 @@ void ECS::routineSystem::sendUpdates(const Entity ent, const entityDetails& deta
             boost::asio::placeholders::bytes_transferred));
         }
     }
+    if (details._toUpdate == false)
+        engine.removeEntity(ent);
 }
 
 void ECS::routineSystem::handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred)

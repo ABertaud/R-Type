@@ -8,7 +8,7 @@
 #include "Entity.hpp"
 
 
-Graphic::Entity::Entity(int id, const entityType& type, bool bonus, const sf::Vector2f& pos, const animation& anime) : _id(id), _type(type), 
+Graphic::Entity::Entity(int id, const entityType& type, bool bonus, const sf::Vector2f& pos, const animationState& anime) : _id(id), _type(type), 
 _pos(pos), _bonus(bonus), _scale({1, 1}), _currentAnimation(anime)
 {
 
@@ -49,14 +49,14 @@ int Graphic::Entity::getId(void) const
     return (_id);
 }
 
-animation Graphic::Entity::getCurrentAnimation() const
+animationState Graphic::Entity::getCurrentAnimation() const
 {
     return  _currentAnimation;
 }
 
-sf::IntRect Graphic::Entity::getRectAnime(const animation& anime)
+sf::IntRect Graphic::Entity::getRectAnime(const animationState& anime)
 {
-    for (std::map <animation, sf::IntRect>::iterator it = _animation.begin(); it != _animation.end(); it++) {
+    for (std::map <animationState, sf::IntRect>::iterator it = _animation.begin(); it != _animation.end(); it++) {
         if ((it)->first == anime)
             return (it)->second;
     }
