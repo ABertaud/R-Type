@@ -28,6 +28,11 @@ Client::Client(const std::string &ip, unsigned short port)
     _serverResponse.insert(std::make_pair(121, &Client::handleJoinLobby));
     _serverResponse.insert(std::make_pair(131, &Client::handleStartGame));
     _serverResponse.insert(std::make_pair(666, &Client::handleBusy));
+
+    _players.push_back(std::shared_ptr<Players>(new Players(P1)));
+    _players.push_back(std::shared_ptr<Players>(new Players(P2)));
+    _players.push_back(std::shared_ptr<Players>(new Players(P3)));
+    _players.push_back(std::shared_ptr<Players>(new Players(P4)));
 }
 
 void Client::start(void)
@@ -94,15 +99,7 @@ void Client::loop(void)
     std::chrono::seconds time;
     Graphic::Command check = Graphic::Command::NOTHING;
 
-    _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(P1, false, {100,100}, animation::ANIMATION_2)));
-    _players.push_back(std::shared_ptr<Players>(new Players(P1)));
-    _players.back()->setState(Players::READY);
-    _players.push_back(std::shared_ptr<Players>(new Players(P2)));
-    _players.back()->setState(Players::ACTIVE);
-    _players.push_back(std::shared_ptr<Players>(new Players(P3)));
-    _players.back()->setState(Players::READY);
-    _players.push_back(std::shared_ptr<Players>(new Players(P4)));
-    _players.back()->setState(Players::READY);
+    _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(0, P1, false, {100,100}, animation::ANIMATION_2)));
     while (_sigHandler.isInterrupted() != true) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
@@ -209,20 +206,28 @@ void Client::handleServerMessage(std::string& update)
 void Client::handleUpdateMenu(std::string& update)
 {
     entityType bufE(static_cast<entityType>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
-    Players::State bufC(static_cast<Players::State>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
-    Players player(bufE);
-    player.setState(bufC);
+    Players::State bufS(static_cast<Players::State>(std::atoi(update.substr(update.find_last_of(" ") + 1).c_str())));
+
+    for (auto obj = _players.begin(); obj != _players.end(); obj++)
+        if ((obj->get()->getType() == bufE))
+            obj->get()->setState(bufS);
 }
 
 
 void Client::handleUpdateGame(std::string& update)
 {
+    std::cout << update << "\n";
     int id = std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str());
     bool state = std::atoi(update.substr(update.find_last_of(" ") + 1, 1).c_str());
     entityType type = static_cast<entityType>(std::atoi(update.substr(update.find_first_of("|") + 1, update.find_last_of("|") - update.find_first_of("|")).c_str()));
-    int x = std::atoi(update.substr(update.find_last_of("|") + 1, update.find_first_of(".") - update.find_last_of("|")).c_str());
-    int y = std::atoi(update.substr(update.find_first_of(".") + 1).c_str());
+    float x = std::atof(update.substr(update.find_last_of("|") + 1, update.find_first_of(".") - update.find_last_of("|")).c_str());
+    float y = std::atof(update.substr(update.find_first_of(".") + 1).c_str());
 
+    std::cout << "\n\nID: " << id << "\n";
+    std::cout << "STATE: " << state << "\n";
+    std::cout << "TYPE: " << type << "\n";
+    std::cout << "X: " << x << "\n";
+    std::cout << "Y: " << y << "\n\n\n";
     if (state == true) {
         for (auto obj = _entities.begin(); obj != _entities.end(); obj++) {
             if ((obj->get()->getId() == id)) {
@@ -304,7 +309,7 @@ void Client::send(const std::string &str)
 
 void Client::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
 {
-    _entities.push_back(std::make_shared<Graphic::Entity>(_builder.createEntity(entityType, entityType, bonus, entityPos)));
+    _entities.push_back(std::make_shared<Graphic::Entity>(_builder.createEntity(entityId, entityType, bonus, entityPos)));
 }
 
 void Client::updateEntity(int entityId, const sf::Vector2f& entityPos) const

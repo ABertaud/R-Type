@@ -21,5 +21,6 @@ bool SignalHandler::isInterrupted(void)
 
 void SignalHandler::signal_callback_handler(int signum)
 {
+    (void)signum;
     isInterrupt = true;
 }

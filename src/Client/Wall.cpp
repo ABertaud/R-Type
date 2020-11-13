@@ -8,8 +8,8 @@
 #include "Wall.hpp"
 #include <iostream>
 
-Graphic::Wall::Wall(bool bonus, const sf::Vector2f &test, const animation &anime) : 
-Graphic::Entity(WALL, bonus, test, anime)
+Graphic::Wall::Wall(int id, bool bonus, const sf::Vector2f &test, const animation &anime) : 
+Graphic::Entity(id, WALL, bonus, test, anime)
 {
 }
 

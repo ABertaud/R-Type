@@ -13,7 +13,7 @@
 namespace Graphic {
 class Obstacle : public Graphic::Entity {
     public:
-        Obstacle(bool bonus, const sf::Vector2f &test, const animation &anime);
+        Obstacle(int id, bool bonus, const sf::Vector2f &test, const animation &anime);
         ~Obstacle();
         entityType getType()const;
     private:

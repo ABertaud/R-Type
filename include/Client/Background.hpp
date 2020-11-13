@@ -13,7 +13,7 @@
 namespace Graphic {
 class Background : public Graphic::Entity {
     public:
-        Background(bool bonus, const sf::Vector2f &test, const animation &anime);
+        Background(int id, bool bonus, const sf::Vector2f &test, const animation &anime);
         ~Background();
         entityType getType()const;
     private:

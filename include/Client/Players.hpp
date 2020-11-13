@@ -20,9 +20,9 @@ public:
         READY = 3,
     };
 public:
-    Players(const entityType &type);
+    Players(const entityType& type, const State& state = OFF);
     ~Players();
-    void setState(const State &);
+    void setState(const State&);
     State getState()const;
     entityType getType()const;
 

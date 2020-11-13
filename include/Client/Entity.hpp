@@ -13,7 +13,7 @@
 namespace Graphic {
 class Entity : public Graphic::IEntity {
     public:
-        Entity(const entityType &type, bool bonus, const sf::Vector2f &pos, const animation &anime);
+        Entity(int id, const entityType &type, bool bonus, const sf::Vector2f &pos, const animation &anime);
         Entity(const Entity &other) = default;
         Entity &operator=(const Entity &other) = default;
         virtual ~Entity();

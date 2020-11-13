@@ -7,7 +7,7 @@
 
 #include "Players.hpp"
 
-Players::Players(const entityType &type) : _type(type)
+Players::Players(const entityType& type, const State& state) : _type(type), _state(state)
 {
 }
 
@@ -15,7 +15,7 @@ Players::~Players()
 {
 }
 
-void Players::setState(const State &state)
+void Players::setState(const State& state)
 {
     _state = state;
 }

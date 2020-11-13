@@ -8,8 +8,8 @@
 #include "PlayerShoot.hpp"
 #include <iostream>
 
-Graphic::PlayerShoot::PlayerShoot(bool bonus, const sf::Vector2f &test, const animation &anime) : 
-Graphic::Entity(PLAYER_SHOOT, bonus, test, anime)
+Graphic::PlayerShoot::PlayerShoot(int id, bool bonus, const sf::Vector2f &test, const animation &anime) : 
+Graphic::Entity(id, PLAYER_SHOOT, bonus, test, anime)
 {
 }
 
