@@ -382,7 +382,7 @@
                     code "100".(the reply is sent as a string with an Enum for
                     type, an Enum for state and a position x and y):
                     <vspace blankLines='0'/>
-                    100 [(enum)TYPE] [(enum)ANIMATION_STATE] [(bool)TO_UPDATE] [(int)posX].[(int)posY]
+                    100 [(enum)TYPE] (int)Id|[(enum)ANIMATION_STATE]|[(bool)TO_UPDATE].[(int)posX].[(int)posY]
                 </t>
             </section>
         </section>
