@@ -34,7 +34,6 @@ void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& v
 
 void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& vel, const float dt, ECS::Player& player)
 {
-    // std::cout << dt << std::endl;
     switch (player._direction) {
         case ECS::UP:
             pos._y += static_cast<int>(vel._vy);
@@ -51,6 +50,5 @@ void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& v
         case ECS::NONE:
             break;
     }
-    std::cout << "posy: " << pos._y << ", posx: " << pos._x << std::endl;
     player._direction = ECS::NONE;
 }

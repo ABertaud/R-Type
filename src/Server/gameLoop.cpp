@@ -60,8 +60,8 @@ void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<
 
     while (*_end == false) {
         end = std::chrono::system_clock::now();
-        time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-        if (time >= std::chrono::milliseconds(1)) {
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        if (time >= std::chrono::milliseconds(30)) {
             update(time.count());
             start = std::chrono::system_clock::now();
         }
