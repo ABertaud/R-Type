@@ -28,14 +28,16 @@ std::unique_ptr<DLLoader>& ECS::monsterSystem::selectRandomMonster()
 
 void ECS::monsterSystem::update(const float dt, ECS::ECSEngine& engine)
 {
-    static unsigned int creationTimer = 0;
+    (void)dt;
+    (void)engine;
+    // static unsigned int creationTimer = 0;
 
-    creationTimer += static_cast<int>(dt);
-    if ((creationTimer % 3) == 0) {
-        _monsters.push_back(selectRandomMonster()->getInstance<IMonster>("entryPoint"));
-        _monsters.back()->init(engine);
-    }
-    for (auto& monster : _monsters) {
-        monster->update(dt, engine);
-    }
+    // creationTimer += static_cast<int>(dt);
+    // if ((creationTimer % 3) == 0) {
+    //     _monsters.push_back(selectRandomMonster()->getInstance<IMonster>("entryPoint"));
+    //     _monsters.back()->init(engine);
+    // }
+    // for (auto& monster : _monsters) {
+    //     monster->update(dt, engine);
+    // }
 }

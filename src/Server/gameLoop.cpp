@@ -35,9 +35,9 @@ void gameLoop::registerComponents()
 
 void gameLoop::registerSystems(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
 {
-    _engine.registerSystem<ECS::movementSystem>();
     _engine.registerSystem<ECS::routineSystem>(socket, clients, players);
     _engine.registerSystem<ECS::eventSystem>(buffer);
+    _engine.registerSystem<ECS::movementSystem>();
     _engine.registerSystem<ECS::winSystem>(_end);
     _engine.registerSystem<ECS::monsterSystem>(libPath);
     _engine.registerSystem<ECS::collisionSystem>();
@@ -55,13 +55,13 @@ void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<
 {
     static std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     std::chrono::time_point<std::chrono::system_clock> end;
-    std::chrono::seconds time;
+    std::chrono::milliseconds time;
     unsigned int playerIndex = 0;
 
     while (*_end == false) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-        if (time >= std::chrono::seconds(1)) {
+        if (time >= std::chrono::milliseconds(1)) {
             update(time.count());
             start = std::chrono::system_clock::now();
         }
@@ -103,7 +103,7 @@ void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::s
         unsigned int pNumber = *it.get<1>();
         _engine.addComponent(ent, ECS::Position(x, y), ECS::POSITION);
         _engine.addComponent(ent, pDimensions[*it.get<1>()], ECS::DIMENSIONS);
-        _engine.addComponent(ent, ECS::Velocity(30, 30), ECS::VELOCITY);
+        _engine.addComponent(ent, ECS::Velocity(5, 5), ECS::VELOCITY);
         _engine.addComponent(ent, ECS::Player(*it.get<1>(), it.get<0>()->getUuid()), ECS::PLAYER);
         _engine.addComponent(ent, ECS::entityDetails(static_cast<entityType>(pNumber), animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
         _engine.addComponent(ent, ECS::Life(3), ECS::LIFE);

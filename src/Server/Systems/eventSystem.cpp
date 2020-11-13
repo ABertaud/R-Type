@@ -45,7 +45,7 @@ void ECS::eventSystem::handleEvent(std::vector<std::string>& events, ECS::ECSEng
         createShoot(engine, entity);
     else {
         for (auto it = _moves.begin(); it != _moves.end(); ++it)
-            if (std::strcmp(event.c_str(), it->first.c_str()))
+            if (std::strcmp(event.c_str(), it->first.c_str()) == 0)
                 player._direction = it->second;
     }
     events.erase(events.begin());
