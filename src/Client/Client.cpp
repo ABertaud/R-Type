@@ -7,6 +7,18 @@
 
 #include "Client.hpp"
 #include <memory>
+#include "Background.hpp"
+#include "Wall.hpp"
+#include "Obstacle.hpp"
+#include "PlayerShoot.hpp"
+#include "Alien.hpp"
+#include "AlienShoot.hpp"
+#include "Ufo.hpp"
+#include "UfoShoot.hpp"
+#include "Spaceship.hpp"
+#include "SpaceshipShoot.hpp"
+#include "Pirate.hpp"
+#include "PirateShoot.hpp"
 
 Client::Client(const std::string& ip, unsigned short port)
 : _builder(),_sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(), _state(NONE)
@@ -169,13 +181,6 @@ void Client::startReceive(void)
     boost::asio::placeholders::bytes_transferred));
 }
 
-// void Client::write_handler(const boost::system::error_code& ec, std::size_t bytes_transferred)
-// {
-//     std::cout << "Bytes transferred while writing = " << bytes_transferred << std::endl;
-//     if (ec)
-//         std::cerr << "ERROR while writing " << bytes_transferred << " bytes on socket" << std::endl;
-// }
-
 void Client::handleReceive(const boost::system::error_code& ec, std::size_t bytesTransferred)
 {
     BinaryProtocol::Packet p;
@@ -241,7 +246,7 @@ void Client::handleUpdateGame(std::string& update)
                 return;
             }
         }
-        createEntity(id, type, false, sf::Vector2f{x, y});
+        createEntity(id, type, false, sf::Vector2f{x, y}, animation);
     }
     else
        destroyEntity(id);
@@ -313,9 +318,34 @@ void Client::send(const std::string& str)
     }
 }
 
-void Client::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos)
+void Client::createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos, const animationState& animation)
 {
-    _entities.push_back(std::make_shared<Graphic::Entity>(_builder.createEntity(entityId, entityType, bonus, entityPos)));
+    if (entityType == BACKGROUND)
+    _entities.push_back(std::make_shared<Graphic::Background>(Graphic::Background(entityId, bonus, entityPos, animation)));
+    else if (entityType == P1 || entityType == P2 || entityType == P3 ||  entityType == P4)
+    _entities.push_back(std::make_shared<Graphic::Player>(Graphic::Player(entityId, entityType, bonus, entityPos, animation)));
+    else if (entityType == WALL)
+    _entities.push_back(std::make_shared<Graphic::Wall>(Graphic::Wall(entityId, bonus, entityPos, animation)));
+    else if (entityType == OBSTACLE)
+    _entities.push_back(std::make_shared<Graphic::Obstacle>(Graphic::Obstacle(entityId, bonus, entityPos, animation)));
+    else if (entityType == PLAYER_SHOOT)
+    _entities.push_back(std::make_shared<Graphic::PlayerShoot>(Graphic::PlayerShoot(entityId, bonus, entityPos, animation)));
+    else if (entityType == ALIEN)
+    _entities.push_back(std::make_shared<Graphic::Alien>(Graphic::Alien(entityId, bonus, entityPos, animation)));
+    else if (entityType == ALIEN_SHOOT)
+    _entities.push_back(std::make_shared<Graphic::AlienShoot>(Graphic::AlienShoot(entityId, bonus, entityPos, animation)));
+    else if (entityType == UFO)
+    _entities.push_back(std::make_shared<Graphic::Ufo>(Graphic::Ufo(entityId, bonus, entityPos, animation)));
+    else if (entityType == UFO_SHOOT)
+    _entities.push_back(std::make_shared<Graphic::UfoShoot>(Graphic::UfoShoot(entityId, bonus, entityPos, animation)));
+    else if (entityType == SPACESHIP)
+    _entities.push_back(std::make_shared<Graphic::Spaceship>(Graphic::Spaceship(entityId, bonus, entityPos, animation)));
+    else if (entityType == SPACESHIP_SHOOT)
+    _entities.push_back(std::make_shared<Graphic::SpaceshipShoot>(Graphic::SpaceshipShoot(entityId, bonus, entityPos, animation)));
+    else if (entityType == PIRATE)
+    _entities.push_back(std::make_shared<Graphic::Pirate>(Graphic::Pirate(entityId, bonus, entityPos, animation)));
+    else if (entityType == PIRATE_SHOOT)
+    _entities.push_back(std::make_shared<Graphic::PirateShoot>(Graphic::PirateShoot(entityId, bonus, entityPos, animation)));
 }
 
 void Client::updateEntity(int entityId, const sf::Vector2f& entityPos) const

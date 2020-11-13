@@ -54,7 +54,7 @@ class Client : public INetwork
         void handleStartGame(std::string& update);
         void handleBusy(std::string& update);
         void setState(const ClientState&);
-        void createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos);
+        void createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos, const animationState& animation);
         void updateEntity(int entityId, const sf::Vector2f& entityPos) const;
         void destroyEntity(int entityId);
         void changeState(void);
