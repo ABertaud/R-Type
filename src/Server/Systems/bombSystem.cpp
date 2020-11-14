@@ -22,6 +22,8 @@ void ECS::bombSystem::update(const float dt, ECS::ECSEngine& engine)
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
         if (details._type == entityType::BOMB)
             updateBomb(dt, ent, engine, details);
+        else if (details._type == entityType::PLAYER_SHOOT)
+            updateShoot(dt, ent, engine, details);
     }
 }
 
@@ -37,5 +39,20 @@ void ECS::bombSystem::updateBomb(const float dt, const Entity ent, ECS::ECSEngin
     else if (bomb._dt >= 180) {
         // engine.removeEntity(ent);
         details._toUpdate = false;
+    }
+}
+
+void ECS::bombSystem::updateShoot(const float dt, const Entity ent, ECS::ECSEngine& engine, ECS::entityDetails& details)
+{
+    auto& bomb = engine.getComponent<ECS::Bomb>(ent, ECS::BOMB);
+
+    bomb._dt += dt;
+    if (bomb._dt >= 60)
+        details._state = animationState::ANIMATION_1;
+    else if (bomb._dt >= 120)
+        details._state = animationState::ANIMATION_2;
+    else if (bomb._dt >= 180) {
+        // engine.removeEntity(ent);
+        details._state = animationState::ANIMATION_3;
     }
 }

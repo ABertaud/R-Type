@@ -21,6 +21,7 @@ namespace ECS {
         ~bombSystem() = default;
     private:
         void updateBomb(const float dt, const Entity ent, ECS::ECSEngine& engine, ECS::entityDetails& details);
+        void updateShoot(const float dt, const Entity ent, ECS::ECSEngine& engine, ECS::entityDetails& details);
     };
 }
 

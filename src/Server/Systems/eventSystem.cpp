@@ -11,6 +11,7 @@
 #include "Dimensions.hpp"
 #include "Velocity.hpp"
 #include "entityDetails.hpp"
+#include "Bomb.hpp"
 #include <iostream>
 #include <cstring>
 
@@ -57,7 +58,8 @@ void ECS::eventSystem::createShoot(ECS::ECSEngine& engine, const Entity entity)
     
     Entity ent = engine.getNewEntity();
     engine.addComponent(ent, pos, ECS::POSITION);
-    engine.addComponent(ent, ECS::Dimensions(100, 100), ECS::DIMENSIONS);
+    engine.addComponent(ent, ECS::Dimensions(50, 15), ECS::DIMENSIONS);
     engine.addComponent(ent, ECS::Velocity(3, 0), ECS::VELOCITY);
     engine.addComponent(ent, ECS::entityDetails(PLAYER_SHOOT, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
+    engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
 }

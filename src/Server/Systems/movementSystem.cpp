@@ -28,8 +28,8 @@ void ECS::movementSystem::update(const float dt, ECS::ECSEngine& engine)
 
 void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& vel, const float dt)
 {
-    pos._x += static_cast<int>(vel._vx * dt);
-    pos._y += static_cast<int>(vel._vy * dt);
+    pos._x += static_cast<int>(vel._vx);
+    pos._y += static_cast<int>(vel._vy);
 }
 
 void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& vel, const float dt, ECS::Player& player)
