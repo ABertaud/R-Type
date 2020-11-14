@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(sample_monster)
+project(spaceship_monster)
 
 set(SRCS_DIR ${PROJECT_SOURCE_DIR}/src)
 set(SRCS_SHARED_DIR ${PROJECT_SOURCE_DIR}/../src)
@@ -20,4 +20,4 @@ include_directories(${INCLUDE_COMPONENTS_DIR})
 
 file(GLOB_RECURSE SOURCES ${SRCS_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp ${SOURCE_ENGINE_DIR}/*.cpp {PROJECT_SOURCE_DIR}/../../../src/Shared/Error.cpp ${SOURCE_SHARED_MONSTERS_DIR}/*.cpp ${SOURCE_COMPONENTS_DIR}/*.cpp)
 # Create shared library
-add_library(sample_monster SHARED ${SOURCES})
+add_library(spaceship_monster SHARED ${SOURCES})

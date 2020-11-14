@@ -43,6 +43,7 @@ void SFMLModule::loadAllSprite(std::map<entityType, std::string>& paths)
     //}
     loadSprite("../../ressources/sprites/Game/player1.png", P1);
     loadSprite("../../ressources/sprites/Game/shoot.png", PLAYER_SHOOT);
+    loadSprite("../../ressources/sprites/Game/pirate.png", PIRATE);
 }
 
 void SFMLModule::setState(const MenuDrawer::State& state)
