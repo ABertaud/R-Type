@@ -42,6 +42,7 @@ void SFMLModule::loadAllSprite(std::map<entityType, std::string>& paths)
       //  loadSprite((*it).second, (*it).first, sf::IntRect(0, 0, 28, 19));
     //}
     loadSprite("../../ressources/sprites/Game/player1.png", P1);
+    loadSprite("../../ressources/sprites/Game/shoot.png", PLAYER_SHOOT);
 }
 
 void SFMLModule::setState(const MenuDrawer::State& state)
@@ -102,6 +103,7 @@ Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Grap
     {
         if (_event.type == sf::Event::KeyPressed) {
             command = _key.traduceKey(_event.key.code);
+            //_event.key.code = sf::Keyboard::O;
         }
         if (_event.type == sf::Event::Closed) 
             command = Graphic::EXIT;
@@ -123,6 +125,7 @@ void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::Entity>>& e
     _window.clear();
     _parallaxShader.parallaxShaderDraw(_window);
    // _window.draw(_background);
+  // std::cout << "size = " << entityArray.size() << std::endl;
     for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) 
         drawEntity((*it));
     //drawScore(score);
@@ -144,9 +147,8 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
 
 
     for (std::map<entityType, sf::Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
-        if (((it)->first) == entity->getType())
-        {
-
+        if (((it)->first) == entity->getType()) {
+           // std::cout << "state = " << (it)->first << std::endl;
           //  setRect(entity->getHorizon(), (it)->second, (it)->first);
             (it)->second.setPosition(pos);
             anime = entity->getCurrentAnimation();
