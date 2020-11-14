@@ -24,11 +24,11 @@ void spaceship::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
-    // engine.addComponent(ent, ECS::Position(1116, 340), ECS::POSITION);
-    // engine.addComponent(ent, ECS::Velocity(0, 5), ECS::VELOCITY);
-    // engine.addComponent(ent, ECS::Dimensions(250, 250), ECS::DIMENSIONS);
-    // engine.addComponent(ent, ECS::Life(20), ECS::LIFE);
-    // engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
+    engine.addComponent(ent, ECS::Position(1116, 340), ECS::POSITION);
+    engine.addComponent(ent, ECS::Velocity(0, 5), ECS::VELOCITY);
+    engine.addComponent(ent, ECS::Dimensions(250, 250), ECS::DIMENSIONS);
+    engine.addComponent(ent, ECS::Life(20), ECS::LIFE);
+    engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
     engine.addComponent(ent, ECS::entityDetails(entityType::SPACESHIP, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
     std::cout << "spaceship" << std::endl;
 }
