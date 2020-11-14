@@ -21,7 +21,7 @@
 #include "PirateShoot.hpp"
 
 Client::Client(const std::string& ip, unsigned short port, const std::string& configFile)
-: _builder(),_sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(configFile), _state(NONE)
+: _sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(configFile), _state(NONE)
 {
     boost::system::error_code err;
 
@@ -199,7 +199,6 @@ void Client::handleReceive(const boost::system::error_code& ec, std::size_t byte
         startReceive();
         return;
     }
-    //std::cout << "MMMMMEEEEEEESSSSSSAAAAAGGGGGGEEEEE:\n\n\n\n\n\n" << p._message << "\n\n\n\n\n\n";
     handleServerMessage(p._message);
     startReceive();
 }
@@ -215,7 +214,6 @@ void Client::handleServerMessage(std::string& update)
 
 void Client::handleUpdateMenu(std::string& update)
 {
-    //std::cout << update << "\n";
     Players::State state1(static_cast<Players::State>(std::atoi(update.substr(6, 1).c_str())));
     Players::State state2(static_cast<Players::State>(std::atoi(update.substr(10, 1).c_str())));
     Players::State state3(static_cast<Players::State>(std::atoi(update.substr(14, 1).c_str())));

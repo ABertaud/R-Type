@@ -146,7 +146,6 @@ void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::Entity>>& e
     _window.clear();
     _parallaxShader.parallaxShaderDraw(_window);
    // _window.draw(_background);
-  // std::cout << "size = " << entityArray.size() << std::endl;
     for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) 
         drawEntity((*it));
     //drawScore(score);
@@ -166,11 +165,8 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
     sf::Vector2f pos(x, y);
     animationState anime;
 
-    if (entity->getType() == PIRATE)
-        std::cout << "PIRATE" <<std::endl;
     for (std::map<entityType, sf::Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
         if (((it)->first) == entity->getType()) {
-           // std::cout << "state = " << (it)->first << std::endl;
           //  setRect(entity->getHorizon(), (it)->second, (it)->first);
             (it)->second.setPosition(pos);
             anime = entity->getCurrentAnimation();
@@ -179,7 +175,6 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
            (it)->second.setTextureRect(rect);
            // setColor(entity->getId(), (it)->second);
             _window.draw((it)->second);
-          //  std::cout << (it)->second.getGlobalBounds().height << std::endl;
         }
     }
 }

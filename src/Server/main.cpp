@@ -30,7 +30,6 @@ int main(int ac, char **av)
         dirReader dir(hdl.getPath());
         dir.findLibraries();
         // IMonster *monster = loader.getInstance<IMonster>("entryPoint");
-        // std::cout << monster->getAttack() << std::endl;
         // delete(monster);
         boost::asio::io_context ioContext;
         std::unique_ptr<INetwork> server = std::make_unique<udpServer>(ioContext, hdl.getPath());

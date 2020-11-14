@@ -53,12 +53,3 @@ std::map<entityType, std::string> Parser::getPaths() const
 Parser::~Parser()
 {
 }
-
-// int main() // MAIN DE TEST DU PARSER
-// {
-//     Parser *test = new Parser("../../config_file.txt");
-//     std::map<entityType, std::string> map = test->getPaths();
-//     for (auto it = map.begin(); it != map.end(); it++)
-//         std::cout << it->first << " => " << it->second << std::endl;
-//     return 0;
-// }

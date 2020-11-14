@@ -20,7 +20,6 @@
 #include "SignalHandler.hpp"
 #include "BinaryProtocol.hpp"
 #include "INetwork.hpp"
-#include "EntityBuilder.hpp"
 
 #include <chrono>
 
@@ -59,7 +58,6 @@ class Client : public INetwork
         void destroyEntity(int entityId);
         void changeState(void);
     private:
-        EntityBuilder _builder;
         SignalHandler _sigHandler;
         BinaryProtocol::Codec _binCodec;
         boost::asio::io_service _ioService;
