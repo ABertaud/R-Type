@@ -55,7 +55,7 @@ class Client : public INetwork
         void handleBusy(std::string& update);
         void setState(const ClientState&);
         void createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos, const animationState& animation);
-        void updateEntity(int entityId, const sf::Vector2f& entityPos) const;
+        void updateEntity(int entityId, const sf::Vector2f& entityPos, const animationState &) const;
         void destroyEntity(int entityId);
         void changeState(void);
     private:

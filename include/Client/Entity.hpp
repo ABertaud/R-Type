@@ -19,6 +19,7 @@ class Entity : public Graphic::IEntity {
         virtual ~Entity();
         sf::Vector2f getPos()const;
         void setscale(const sf::Vector2f& scale);
+        void setAnimation(const animationState& anime);
         int getId(void) const;
         entityType getType() const;
         animationState getCurrentAnimation()const;

@@ -54,6 +54,11 @@ animationState Graphic::Entity::getCurrentAnimation() const
     return  _currentAnimation;
 }
 
+void Graphic::Entity::setAnimation(const animationState& anime)
+{
+    _currentAnimation = anime;
+}
+
 sf::IntRect Graphic::Entity::getRectAnime(const animationState& anime)
 {
     for (std::map <animationState, sf::IntRect>::iterator it = _animation.begin(); it != _animation.end(); it++) {

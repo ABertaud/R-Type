@@ -244,7 +244,7 @@ void Client::handleUpdateGame(std::string& update)
     if (state == true) {
         for (auto obj = _entities.begin(); obj != _entities.end(); obj++) {
             if ((obj->get()->getId() == id)) {
-                updateEntity(id, sf::Vector2f{x, y});
+                updateEntity(id, sf::Vector2f{x, y}, animation);
                 return;
             }
         }
@@ -350,11 +350,12 @@ void Client::createEntity(int entityId, const entityType& entityType, bool bonus
     _entities.push_back(std::make_shared<Graphic::PirateShoot>(Graphic::PirateShoot(entityId, bonus, entityPos, animation)));
 }
 
-void Client::updateEntity(int entityId, const sf::Vector2f& entityPos) const
+void Client::updateEntity(int entityId, const sf::Vector2f& entityPos, const animationState &anime) const
 {
     for (size_t index = 0; index != _entities.size(); index++) {
         if ((_entities[index].get()->getId() == entityId)) {
             _entities.at(index).get()->update((static_cast<int>(entityPos.x)), (static_cast<int>(entityPos.y)));
+            _entities.at(index).get()->setAnimation(anime);
         }
     }
 }
