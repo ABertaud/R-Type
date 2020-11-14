@@ -37,20 +37,20 @@ void ECS::monsterSystem::update(const float dt, ECS::ECSEngine& engine)
         _monsters.push_back(selectRandomMonster()->getInstance<IMonster>("entryPoint"));
         _monsters.back()->init(engine);
     }
-    // for (auto& monster : _monsters) {
-    //     monster->update(dt, engine);
-    // }
-    // if (creationTimer >= 100 / level) {
-    //     creationTimer = 0;
-    //     lap++;
-    // }
-    // if (lap == 4) {
-    //     level = 2;
-    // }
-    // if (lap == 16) {
-    //     level = 8;
-    // }
-    // if (lap == 64) {
-    //     level = 32;
-    // }
+    for (auto& monster : _monsters) {
+        monster->update(dt, engine);
+    }
+    if (creationTimer >= 100 / level) {
+        creationTimer = 0;
+        lap++;
+    }
+    if (lap == 4) {
+        level = 2;
+    }
+    if (lap == 16) {
+        level = 8;
+    }
+    if (lap == 64) {
+        level = 32;
+    }
 }
