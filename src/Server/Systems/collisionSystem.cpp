@@ -42,17 +42,17 @@ void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity>&
     auto& playerDim = engine.getComponent<ECS::Dimensions>(ent, ECS::DIMENSIONS);
     auto& playerLife = engine.getComponent<ECS::Life>(ent, ECS::LIFE);
 
-    Position playerPosMax(playerPos._x + playerDim._x, playerPos._y + playerDim._y);
-    unsigned int posXMax = 0;
-    unsigned int posYMax = 0;
+    Position playerPosMax(playerPos._x + static_cast<int>(playerDim._x), playerPos._y + static_cast<int>(playerDim._y));
+    int posXMax = 0;
+    int posYMax = 0;
     for (auto obstacle = entities.begin(); obstacle != entities.end(); obstacle++) {
         if (engine.getStorage(ECS::PLAYER)->hasComponent(*obstacle) != true) {
             auto& pos = engine.getComponent<ECS::Position>(*obstacle, ECS::POSITION);
             auto& dim = engine.getComponent<ECS::Dimensions>(*obstacle, ECS::DIMENSIONS);
             auto& details = engine.getComponent<ECS::entityDetails>(*obstacle, ECS::ENTITY_DETAILS);
             if (isPossibleCollision(details._type, collisionTypes) == true && details._toUpdate == true) {
-                posXMax = pos._x + dim._x;
-                posYMax = pos._y + dim._y;
+                posXMax = pos._x + static_cast<int>(dim._x);
+                posYMax = pos._y + static_cast<int>(dim._y);
                 Position interPos = findIntersection(playerPos, playerPosMax, pos, Position(posXMax, posYMax));
                 if (interPos._x != -1) {
                     playerLife._hp -= 1;
@@ -100,9 +100,10 @@ ECS::Position ECS::collisionSystem::findIntersection(const Position& playerPos, 
     return (Position((x5 + x6) / 2, (y5 + y6) / 2));
 }
 
-void ECS::collisionSystem::createBomb(const Position& pos, ECS::ECSEngine& engine)
+void ECS::collisionSystem::createBomb(Position& pos, ECS::ECSEngine& engine)
 {
     Entity ent = engine.getNewEntity();
+    pos._x += 100;
 
     std::cout << "bomb created" << std::endl;
     engine.addComponent(ent, pos, ECS::POSITION);

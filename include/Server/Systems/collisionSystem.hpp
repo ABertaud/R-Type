@@ -28,7 +28,7 @@ namespace ECS {
         ~collisionSystem() = default;
     private: 
         void checkCollision(const Entity ent, std::vector<Entity>& entities, ECS::ECSEngine& engine, std::vector<entityType>& CollisionTypes);
-        void createBomb(const Position& pos, ECS::ECSEngine& engine);
+        void createBomb(Position& pos, ECS::ECSEngine& engine);
         bool isPossibleCollision(const entityType type, std::vector<entityType>& types);
         bool isExplodable(const entityType type);
         Position findIntersection(const Position& playerPos, const Position& playerMaxpos, const Position& entPos, const Position& entMaxPos) const;
