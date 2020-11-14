@@ -12,6 +12,8 @@
 #include "Position.hpp"
 #include "Velocity.hpp"
 #include "Player.hpp"
+#include "entityDetails.hpp"
+
 
 namespace ECS {
     class movementSystem : public ASystem {
@@ -23,7 +25,8 @@ namespace ECS {
         ~movementSystem() = default;
     private:
         void applyPhysic(Position& pos, const Velocity& vel, const float dt);
-        void applyPhysic(Position& pos, const Velocity& vel, const float dt, Player& player);
+        void applyPhysic(Position& pos, const Velocity& vel, entityDetails& details, Player& player);
+        void manageAnimation(ECS::entityDetails& details, const ECS::currentMovement move);
     };
 }
 

@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-udpServer::udpServer(boost::asio::io_context& ioContext, const std::string& libPath) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), PORT))),
+udpServer::udpServer(boost::asio::io_context& ioContext, const std::string& libPath) : _socket(std::make_shared<boost::asio::ip::udp::socket>(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), PORT))),
 _buffer(std::make_shared<Buffer>()), _libPath(libPath), _sigHandler(), _t(ioContext, boost::asio::chrono::seconds(1))
 {
     _parser.insert(std::make_pair(Client::NONE, &udpServer::parserNoneState));
