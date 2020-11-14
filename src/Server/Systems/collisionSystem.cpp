@@ -40,7 +40,6 @@ void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity>&
 {
     auto& playerPos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
     auto& playerDim = engine.getComponent<ECS::Dimensions>(ent, ECS::DIMENSIONS);
-    auto& playerLife = engine.getComponent<ECS::Life>(ent, ECS::LIFE);
 
     Position playerPosMax(playerPos._x + static_cast<int>(playerDim._x), playerPos._y + static_cast<int>(playerDim._y));
     int posXMax = 0;
@@ -55,14 +54,9 @@ void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity>&
                 posYMax = pos._y + static_cast<int>(dim._y);
                 Position interPos = findIntersection(playerPos, playerPosMax, pos, Position(posXMax, posYMax));
                 if (interPos._x != -1) {
-                    playerLife._hp -= 1;
-                    if (isExplodable(details._type) == true) {
-                        // engine.removeEntity(*obstacle);
-                        // entities.erase(obstacle);
-                        // obstacle--;
-                        details._toUpdate = false;
-                        createBomb(interPos, engine);
-                    }
+                    looseHp(ent, *obstacle, engine);
+                    destroyEntity(ent, *obstacle, engine);
+                    createBomb(interPos, engine);
                 }
             }
         }
@@ -76,6 +70,27 @@ bool ECS::collisionSystem::isPossibleCollision(const entityType type, std::vecto
             return (true);
     }
     return (false);
+}
+
+void ECS::collisionSystem::looseHp(const Entity ent, const Entity obstacle, ECS::ECSEngine& engine)
+{
+    if (engine.getStorage(ECS::LIFE)->hasComponent(obstacle)) {
+        engine.getComponent<ECS::Life>(obstacle, ECS::LIFE)._hp -= 1;
+    }
+    if (engine.getStorage(ECS::LIFE)->hasComponent(ent)) {
+        engine.getComponent<ECS::Life>(ent, ECS::LIFE)._hp -= 1;
+    }
+}
+
+void ECS::collisionSystem::destroyEntity(const Entity ent, const Entity obstacle, ECS::ECSEngine& engine)
+{
+    auto& detailsObs = engine.getComponent<ECS::entityDetails>(obstacle, ECS::ENTITY_DETAILS);
+    auto& detailsEnt = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
+
+    if (isExplodable(detailsObs._type))
+        detailsObs._toUpdate = false;
+    if (isExplodable(detailsEnt._type))
+        detailsEnt._toUpdate = false;
 }
 
 bool ECS::collisionSystem::isExplodable(const entityType type)

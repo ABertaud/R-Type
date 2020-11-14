@@ -364,7 +364,9 @@ void Client::updateEntity(int entityId, const sf::Vector2f& entityPos, const ani
 void Client::destroyEntity(int entityId)
 {
     for (size_t index = 0; index != _entities.size(); index++) {
-        if ((_entities[index].get()->getId() == entityId))
+        if ((_entities[index].get()->getId() == entityId)) {
             _entities.erase(_entities.begin() + index);
+            index--;
+        }
     }
 }

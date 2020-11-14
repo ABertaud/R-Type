@@ -37,11 +37,11 @@ void gameLoop::registerSystems(std::vector<clientPtr>& clients, std::vector<std:
 {
     _engine.registerSystem<ECS::routineSystem>(socket, clients, players);
     _engine.registerSystem<ECS::eventSystem>(buffer);
-    _engine.registerSystem<ECS::movementSystem>();
     _engine.registerSystem<ECS::winSystem>(_end);
     _engine.registerSystem<ECS::monsterSystem>(libPath);
     _engine.registerSystem<ECS::collisionSystem>();
     _engine.registerSystem<ECS::bombSystem>();
+    _engine.registerSystem<ECS::movementSystem>();
 }
 
 void gameLoop::prepareGame(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, const socketPtr& socket, const std::shared_ptr<Buffer>& buffer, const std::string& libPath)
