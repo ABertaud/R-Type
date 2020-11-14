@@ -13,17 +13,17 @@ _menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/spr
 _audio()
 {
     std::map<entityType, std::string> paths = _parser.getPaths();
+
     loadAllSprite(paths);
     _scene = MENU;
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     _textures.back()->loadFromFile("../../ressources/sprites/player_background.png");
     _background.setTexture(*_textures.back());
+    _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);    
     _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
     _audio.addSound("../../ressources/sounds/explosion.wav", false, Audio::EXPLOSION);    
     _audio.addSound("../../ressources/sounds/startGame.ogg", false, Audio::STARTGAME);    
-    _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);    
-    _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);    
-
+    _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);       
 }
 
 SFMLModule::~SFMLModule()

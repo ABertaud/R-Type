@@ -19,7 +19,7 @@ _audio()
     _background.setScale(_scale.x, _scale.y);
     _audio.addSound("../../ressources/sounds/button.ogg", false, Audio::BUTTON);
     _audio.addSound("../../ressources/sounds/rtype.ogg", true, Audio::MENU);
-    _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
+    _audio.addSound("../../ressources/sounds/ready.wav", false, Audio::READY);
 }
 
 MenuDrawer::~MenuDrawer()
@@ -133,15 +133,16 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& e
 {
     for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
         if ((it)->second.getGlobalBounds().contains(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
-            _audio.playSound(Audio::BUTTON);
-            if (checkHome((it)->first) == true && _state == HOME)
-                return (it)->first;
             if (checkRoom((it)->first) == true && _state == ROOM)
+                return (it)->first;
+            _audio.playSound(Audio::BUTTON);
+            if (checkView((it)->first) == true && _state == VIEW)
+                return (it)->first;  
+            if (checkHome((it)->first) == true && _state == HOME)
                 return (it)->first;
             if (checkSettings((it)->first) == true && _state == SETTINGS)
                 return (it)->first;
-            if (checkView((it)->first) == true && _state == VIEW)
-                return (it)->first;  
+
             }
     }
     return _state;
@@ -193,14 +194,18 @@ bool MenuDrawer::checkSettings(const State& state)
 
 bool MenuDrawer::checkRoom(const State& state)
 {
-    if (state == READY)
+    if (state == READY) {
+        _audio.playSound(Audio::READY);
         return true;
-    if (state == UNREADY)
+    }
+    if (state == UNREADY) {
+        _audio.playSound(Audio::READY);
         return true;
-    if (state == HOME)
+    }
+    if (state == HOME || state == GAME) {
+        _audio.playSound(Audio::BUTTON);
         return true;
-    if (state == GAME)
-        return true;
+    }
     return false;
 }
 
