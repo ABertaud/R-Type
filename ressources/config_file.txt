@@ -1,12 +1,12 @@
 [PLAYER]
-player=test
+player1=../../ressources/sprites/Game/player1.png
 
 [PLAYER_SHOOT]
-player_shoot=test
+player_shoot=../../ressources/sprites/Game/shoot.png
 
 [MONSTER]
 alien=test
-pirate=test
+pirate=../../ressources/sprites/Game/pirate.png
 spaceship=test
 
 [SPECIAL_MONSTER]

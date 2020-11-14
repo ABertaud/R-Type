@@ -23,7 +23,7 @@ public:
         GAME = 5
     };
 public:
-        SFMLModule();
+        SFMLModule(const std::string& path);
         ~SFMLModule();
         void init(const sf::Vector2f& scale);
         void stop();

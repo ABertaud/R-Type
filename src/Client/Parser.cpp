@@ -34,9 +34,11 @@ bool Parser::linkEntitiesToSprites()
     while (std::getline(_config, line, '\n')) {
         if (line.find("=") != line.npos) {
             code = line.substr(0, line.find("="));
-            path = line.substr(line.find("=") + 1);
-            if (_key.find(code) == std::end(_key))
+            path = line.substr(line.find("=") + 1, line.size() - line.find("=") - 2);
+            if (_key.find(code) == std::end(_key)) {
+                std::cerr << "Error config file: the tag doesn't exist\n";
                 return false;
+            }
             _paths.insert(std::pair<entityType, std::string>(_key.find(code)->second, path));
         }
     }

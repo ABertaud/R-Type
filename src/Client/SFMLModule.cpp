@@ -7,13 +7,13 @@
 
 #include "SFMLModule.hpp"
 
-SFMLModule::SFMLModule()  : _parser(Parser()), _winpos({1116, 797}), 
+SFMLModule::SFMLModule(const std::string& path)  : _parser(path), _winpos({1116, 797}), 
 _scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()), 
 _menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/sprites/Game/BackgroundGame.png", _scale),
 _audio()
 {
     std::map<entityType, std::string> paths = _parser.getPaths();
-
+    
     loadAllSprite(paths);
     _scene = MENU;
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
@@ -36,7 +36,7 @@ void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
 
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     if (!_textures.back()->loadFromFile(path))
-        std::cerr << "ERROR: cannot found " << path << "." << std::endl;
+        std::cerr << "ERROR: cannot found " << path << std::endl;
     _textures.back()->setSmooth(true);
     sprite.setTexture(*_textures.back());
     //sprite.setTextureRect(rect);
@@ -50,12 +50,12 @@ Audio &SFMLModule::getAudio()
 
 void SFMLModule::loadAllSprite(std::map<entityType, std::string>& paths)
 {
-    //for (std::map<entityType, std::string>::iterator it = paths.begin(); it != paths.end(); it++) {
-      //  loadSprite((*it).second, (*it).first, sf::IntRect(0, 0, 28, 19));
-    //}
-    loadSprite("../../ressources/sprites/Game/player1.png", P1);
+    for (std::map<entityType, std::string>::iterator it = paths.begin(); it != paths.end(); it++) {
+        loadSprite((*it).second, (*it).first);
+    }
+   /* loadSprite("../../ressources/sprites/Game/player1.png", P1);
     loadSprite("../../ressources/sprites/Game/shoot.png", PLAYER_SHOOT);
-    loadSprite("../../ressources/sprites/Game/pirate.png", PIRATE);
+    loadSprite("../../ressources/sprites/Game/pirate.png", PIRATE);*/
 }
 
 void SFMLModule::setState(const MenuDrawer::State& state)
@@ -166,7 +166,8 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
     sf::Vector2f pos(x, y);
     animationState anime;
 
-
+    if (entity->getType() == PIRATE)
+        std::cout << "PIRATE" <<std::endl;
     for (std::map<entityType, sf::Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
         if (((it)->first) == entity->getType()) {
            // std::cout << "state = " << (it)->first << std::endl;

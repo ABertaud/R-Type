@@ -20,8 +20,8 @@
 #include "Pirate.hpp"
 #include "PirateShoot.hpp"
 
-Client::Client(const std::string& ip, unsigned short port)
-: _builder(),_sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(), _state(NONE)
+Client::Client(const std::string& ip, unsigned short port, const std::string& configFile)
+: _builder(),_sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(configFile), _state(NONE)
 {
     boost::system::error_code err;
 
@@ -98,10 +98,8 @@ int Client::checkGameState(const Graphic::Command& com)
         send("103");
     if (com == Graphic::DOWN)
         send("104");
-    if (com == Graphic::SHOOT) {
-        std::cout << "SHOOT" << std::endl;
+    if (com == Graphic::SHOOT)
         send("105");
-    }
     return 0;
 }
 

@@ -28,7 +28,7 @@ using timeType = std::chrono::time_point<std::chrono::system_clock>;
 class Client : public INetwork
 {
     public:
-        Client(const std::string& ip, unsigned short port);
+        Client(const std::string& ip, unsigned short port, const std::string& configFile = "../../ressources/config_file.txt");
         ~Client()=default;
         Client(const Client& other) = default;
         Client& operator=(const Client& other) = default;
