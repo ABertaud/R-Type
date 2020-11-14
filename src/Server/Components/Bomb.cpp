@@ -7,6 +7,6 @@
 
 #include "Bomb.hpp"
 
-ECS::Bomb::Bomb()
+ECS::Bomb::Bomb() : _dt(0)
 {
 }

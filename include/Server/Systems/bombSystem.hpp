@@ -11,7 +11,6 @@
 #include "ASystem.hpp"
 #include "entityDetails.hpp"
 
-
 namespace ECS {
     class bombSystem : public ASystem {
     public:

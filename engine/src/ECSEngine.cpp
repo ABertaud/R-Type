@@ -30,7 +30,8 @@ void ECS::ECSEngine::removeEntity(const Entity entity)
 	auto &storages = _storageM->getStorages();
 
     for (auto &storage: storages) {
-        storage.second->destroyEntity(entity);
+        if (storage.second->hasComponent(entity))
+            storage.second->destroyEntity(entity);
     }
 	_entityM->destroyEntity(entity);
 }

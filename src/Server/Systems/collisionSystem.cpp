@@ -7,6 +7,7 @@
 
 #include "collisionSystem.hpp"
 #include "ECSEngine.hpp"
+#include "Bomb.hpp"
 #include <iostream>
 
 ECS::collisionSystem::collisionSystem() : ECS::ASystem()
@@ -21,7 +22,7 @@ void ECS::collisionSystem::update(const float dt, ECS::ECSEngine& engine)
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 
     std::vector<entityType> playerCollisionTypes = {entityType::ALIEN_SHOOT};
-    std::vector<entityType> playerShootCollisionTypes = {entityType::PLAYER_SHOOT};
+    std::vector<entityType> playerShootCollisionTypes = {entityType::ALIEN_SHOOT};
 
     for (auto& ent: entities) {
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
@@ -29,11 +30,13 @@ void ECS::collisionSystem::update(const float dt, ECS::ECSEngine& engine)
             checkCollision(ent, entities, engine, playerCollisionTypes);
         } else if (details._type == PLAYER_SHOOT) {
             checkCollision(ent, entities, engine, playerShootCollisionTypes);
+            if (engine.getComponent<ECS::Position>(ent, ECS::POSITION)._x >= 2000)
+                details._toUpdate = false;
         }
     }
 }
 
-void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity>& entities, ECS::ECSEngine& engine, std::vector<entityType>& CollisionTypes)
+void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity>& entities, ECS::ECSEngine& engine, std::vector<entityType>& collisionTypes)
 {
     auto& playerPos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
     auto& playerDim = engine.getComponent<ECS::Dimensions>(ent, ECS::DIMENSIONS);
@@ -47,7 +50,7 @@ void ECS::collisionSystem::checkCollision(const Entity ent, std::vector<Entity>&
             auto& pos = engine.getComponent<ECS::Position>(*obstacle, ECS::POSITION);
             auto& dim = engine.getComponent<ECS::Dimensions>(*obstacle, ECS::DIMENSIONS);
             auto& details = engine.getComponent<ECS::entityDetails>(*obstacle, ECS::ENTITY_DETAILS);
-            if (isPossibleCollision(details._type, CollisionTypes) == true && details._toUpdate == true) {
+            if (isPossibleCollision(details._type, collisionTypes) == true && details._toUpdate == true) {
                 posXMax = pos._x + dim._x;
                 posYMax = pos._y + dim._y;
                 Position interPos = findIntersection(playerPos, playerPosMax, pos, Position(posXMax, posYMax));
@@ -101,6 +104,8 @@ void ECS::collisionSystem::createBomb(const Position& pos, ECS::ECSEngine& engin
 {
     Entity ent = engine.getNewEntity();
 
+    std::cout << "bomb created" << std::endl;
     engine.addComponent(ent, pos, ECS::POSITION);
+    engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
     engine.addComponent(ent, ECS::entityDetails(entityType::BOMB, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }

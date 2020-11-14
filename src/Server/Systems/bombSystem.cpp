@@ -8,6 +8,7 @@
 #include "bombSystem.hpp"
 #include "ECSEngine.hpp"
 #include "Bomb.hpp"
+#include <iostream>
 
 ECS::bombSystem::bombSystem() : ECS::ASystem()
 {
@@ -29,11 +30,11 @@ void ECS::bombSystem::updateBomb(const float dt, const Entity ent, ECS::ECSEngin
     auto& bomb = engine.getComponent<ECS::Bomb>(ent, ECS::BOMB);
 
     bomb._dt += dt;
-    if (bomb._dt >= 2)
+    if (bomb._dt >= 60)
         details._state = animationState::ANIMATION_1;
-    else if (bomb._dt >= 4)
+    else if (bomb._dt >= 120)
         details._state = animationState::ANIMATION_2;
-    else if (bomb._dt >= 6) {
+    else if (bomb._dt >= 180) {
         // engine.removeEntity(ent);
         details._toUpdate = false;
     }
