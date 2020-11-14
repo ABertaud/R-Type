@@ -110,13 +110,14 @@ void Client::loop(void)
     timeType end;
     std::chrono::seconds time;
     Graphic::Command check = Graphic::Command::NOTHING;
+    sf::Clock frameClock;
 
     _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(0, P1, false, {100,100}, animationState::ANIMATION_2)));
     while (_sigHandler.isInterrupted() != true) {
         end = std::chrono::system_clock::now();
         time = std::chrono::duration_cast<std::chrono::seconds>(end - start);
         if (_state == INLOBBY || _state == READY || _state == NONE) {
-            stateMenu = _sfmlModule.Menu(_clientName, _players, _state);
+            stateMenu = _sfmlModule.Menu(_clientName, _players, _state, frameClock);
             if (checkMenuState(stateMenu) == -1)
                 break;
         } else if (_state == INGAME) {

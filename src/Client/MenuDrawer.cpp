@@ -8,7 +8,7 @@
 #include <iostream>
 
 MenuDrawer::MenuDrawer(const sf::Vector2f& scale) : _state(HOME), _winpos({1116, 797}), _scale(scale), _text(TextDrawer()), 
-_key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale)
+_key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale), _gifDrawer(45, "../../ressources/sprites/gif/frame_", _scale, sf::seconds(0.04f))
 {
     setButton();
     initPosButton();
@@ -249,7 +249,7 @@ std::string MenuDrawer::getRoomName()const
     return (_roomName);
 }
 
-void MenuDrawer::draw(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&entities, const ClientState& clientS)
+void MenuDrawer::draw(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&entities, const ClientState& clientS, sf::Time &frameTime)
 {
     sf::Vector2f defaultVal(-1, -1);
 
@@ -279,7 +279,7 @@ void MenuDrawer::draw(sf::RenderWindow& window, const std::string& playerName, s
         return;
     }
     if (_state == ROOM || _state == READY || _state == UNREADY)
-        drawRoom(window, playerName, event, entities, clientS);   // window()
+        drawRoom(window, playerName, event, entities, clientS, frameTime);   // window()
 }
 
 void MenuDrawer::drawSettings(sf::RenderWindow& window)
@@ -406,7 +406,7 @@ void MenuDrawer::drawButton(const State& state, const sf::Vector2f& pos, sf::Ren
     }
 }
 
-void MenuDrawer::drawRoom(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&Players, const ClientState& clientS)
+void MenuDrawer::drawRoom(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&Players, const ClientState& clientS, sf::Time &frameTime)
 {
     float x = (_winpos.x / 2 + 250) * _scale.x;
     float y = (_winpos.y / 6 - 100) * _scale.y;
@@ -414,8 +414,9 @@ void MenuDrawer::drawRoom(sf::RenderWindow& window, const std::string& playerNam
     sf::Vector2f defaultVal(-1, -1);
 
     window.clear();
-    _parallaxShader.parallaxShaderDraw(window);
-    window.draw(_background);
+   // _parallaxShader.parallaxShaderDraw(window);
+   // window.draw(_background);
+    _gifDrawer.update(frameTime , window);
     drawButton(HOME, defaultVal, window);
     drawButton(GAME, defaultVal, window);
     for (auto it = Players.begin(); it != Players.end(); it++) {

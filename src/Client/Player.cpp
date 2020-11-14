@@ -24,7 +24,6 @@ Graphic::Entity(id, type, bonus, test, anime)
     _animation.insert(std::make_pair(ANIMATION_3, rect));
     rect.left += 33.2;
     _animation.insert(std::make_pair(ANIMATION_4, rect));
-
 }
 
 Graphic::Player::~Player()
