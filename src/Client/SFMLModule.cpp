@@ -9,7 +9,8 @@
 
 SFMLModule::SFMLModule()  : _parser(Parser()), _winpos({1116, 797}), 
 _scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()), 
-_menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/sprites/Game/BackgroundGame.png", _scale)
+_menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/sprites/Game/BackgroundGame.png", _scale),
+_audio()
 {
     std::map<entityType, std::string> paths = _parser.getPaths();
     loadAllSprite(paths);
@@ -17,6 +18,12 @@ _menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/spr
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     _textures.back()->loadFromFile("../../ressources/sprites/player_background.png");
     _background.setTexture(*_textures.back());
+    _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
+    _audio.addSound("../../ressources/sounds/explosion.wav", false, Audio::EXPLOSION);    
+    _audio.addSound("../../ressources/sounds/startGame.ogg", false, Audio::STARTGAME);    
+    _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);    
+    _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);    
+
 }
 
 SFMLModule::~SFMLModule()
@@ -34,6 +41,11 @@ void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
     sprite.setTexture(*_textures.back());
     //sprite.setTextureRect(rect);
     _sprites.insert(std::make_pair(obj, sprite));
+}
+
+Audio &SFMLModule::getAudio()
+{
+    return _audio;
 }
 
 void SFMLModule::loadAllSprite(std::map<entityType, std::string>& paths)
@@ -111,6 +123,8 @@ Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Grap
         if (_event.type == sf::Event::KeyPressed) {
             command = _key.traduceKey(_event.key.code);
             //_event.key.code = sf::Keyboard::O;
+            if (command == Graphic::Command::SHOOT)
+                _audio.playSound(Audio::SHOOT);
         }
         if (_event.type == sf::Event::Closed) 
             command = Graphic::EXIT;

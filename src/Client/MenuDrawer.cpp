@@ -19,6 +19,7 @@ _audio()
     _background.setScale(_scale.x, _scale.y);
     _audio.addSound("../../ressources/sounds/button.ogg", false, Audio::BUTTON);
     _audio.addSound("../../ressources/sounds/rtype.ogg", true, Audio::MENU);
+    _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
 }
 
 MenuDrawer::~MenuDrawer()

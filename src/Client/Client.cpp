@@ -59,6 +59,7 @@ void Client::start(void)
         _sfmlModule.stop();
         return;
     }
+    _sfmlModule.getAudio().playSound(Audio::PLAYERNAME);
     loop();
 }
 
@@ -303,7 +304,8 @@ void Client::handleStartGame(std::string& update)
     std::cout << "code received 21" << std::endl;
     _state = INGAME;
     _sfmlModule.getMenuDrawer().getAudio().stopSound(Audio::MENU);
-    _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+    _sfmlModule.getAudio().playSound(Audio::STARTGAME);
+    _sfmlModule.getAudio().playSound(Audio::GAME);
     _sfmlModule.setState(MenuDrawer::State::GAME);
 }
 

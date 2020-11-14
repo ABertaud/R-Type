@@ -21,6 +21,9 @@ class Audio {
         SHOOT,
         DAMAGE,
         BUTTON,
+        EXPLOSION,
+        STARTGAME,
+        PLAYERNAME,
     };
     private:
         std::vector<std::shared_ptr<sf::SoundBuffer>> _soundBuffer;
