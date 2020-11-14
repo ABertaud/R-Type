@@ -8,7 +8,8 @@
 #include <iostream>
 
 MenuDrawer::MenuDrawer(const sf::Vector2f& scale) : _state(HOME), _winpos({1116, 797}), _scale(scale), _text(TextDrawer()), 
-_key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale), _gifDrawer(45, "../../ressources/sprites/gif/frame_", _scale, sf::seconds(0.04f))
+_key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale), _gifDrawer(45, "../../ressources/sprites/gif/frame_", _scale, sf::seconds(0.04f)),
+_audio()
 {
     setButton();
     initPosButton();
@@ -16,6 +17,8 @@ _key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/ba
     _back.setSmooth(true);
     _background.setTexture(_back);
     _background.setScale(_scale.x, _scale.y);
+    _audio.addSound("../../ressources/sounds/button.ogg", false, Audio::BUTTON);
+    _audio.addSound("../../ressources/sounds/rtype.ogg", true, Audio::MENU);
 }
 
 MenuDrawer::~MenuDrawer()
@@ -129,6 +132,7 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& e
 {
     for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
         if ((it)->second.getGlobalBounds().contains(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
+            _audio.playSound(Audio::BUTTON);
             if (checkHome((it)->first) == true && _state == HOME)
                 return (it)->first;
             if (checkRoom((it)->first) == true && _state == ROOM)
@@ -136,7 +140,7 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& e
             if (checkSettings((it)->first) == true && _state == SETTINGS)
                 return (it)->first;
             if (checkView((it)->first) == true && _state == VIEW)
-                return (it)->first;        
+                return (it)->first;  
             }
     }
     return _state;
@@ -482,6 +486,11 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& ev
     port = port.substr(0, port.length() - 1);
     _state = state;
     return (port);
+}
+
+Audio &MenuDrawer::getAudio()
+{
+    return _audio;
 }
 
 sf::RectangleShape MenuDrawer::createRectangleShape(const sf::Vector2f& size, const sf::Vector2f& pos, const sf::Color& color)

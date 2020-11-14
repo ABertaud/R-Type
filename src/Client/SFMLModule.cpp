@@ -61,6 +61,11 @@ MenuDrawer::State SFMLModule::Menu(const std::string& name, const std::vector<st
     return ret;
 }
 
+MenuDrawer &SFMLModule::getMenuDrawer()
+{
+    return _menu;
+}
+
 std::string SFMLModule::getRoomName()const
 {
     return (_menu.getRoomName());

@@ -35,6 +35,7 @@ public:
         std::string getRoomName()const;
         void setState(const MenuDrawer::State& );
         Graphic::Command game(const std::vector<std::shared_ptr<Graphic::Entity>>& entityArray);
+        MenuDrawer &getMenuDrawer();
     protected:
     private:
        Parser _parser;

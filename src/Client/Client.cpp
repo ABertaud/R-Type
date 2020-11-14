@@ -53,6 +53,7 @@ void Client::start(void)
     startReceive();
     _thread = boost::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
     _sfmlModule.init(sf::Vector2f(1, 1));
+    _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
     _clientName = _sfmlModule.getPlayerName();
     if (_clientName.size() > 8) {
         _sfmlModule.stop();
@@ -131,6 +132,7 @@ void Client::loop(void)
                 start = std::chrono::system_clock::now();
             }
         }
+            
     }
     if (_sigHandler.isInterrupted())
         send("200");
@@ -300,6 +302,8 @@ void Client::handleStartGame(std::string& update)
     (void)update;
     std::cout << "code received 21" << std::endl;
     _state = INGAME;
+    _sfmlModule.getMenuDrawer().getAudio().stopSound(Audio::MENU);
+    _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
     _sfmlModule.setState(MenuDrawer::State::GAME);
 }
 

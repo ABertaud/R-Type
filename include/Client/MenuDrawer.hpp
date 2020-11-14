@@ -18,6 +18,7 @@
 #include "ClientState.hpp"
 #include "ParallaxShader.hpp"
 #include "GifDrawer.hpp"
+#include "Audio.hpp"
 
 class MenuDrawer {
 public:
@@ -49,6 +50,7 @@ public:
     void setState(const State& );
     void reSize();
     State getState() const;
+    Audio &getAudio();
 
 protected:
 private:
@@ -60,6 +62,7 @@ private:
     std::string _roomName;
     ParallaxShader _parallaxShader;
     GifDrawer _gifDrawer;
+    Audio _audio;
     sf::Sprite _background;
     sf::Texture _back;
     std::map<State, sf::Sprite> _buttons;
