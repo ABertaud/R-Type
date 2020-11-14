@@ -107,5 +107,6 @@ void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::s
         _engine.addComponent(ent, ECS::Player(*it.get<1>(), it.get<0>()->getUuid()), ECS::PLAYER);
         _engine.addComponent(ent, ECS::entityDetails(static_cast<entityType>(pNumber), animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
         _engine.addComponent(ent, ECS::Life(3), ECS::LIFE);
+        y += 200;
     }
 }
