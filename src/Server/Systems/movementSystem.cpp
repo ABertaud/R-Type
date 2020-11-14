@@ -69,7 +69,7 @@ void ECS::movementSystem::manageAnimation(ECS::entityDetails& details, const ECS
             details._state = animationState::ANIMATION_4;
         else 
             details._state = animationState::ANIMATION_0;
-    } else if (move == ECS::UP) {
+    } else if (move == ECS::DOWN) {
         if (details._state == animationState::ANIMATION_3)
             details._state = animationState::ANIMATION_4;
         else
