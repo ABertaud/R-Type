@@ -9,7 +9,10 @@
 #include <criterion/redirect.h>
 #include "ECSEngine.hpp"
 #include "movementSystem.hpp"
+#include "entityDetails.hpp"
+#include "entityType.hpp"
 #include "Error.hpp"
+#include "Player.hpp"
 
 Test(testECSEngineSimpleUsage, ECSEngine)
 {
@@ -17,12 +20,15 @@ Test(testECSEngineSimpleUsage, ECSEngine)
 
     engine.registerComponent<ECS::Position>(ECS::POSITION);
     engine.registerComponent<ECS::Velocity>(ECS::VELOCITY);
+    engine.registerComponent<ECS::entityDetails>(ECS::ENTITY_DETAILS);
+    engine.registerComponent<ECS::Player>(ECS::PLAYER);
 
     engine.registerSystem<ECS::movementSystem>();
 
     auto ent = engine.getNewEntity();
     engine.addComponent(ent, ECS::Position(0, 0), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(1, 1), ECS::VELOCITY);
+    engine.addComponent(ent, ECS::entityDetails(entityType::PLAYER_SHOOT, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
     engine.update(1);
     cr_assert_eq(engine.getComponent<ECS::Position>(ent, ECS::POSITION)._x, 1);
 }
@@ -33,12 +39,15 @@ Test(testECSEngineSecondSimpleUsage, ECSEngine)
 
     engine.registerComponent<ECS::Position>(ECS::POSITION);
     engine.registerComponent<ECS::Velocity>(ECS::VELOCITY);
+    engine.registerComponent<ECS::entityDetails>(ECS::ENTITY_DETAILS);
+    engine.registerComponent<ECS::Player>(ECS::PLAYER);
 
     engine.registerSystem<ECS::movementSystem>();
 
     auto ent = engine.getNewEntity();
     engine.addComponent(ent, ECS::Position(0, 0), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(1, 2), ECS::VELOCITY);
+    engine.addComponent(ent, ECS::entityDetails(entityType::PLAYER_SHOOT, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
     engine.update(1);
     cr_assert_eq(engine.getComponent<ECS::Position>(ent, ECS::POSITION)._y, 2);
 }

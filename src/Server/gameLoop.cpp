@@ -78,6 +78,9 @@ void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<
         }
     }
     lobbyState = Lobby::FREE;
+    for (auto& ent : _engine.getEntites())
+        _engine.removeEntity(ent);
+    std::cout << "end" << std::endl;
 }
 
 void gameLoop::update(const float dt)

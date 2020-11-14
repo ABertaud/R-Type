@@ -26,6 +26,7 @@ void ufo::init(ECS::ECSEngine& engine)
     engine.addComponent(ent, ECS::Velocity(0, 20), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(150, 150), ECS::DIMENSIONS);
     engine.addComponent(ent, ECS::entityDetails(entityType::UFO, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
+    std::cout << "ufo" << std::endl;
 }
 
 void ufo::update(const float dt, ECS::ECSEngine& engine)

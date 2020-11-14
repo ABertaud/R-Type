@@ -63,12 +63,7 @@ void ECS::movementSystem::applyPhysic(ECS::Position& pos, const ECS::Velocity& v
 void ECS::movementSystem::manageAnimation(ECS::entityDetails& details, const ECS::currentMovement move)
 {
     if (move == ECS::NONE) {
-        if (details._state == animationState::ANIMATION_1)
-            details._state = animationState::ANIMATION_2;
-        else if (details._state == animationState::ANIMATION_2)
-            details._state = animationState::ANIMATION_4;
-        else 
-            details._state = animationState::ANIMATION_0;
+        details._state = animationState::ANIMATION_0;
     } else if (move == ECS::DOWN) {
         if (details._state == animationState::ANIMATION_3)
             details._state = animationState::ANIMATION_4;

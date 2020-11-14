@@ -26,7 +26,7 @@ void pirate::init(ECS::ECSEngine& engine)
     auto ent = engine.getNewEntity();
 
     engine.addComponent(ent, ECS::Position(600, 0), ECS::POSITION);
-    engine.addComponent(ent, ECS::Velocity(0, 5), ECS::POSITION);
+    engine.addComponent(ent, ECS::Velocity(0, 5), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(200, 200), ECS::DIMENSIONS);
     engine.addComponent(ent, ECS::entityDetails(entityType::ALIEN, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
     std::cout << "He's a Pirate\n";

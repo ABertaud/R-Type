@@ -29,13 +29,13 @@ namespace ECS {
             
             _entityToIndex[entityID] = newIndex;
             _indexToEntity[newIndex] = entityID;
-            _componentArray[newIndex] = std::make_shared<T>(component);
+            _componentArray[newIndex] = component;
             _size++;
         }
 
         T &getComponent(Entity entityID)
         {
-            return (*_componentArray[_entityToIndex[entityID]]);
+            return (_componentArray[_entityToIndex[entityID]]);
         }
         bool destroyEntity(Entity entityID)
         {
@@ -57,7 +57,7 @@ namespace ECS {
             return (_type);
         }
     private:
-        std::array<std::shared_ptr<T>, 5000> _componentArray;
+        std::array<T, 5000> _componentArray;
         std::unordered_map<Entity, size_t> _entityToIndex;
         std::unordered_map<size_t, Entity> _indexToEntity;
         size_t _size;
