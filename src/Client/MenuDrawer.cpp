@@ -51,6 +51,7 @@ void MenuDrawer::reSize(void)
 {
     _background.setScale(_scale);
     _parallaxShader.setScale(_scale);
+    _gifDrawer.setScale(_scale);
 }
 
 sf::Vector2f MenuDrawer::getPosButton(const State& obj)
