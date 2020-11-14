@@ -32,12 +32,14 @@ void ECS::monsterSystem::update(const float dt, ECS::ECSEngine& engine)
     (void)engine;
     static unsigned int creationTimer = 0;
 
-    creationTimer += static_cast<int>(dt);
-    if ((creationTimer % 3) == 0) {
+    creationTimer += 10;
+    if ((creationTimer % 10) == 0) {
         _monsters.push_back(selectRandomMonster()->getInstance<IMonster>("entryPoint"));
         _monsters.back()->init(engine);
     }
     for (auto& monster : _monsters) {
         monster->update(dt, engine);
     }
+    if (creationTimer == 10)
+        creationTimer = 0;
 }
