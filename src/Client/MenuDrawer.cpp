@@ -448,7 +448,6 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& ev
     sf::Vector2f posEnter(50 * _scale.x, (_winpos.y - 100) * _scale.y);
     sf::Vector2f posBack((_winpos.x - 100) * _scale.x, (_winpos.y - 135) * _scale.y);
     sf::RectangleShape zone(createRectangleShape(sf::Vector2f(340, 70), sf::Vector2f((_winpos.x /3)  * _scale.x, (_winpos.y /2)  * _scale.y), sf::Color(255, 255, 255, 50)));
-    bool refresh = false;
     sf::Texture texture;
     sf::Sprite back;
     sf::Vector2i mouse_pos; 
@@ -464,12 +463,11 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& ev
     displayJoinScene(posConditions, posName, zone, posEnter, port, window, back);
     while (port.find("\n") == std::string::npos)
     {
-        refresh = false;
         while (window.pollEvent(event)) {
             mouse_pos = sf::Mouse::getPosition(window);
             translated_pos = window.mapPixelToCoords(mouse_pos);
             if (event.type == sf::Event::KeyPressed)
-                refresh = _key.traduceLetter(event.key.code, port);
+                _key.traduceLetter(event.key.code, port);
             if (event.type == sf::Event::Closed) {
                 _state = QUIT;
                 return ("closssssssse");
