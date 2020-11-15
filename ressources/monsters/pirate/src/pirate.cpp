@@ -63,6 +63,7 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
                     details._state = ANIMATION_3;
                 } else
                     vel._vx = 0;
+
                 if (_boss._y < pos._y)
                     vel._vy = -1;
                 else if (_boss._y > pos._y)

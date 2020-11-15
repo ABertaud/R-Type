@@ -27,7 +27,7 @@ void spaceship::init(ECS::ECSEngine& engine)
     engine.addComponent(ent, ECS::Position(1116, rand() % 400 + 200), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(0, 0), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(65, 66), ECS::DIMENSIONS);
-    engine.addComponent(ent, ECS::Life(20), ECS::LIFE);
+    engine.addComponent(ent, ECS::Life(10), ECS::LIFE);
     engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
     engine.addComponent(ent, ECS::entityDetails(entityType::SPACESHIP, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }
@@ -43,7 +43,7 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
             auto& hp = engine.getComponent<ECS::Life>(ent, ECS::LIFE);
-            if (hp._hp < 10 && _firstBuf == false) {
+            if (hp._hp < 8 && _firstBuf == false) {
                 _speed *= 2;
                 _firstBuf = true;
             }

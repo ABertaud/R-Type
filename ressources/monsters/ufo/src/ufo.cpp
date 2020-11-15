@@ -12,6 +12,7 @@
 #include "Position.hpp"
 #include "Dimensions.hpp"
 #include "Velocity.hpp"
+#include "Life.hpp"
 
 ufo::ufo() : AMonster(), _time(0), _speed(5), _zone(0), _way(rand() % 2)
 {
@@ -26,6 +27,7 @@ void ufo::init(ECS::ECSEngine& engine)
     engine.addComponent(ent, ECS::Position(1116, rand() % 700 + 100), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(0, 20), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(33, 37), ECS::DIMENSIONS);
+    engine.addComponent(ent, ECS::Life(1), ECS::LIFE);
     engine.addComponent(ent, ECS::entityDetails(entityType::UFO, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }
 
