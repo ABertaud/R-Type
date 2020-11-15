@@ -43,7 +43,6 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
         if (details._type == entityType::UFO) {
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
-        std::cout << zone << "\n";
 
             if (time % (100 / speed) == 0) {    // plus la velocité monte, plus ca ira souvent dans le if
                 vel._vx = -3;
@@ -55,7 +54,7 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
                         zone++;
                     }
                 } else {                        //il va monter
-                    if (zone <= - 50)          //il est en haut il change de sens
+                    if (zone <= - 50)           //il est en haut il change de sens
                         way = false;
                     else {                      //il monte
                         vel._vy = -1;

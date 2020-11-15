@@ -63,7 +63,7 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
             }
             //SA VITESSE MONTE QUAND IL A PEU DE PV
 
-            if (time % (100 / speed) == 0) {// plus la velocité monte, plus ca ira souvent dans le if
+            if (time % (100 / speed) == 0) {
 
                 //SE PLACER CORRECTEMENT EN X
                 if (pos._x >= 950)

@@ -29,13 +29,6 @@ enum entityType
     BACKGROUND,
 };
 
-// enum animationState
-// {
-//    BASIC,
-//    SPECIAL,
-//    BONUS,
-// };
-
 enum animationState
 {
     ANIMATION_0,

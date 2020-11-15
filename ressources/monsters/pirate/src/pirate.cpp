@@ -51,7 +51,6 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
         if (details._type == entityType::P1 || details._type == entityType::P2 || details._type == entityType::P3 || details._type == entityType::P4) {
             pPos.push_back(engine.getComponent<ECS::Position>(ent, ECS::POSITION));
-            std::cout << "player trouvé\n";
         }
     }
 
@@ -60,7 +59,7 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
         if (details._type == entityType::PIRATE) {
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
-            if (time % (100 / (static_cast<int>(speed))) == 0) {// plus la velocité monte, plus ca ira souvent dans le if
+            if (time % (100 / (static_cast<int>(speed))) == 0) {
                 //calculer et save la distance de chaque player par rapport au pirate
                 for (const auto& it: pPos) {
                     value = (it._x - pos._x) * (it._x - pos._x) + (it._y - pos._y) * (it._y - pos._y);
