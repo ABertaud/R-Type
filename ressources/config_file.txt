@@ -23,7 +23,7 @@ item_speed=../../ressources/sprites/Game/itemspeed.png
 [ENEMY_SHOOT]
 alien_shoot=test
 pirate_shoot=test
-spaceship_shoot=test
+spaceship_shoot=../../ressources/sprites/Game/spaceship_shoot.png
 ufo_shoot=test
 
 [WALL]
