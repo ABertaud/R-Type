@@ -26,9 +26,9 @@ void pirate::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
-    engine.addComponent(ent, ECS::Position(600, 0), ECS::POSITION);
+    engine.addComponent(ent, ECS::Position(rand() % 700 + 300, 0), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(0, 0), ECS::VELOCITY);
-    engine.addComponent(ent, ECS::Dimensions(200, 200), ECS::DIMENSIONS);
+    engine.addComponent(ent, ECS::Dimensions(33, 34), ECS::DIMENSIONS);
     engine.addComponent(ent, ECS::Life(5), ECS::LIFE);
     engine.addComponent(ent, ECS::entityDetails(entityType::PIRATE, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }

@@ -24,9 +24,9 @@ void spaceship::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
-    engine.addComponent(ent, ECS::Position(1116, 340), ECS::POSITION);
+    engine.addComponent(ent, ECS::Position(1116, rand() % 400 + 200), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(0, 0), ECS::VELOCITY);
-    engine.addComponent(ent, ECS::Dimensions(250, 250), ECS::DIMENSIONS);
+    engine.addComponent(ent, ECS::Dimensions(65, 66), ECS::DIMENSIONS);
     engine.addComponent(ent, ECS::Life(20), ECS::LIFE);
     engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
     engine.addComponent(ent, ECS::entityDetails(entityType::SPACESHIP, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
@@ -36,7 +36,7 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
 {
     static int time = 0;
     static int speed = 5;
-    static bool way = true;//mettre un random pour changer si on commence par partir vers le haut ou le bas ?
+    static bool way = rand() % 2;//mettre un random pour changer si on commence par partir vers le haut ou le bas ?
     static bool firstBuf = false;
     static bool secondBuf = false;
 

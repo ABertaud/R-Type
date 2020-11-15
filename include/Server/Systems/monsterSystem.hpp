@@ -23,6 +23,9 @@ namespace ECS {
         ~monsterSystem() = default;
     private:
         std::unique_ptr<DLLoader>& selectRandomMonster();
+        std::unique_ptr<DLLoader>& selectUfoMonster();
+        std::unique_ptr<DLLoader>& selectPirateMonster();
+        std::unique_ptr<DLLoader>& selectSpaceShipMonster();
         std::vector<std::unique_ptr<DLLoader>> _loaders;
         std::vector<std::unique_ptr<IMonster>> _monsters;
     };
