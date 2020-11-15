@@ -9,31 +9,15 @@ player4=../../ressources/sprites/Game/player4.png
 player_shoot=../../ressources/sprites/Game/shoot.png
 
 [MONSTER]
-alien=test
 pirate=../../ressources/sprites/Game/pirate.png
 spaceship=../../ressources/sprites/Game/spaceship.png
 ufo=../../ressources/sprites/Game/ufo.png
-
-[SPECIAL_MONSTER]
-ufo=test
 
 [ITEM]
 item_speed=../../ressources/sprites/Game/itemspeed.png
 
 [ENEMY_SHOOT]
-alien_shoot=test
-pirate_shoot=test
 spaceship_shoot=../../ressources/sprites/Game/spaceship_shoot.png
-ufo_shoot=test
-
-[WALL]
-planete=test
-
-[OBSTACLE]
-meteorite=test
-
-[BACKGROUND]
-background=test
 
 [bomb]
 bomb=../../ressources/sprites/Game/bomb.png
