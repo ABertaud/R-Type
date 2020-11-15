@@ -27,6 +27,7 @@ enum entityType
     PIRATE,
     PIRATE_SHOOT,
     BOMB,
+    EXPLOSION,
 };
 
 // enum animationState

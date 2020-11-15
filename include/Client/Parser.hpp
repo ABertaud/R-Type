@@ -43,6 +43,7 @@ class Parser {
         {"spaceship_shoot", entityType::SPACESHIP_SHOOT},
         {"pirate", entityType::PIRATE},
         {"pirate_shoot", entityType::PIRATE_SHOOT},
+        {"explosion", entityType::EXPLOSION},
     };
 };
 
