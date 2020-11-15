@@ -43,7 +43,6 @@ void ECS::bombSystem::updateBomb(const float dt, const Entity ent, ECS::ECSEngin
     else if (bomb._dt >= 360 && bomb._dt < 420)
         details._state = animationState::ANIMATION_5;
     else if (bomb._dt >= 480) {
-        // engine.removeEntity(ent);
         details._toUpdate = false;
     }
 }
@@ -58,7 +57,6 @@ void ECS::bombSystem::updateShoot(const float dt, const Entity ent, ECS::ECSEngi
     else if (bomb._dt >= 600 && bomb._dt < 900)
         details._state = animationState::ANIMATION_2;
     else if (bomb._dt >= 900) {
-        // engine.removeEntity(ent);
         details._state = animationState::ANIMATION_3;
     }
 }

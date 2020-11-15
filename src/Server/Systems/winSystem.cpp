@@ -17,8 +17,7 @@ ECS::winSystem::winSystem(const std::shared_ptr<bool>& end) : ECS::ASystem(), _e
 void ECS::winSystem::update(const float dt, ECS::ECSEngine& engine)
 {
     (void)dt;
-    std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::PLAYER), engine.getEntites());
-    entities = _filter.filterEntities(engine.getStorage(ECS::componentType::LIFE), entities);
+    std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::LIFE), engine.getEntites());
 
     for (auto& ent : entities) {
         if (engine.getComponent<ECS::Life>(ent, ECS::LIFE)._hp == 0) {
@@ -26,6 +25,7 @@ void ECS::winSystem::update(const float dt, ECS::ECSEngine& engine)
             engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS)._toUpdate = false;
         }
     }
+    entities = _filter.filterEntities(engine.getStorage(ECS::componentType::PLAYER), engine.getEntites());
     if (entities.size() <= 0) {
         *_end = true;
         return;
