@@ -101,7 +101,19 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
     time++;
 }
 
+#if defined (_WIN32)
+
+extern "C"  __declspec(dllexport)
+void* entryPoint()
+{
+    return (new std::unique_ptr<spaceship>(new spaceship));
+}
+
+#else
+
 extern "C" std::unique_ptr<IMonster> entryPoint()
 {
     return (std::make_unique<spaceship>());
 }
+
+#endif

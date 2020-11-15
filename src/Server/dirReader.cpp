@@ -11,7 +11,7 @@ dirReader::dirReader(const std::string& name) : _path(name)
 }
 void dirReader::pushLibPath(const std::string& name, std::vector<std::string>& dirPaths)
 {
-    if (name.find(".so") <= name.length())
+    if (name.find(".so") || name.find(".lib") <= name.length())
         dirPaths.push_back(_path + '/' + name);
 }
 std::vector<std::string> dirReader::findLibraries()

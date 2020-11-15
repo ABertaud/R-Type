@@ -100,7 +100,19 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
     time++;
 }
 
-extern "C" std::unique_ptr<IMonster> entryPoint()
-{
-    return (std::make_unique<pirate>());
-}
+#if defined (_WIN32)
+    
+    extern "C"  __declspec(dllexport)
+    void *entryPoint()
+    {
+        return (new std::unique_ptr<pirate>(new pirate));
+    }
+
+#else
+
+    extern "C" std::unique_ptr<IMonster> entryPoint()
+    {
+        return (std::make_unique<pirate>());
+    }
+
+#endif
