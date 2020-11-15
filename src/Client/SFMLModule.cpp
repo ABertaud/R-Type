@@ -173,6 +173,8 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
             rect = entity->getRectAnime(anime);
     //        if (rect != error)
            (it)->second.setTextureRect(rect);
+           if (entity->getType() == EXPLOSION)
+                _audio.playSound(Audio::EXPLOSION);
            // setColor(entity->getId(), (it)->second);
             _window.draw((it)->second);
         }
