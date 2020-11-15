@@ -44,6 +44,7 @@ class Parser {
         {"pirate", entityType::PIRATE},
         {"pirate_shoot", entityType::PIRATE_SHOOT},
         {"bomb", entityType::BOMB},
+        {"item_speed", entityType::ITEMSPEED},
     };
 };
 

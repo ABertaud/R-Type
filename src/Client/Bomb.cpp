@@ -6,7 +6,6 @@
 */
 
 #include "Bomb.hpp"
-#include <iostream>
 
 Graphic::Bomb::Bomb(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
 Graphic::Entity(id, BOMB, bonus, test, anime)

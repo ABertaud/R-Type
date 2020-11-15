@@ -27,6 +27,7 @@ enum entityType
     PIRATE_SHOOT,
     BOMB,
     BACKGROUND,
+    ITEMSPEED,
 };
 
 enum animationState

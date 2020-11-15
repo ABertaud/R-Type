@@ -17,6 +17,9 @@ ufo=../../ressources/sprites/Game/ufo.png
 [SPECIAL_MONSTER]
 ufo=test
 
+[ITEM]
+item_speed=../../ressources/sprites/Game/itemspeed.png
+
 [ENEMY_SHOOT]
 alien_shoot=test
 pirate_shoot=test
