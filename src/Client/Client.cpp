@@ -318,6 +318,9 @@ void Client::handleBusy(const std::string& update)
 void Client::handleEnd(const std::string& update)
 {
     (void)update;
+    _sfmlModule.getAudio().stopSound(Audio::GAME);
+    _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+    _sfmlModule.setState(MenuDrawer::State::GAME);
     _state = INLOBBY;
     _sfmlModule.setState(MenuDrawer::State::ROOM);
     _entities.clear();
