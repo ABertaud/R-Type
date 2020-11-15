@@ -38,7 +38,9 @@ public:
         void setState(const MenuDrawer::State& );
         Graphic::Command game(const std::vector<std::shared_ptr<Graphic::Entity>>& entityArray);
         MenuDrawer &getMenuDrawer();
-        Audio &getAudio();
+        #if defined (UNIX)
+            Audio &getAudio();
+        #endif
     protected:
     private:
        Parser _parser;
@@ -50,7 +52,9 @@ public:
        MenuDrawer _menu;
        std::string _roomName;
        ParallaxShader _parallaxShader;
-       Audio _audio;
+       #if defined (UNIX)
+           Audio _audio;
+       #endif
        sf::RenderWindow _window;
        std::map<entityType, sf::Sprite> _sprites;
        std::vector<std::shared_ptr<sf::Texture>> _textures;

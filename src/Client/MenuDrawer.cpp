@@ -8,8 +8,10 @@
 #include <iostream>
 
 MenuDrawer::MenuDrawer(const sf::Vector2f& scale) : _state(HOME), _winpos({1116, 797}), _scale(scale), _text(TextDrawer()),
-_key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale), _gifDrawer(45, "../../ressources/sprites/gif/frame_", _scale, sf::seconds(0.04f)),
-_audio()
+_key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale), _gifDrawer(45, "../../ressources/sprites/gif/frame_", _scale, sf::seconds(0.04f))
+#if defined(UNIX)
+,_audio()
+#endif
 {
     setButton();
     initPosButton();
@@ -17,9 +19,11 @@ _audio()
     _back.setSmooth(true);
     _background.setTexture(_back);
     _background.setScale(_scale.x, _scale.y);
-    _audio.addSound("../../ressources/sounds/button.ogg", false, Audio::BUTTON);
-    _audio.addSound("../../ressources/sounds/rtype.ogg", true, Audio::MENU);
-    _audio.addSound("../../ressources/sounds/ready.wav", false, Audio::READY);
+    #if defined (UNIX)
+        _audio.addSound("../../ressources/sounds/button.ogg", false, Audio::BUTTON);
+        _audio.addSound("../../ressources/sounds/rtype.ogg", true, Audio::MENU);
+        _audio.addSound("../../ressources/sounds/ready.wav", false, Audio::READY);
+    #endif
 }
 
 void MenuDrawer::setButton()
@@ -131,7 +135,9 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& e
         if ((it)->second.getGlobalBounds().contains(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
             if (checkRoom((it)->first) == true && _state == ROOM)
                 return (it)->first;
-            _audio.playSound(Audio::BUTTON);
+            #if defined (UNIX)
+                _audio.playSound(Audio::BUTTON);
+            #endif
             if (checkView((it)->first) == true && _state == VIEW)
                 return (it)->first;
             if (checkHome((it)->first) == true && _state == HOME)
@@ -192,15 +198,21 @@ bool MenuDrawer::checkSettings(const State& state)
 bool MenuDrawer::checkRoom(const State& state)
 {
     if (state == READY) {
-        _audio.playSound(Audio::READY);
+        #if defined (UNIX)
+            _audio.playSound(Audio::READY);
+        #endif
         return true;
     }
     if (state == UNREADY) {
-        _audio.playSound(Audio::READY);
+        #if defined (UNIX)
+                _audio.playSound(Audio::READY);
+        #endif
         return true;
     }
     if (state == HOME || state == GAME) {
-        _audio.playSound(Audio::BUTTON);
+        #if defined (UNIX)
+                _audio.playSound(Audio::BUTTON);
+        #endif
         return true;
     }
     return false;
@@ -476,10 +488,12 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& ev
     return (port);
 }
 
-Audio &MenuDrawer::getAudio()
-{
-    return _audio;
-}
+#if defined (UNIX)
+    Audio &MenuDrawer::getAudio()
+    {
+        return _audio;
+    }
+#endif
 
 sf::RectangleShape MenuDrawer::createRectangleShape(const sf::Vector2f& size, const sf::Vector2f& pos, const sf::Color& color)
 {

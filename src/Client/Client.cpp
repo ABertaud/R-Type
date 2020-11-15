@@ -56,13 +56,17 @@ void Client::start()
     startReceive();
     _thread = boost::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
     _sfmlModule.init(sf::Vector2f(1, 1));
-    _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+    #if defined (UNIX)
+        _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+    #endif
     _clientName = _sfmlModule.getPlayerName();
     if (_clientName.size() > 8) {
         _sfmlModule.stop();
         return;
     }
-    _sfmlModule.getAudio().playSound(Audio::PLAYERNAME);
+    #if defined (UNIX)
+        _sfmlModule.getAudio().playSound(Audio::PLAYERNAME);
+    #endif
     loop();
 }
 
@@ -139,8 +143,10 @@ void Client::loop()
         _currentTime += _connexion.restart();
         if (_currentTime >= checkTime && _state == INGAME) {
             _state = NONE;
-            _sfmlModule.getAudio().stopSound(Audio::GAME);
-            _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+            #if defined (UNIX)
+                _sfmlModule.getAudio().stopSound(Audio::GAME);
+                _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+            #endif
             _sfmlModule.setState(MenuDrawer::State::HOME);
 
         }
@@ -316,9 +322,11 @@ void Client::handleStartGame(const std::string& update)
     (void)update;
     std::cout << "Game started: Good luck !" << std::endl;
     _state = INGAME;
-    _sfmlModule.getMenuDrawer().getAudio().stopSound(Audio::MENU);
-    _sfmlModule.getAudio().playSound(Audio::STARTGAME);
-    _sfmlModule.getAudio().playSound(Audio::GAME);
+    #if defined (UNIX)
+        _sfmlModule.getMenuDrawer().getAudio().stopSound(Audio::MENU);
+        _sfmlModule.getAudio().playSound(Audio::STARTGAME);
+        _sfmlModule.getAudio().playSound(Audio::GAME);
+    #endif
     _sfmlModule.setState(MenuDrawer::State::GAME);
 }
 
@@ -331,8 +339,10 @@ void Client::handleBusy(const std::string& update)
 void Client::handleEnd(const std::string& update)
 {
     (void)update;
-    _sfmlModule.getAudio().stopSound(Audio::GAME);
-    _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+    #if defined (UNIX)
+        _sfmlModule.getAudio().stopSound(Audio::GAME);
+        _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+    #endif
     _sfmlModule.setState(MenuDrawer::State::GAME);
     _state = INLOBBY;
     _sfmlModule.setState(MenuDrawer::State::ROOM);
@@ -364,7 +374,9 @@ void Client::createEntity(int entityId, const entityType& entityType, bool bonus
     _entities.push_back(std::make_shared<Graphic::Obstacle>(Graphic::Obstacle(entityId, bonus, entityPos, animation)));
     else if (entityType == PLAYER_SHOOT) {
         _entities.push_back(std::make_shared<Graphic::PlayerShoot>(Graphic::PlayerShoot(entityId, bonus, entityPos, animation)));
-        _sfmlModule.getAudio().playSound(Audio::SHOOT);
+        #if defined (UNIX)
+            _sfmlModule.getAudio().playSound(Audio::SHOOT);
+        #endif
     } else if (entityType == ALIEN)
     _entities.push_back(std::make_shared<Graphic::Alien>(Graphic::Alien(entityId, bonus, entityPos, animation)));
     else if (entityType == ALIEN_SHOOT)

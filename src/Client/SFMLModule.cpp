@@ -9,8 +9,10 @@
 
 SFMLModule::SFMLModule(const std::string& path)  : _parser(path), _winpos({1116, 797}),
 _scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()),
-_menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/sprites/Game/BackgroundGame.png", _scale),
-_audio()
+_menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/sprites/Game/BackgroundGame.png", _scale)
+#if defined(UNIX)
+,_audio()
+#endif
 {
     std::map<entityType, std::string> paths = _parser.getPaths();
 
@@ -19,10 +21,12 @@ _audio()
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     _textures.back()->loadFromFile("../../ressources/sprites/player_background.png");
     _background.setTexture(*_textures.back());
-    _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);
-    _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
-    _audio.addSound("../../ressources/sounds/startGame.ogg", false, Audio::STARTGAME);
-    _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);
+    #if defined (UNIX)
+        _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);
+        _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
+        _audio.addSound("../../ressources/sounds/startGame.ogg", false, Audio::STARTGAME);
+        _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);
+    #endif
 }
 
 void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
@@ -37,10 +41,13 @@ void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
     _sprites.insert(std::make_pair(obj, sprite));
 }
 
-Audio &SFMLModule::getAudio()
-{
-    return _audio;
-}
+
+#if defined(UNIX)
+    Audio& SFMLModule::getAudio()
+    {
+        return _audio;
+    }
+#endif
 
 void SFMLModule::loadAllSprite(std::map<entityType, std::string>& paths)
 {

@@ -52,7 +52,9 @@ public:
     void setState(const State& );
     void reSize();
     State getState() const;
-    Audio &getAudio();
+    #if defined (UNIX)
+        Audio &getAudio();
+    #endif
 
 protected:
 private:
@@ -64,7 +66,9 @@ private:
     std::string _roomName;
     ParallaxShader _parallaxShader;
     GifDrawer _gifDrawer;
-    Audio _audio;
+    #if defined (UNIX)
+        Audio _audio;
+    #endif
     sf::Sprite _background;
     sf::Texture _back;
     std::map<State, sf::Sprite> _buttons;
