@@ -8,7 +8,6 @@
 #define dirReader_HPP_
 #include <string>
 #include <vector>
-//#include <dirent.h>
 #include <boost/filesystem.hpp>
 #include <boost/range/iterator_range.hpp>
 #include "Error.hpp"

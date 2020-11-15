@@ -12,15 +12,12 @@ Graphic::Entity(id, type, bonus, test, anime)
 {
     sf::IntRect rect(0, 0, 33.2, 20);
 
-    //animation down
     _animation.insert(std::make_pair(ANIMATION_1, rect));
     rect.left += 33.2;
     _animation.insert(std::make_pair(ANIMATION_2, rect));
     rect.left += 33.2;
-    //IDLE
     _animation.insert(std::make_pair(ANIMATION_0, rect));
     rect.left += 33.2;
-    //UP
     _animation.insert(std::make_pair(ANIMATION_3, rect));
     rect.left += 33.2;
     _animation.insert(std::make_pair(ANIMATION_4, rect));

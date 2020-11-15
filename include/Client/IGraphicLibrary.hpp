@@ -22,12 +22,9 @@
 
 namespace Graphic
 {
-enum Command
-{
+enum Command {
     NOTHING,
-    //handled by core
     EXIT,
-    //handled by game
     RIGHT,
     LEFT,
     UP,
@@ -43,13 +40,12 @@ public:
     virtual void stop() = 0;
     virtual Command eventHandler() = 0;
     virtual void drawGame(const std::vector<std::shared_ptr<Graphic::Entity>> &) = 0;
-    /* data */
     virtual const std::string getPlayerName() = 0;
     virtual void displayWindow() = 0;
 
 protected:
 private:
-}; // namespace Arcade
-} // namespace Arcade
+};
+}
 
 #endif /* !IGRAPHICLIBRARY_HPP_ */

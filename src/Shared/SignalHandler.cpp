@@ -14,7 +14,7 @@ SignalHandler::SignalHandler()
     signal(SIGINT, signal_callback_handler);
 }
 
-bool SignalHandler::isInterrupted(void)
+bool SignalHandler::isInterrupted()
 {
     return (isInterrupt);
 }

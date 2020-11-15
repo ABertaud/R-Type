@@ -15,9 +15,6 @@
 
 int main(int ac, char **av)
 {
-    (void)ac;
-    (void)av;
-
     try {
         pathHandler hdl(pathType::DIR);
         if (ac > 2)

@@ -18,7 +18,7 @@ class SignalHandler {
     public:
         SignalHandler();
         ~SignalHandler()=default;
-        bool isInterrupted(void);
+        bool isInterrupted();
     private:
         static void signal_callback_handler(int signum);
 };

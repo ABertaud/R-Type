@@ -44,7 +44,7 @@ sf::Vector2f Graphic::Entity::getPos() const
     return (_pos);
 }
 
-int Graphic::Entity::getId(void) const
+int Graphic::Entity::getId() const
 {
     return (_id);
 }

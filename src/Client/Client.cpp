@@ -50,7 +50,7 @@ Client::Client(const std::string& ip, unsigned short port, const std::string& co
     _players.push_back(std::shared_ptr<Players>(new Players(P4)));
 }
 
-void Client::start(void)
+void Client::start()
 {
     std::cout << "Welcome to the client !" << std::endl;
     startReceive();
@@ -66,7 +66,7 @@ void Client::start(void)
     loop();
 }
 
-void Client::stop(void)
+void Client::stop()
 {
     send("200");
     send("200");
@@ -107,7 +107,7 @@ int Client::checkGameState(const Graphic::Command& com)
     return 0;
 }
 
-void Client::loop(void)
+void Client::loop()
 {
     MenuDrawer::State stateMenu = MenuDrawer::State::UNREADY;
     static timeType start = std::chrono::system_clock::now();
@@ -193,7 +193,7 @@ int Client::checkMenuState(const MenuDrawer::State& stateMenu)
     return (0);
 }
 
-void Client::startReceive(void)
+void Client::startReceive()
 {
     _recvBuff.fill(0);
     _clientSocket.async_receive(boost::asio::buffer(_recvBuff), boost::bind(&Client::handleReceive, this, boost::asio::placeholders::error,
@@ -276,13 +276,12 @@ void Client::handleUpdateGame(const std::string& updateRoutine)
 void Client::handleFine(const std::string& update)
 {
     (void)update;
-    std::cout << "code received" << std::endl;
 }
 
 void Client::handleInvalidCommand(const std::string& update)
 {
     (void)update;
-    std::cout << "code received" << std::endl;
+    std::cout << "Error: Invalid command." << std::endl;
 }
 
 void Client::handleGhostRoom(const std::string& update)
@@ -300,7 +299,7 @@ void Client::handleFullRoom(const std::string& update)
 void Client::handleTooFast(const std::string& update)
 {
     (void)update;
-    std::cout << "code received 10" << std::endl;
+    std::cout << "Error: Please wait." << std::endl;
     _sfmlModule.setState(MenuDrawer::State::ROOM);
 }
 
@@ -308,7 +307,7 @@ void Client::handleTooFast(const std::string& update)
 void Client::handleJoinLobby(const std::string& update)
 {
     (void)update;
-    std::cout << "code received 20" << std::endl;
+    std::cout << "Lobby joined." << std::endl;
     _state = INLOBBY;
     _sfmlModule.setState(MenuDrawer::State::ROOM);
 }
@@ -316,7 +315,7 @@ void Client::handleJoinLobby(const std::string& update)
 void Client::handleStartGame(const std::string& update)
 {
     (void)update;
-    std::cout << "code received 21" << std::endl;
+    std::cout << "Game started: Good luck !" << std::endl;
     _state = INGAME;
     _sfmlModule.getMenuDrawer().getAudio().stopSound(Audio::MENU);
     _sfmlModule.getAudio().playSound(Audio::STARTGAME);
@@ -327,7 +326,7 @@ void Client::handleStartGame(const std::string& update)
 void Client::handleBusy(const std::string& update)
 {
     (void)update;
-    std::cout << "code received" << std::endl;
+    std::cout << "Error: Please wait." << std::endl;
 }
 
 void Client::handleEnd(const std::string& update)
@@ -339,7 +338,7 @@ void Client::handleEnd(const std::string& update)
     _state = INLOBBY;
     _sfmlModule.setState(MenuDrawer::State::ROOM);
     _entities.clear();
-    std::cout << "code received A" << std::endl;
+    std::cout << "Finished." << std::endl;
 }
 
 void Client::send(const std::string& str)

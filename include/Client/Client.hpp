@@ -31,13 +31,13 @@ class Client : public INetwork
         ~Client()=default;
         Client(const Client& other) = default;
         Client& operator=(const Client& other) = default;
-        void start(void);
-        void stop(void);
+        void start();
+        void stop();
         typedef void(Client::*hsmFunction)(const std::string&);
     private:
         void send(const std::string& str);
-        void startReceive(void);
-        void loop(void);
+        void startReceive();
+        void loop();
         int checkMenuState(const MenuDrawer::State& state);
         int checkGameState(const Graphic::Command& com);
         void handleReceive(const boost::system::error_code&, std::size_t);
@@ -57,7 +57,7 @@ class Client : public INetwork
         void createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos, const animationState& animation);
         void updateEntity(int entityId, const sf::Vector2f& entityPos, const animationState &) const;
         void destroyEntity(int entityId);
-        void changeState(void);
+        void changeState();
     private:
         SignalHandler _sigHandler;
         BinaryProtocol::Codec _binCodec;

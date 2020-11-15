@@ -13,17 +13,16 @@ _menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/spr
 _audio()
 {
     std::map<entityType, std::string> paths = _parser.getPaths();
-    
+
     loadAllSprite(paths);
     _scene = MENU;
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     _textures.back()->loadFromFile("../../ressources/sprites/player_background.png");
     _background.setTexture(*_textures.back());
-    _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);    
+    _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);
     _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
-   // _audio.addSound("../../ressources/sounds/bomb.wav", false, Audio::BOMB);    
-    _audio.addSound("../../ressources/sounds/startGame.ogg", false, Audio::STARTGAME);    
-    _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);       
+    _audio.addSound("../../ressources/sounds/startGame.ogg", false, Audio::STARTGAME);
+    _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);
 }
 
 void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
@@ -35,7 +34,6 @@ void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
         std::cerr << "ERROR: cannot found " << path << std::endl;
     _textures.back()->setSmooth(true);
     sprite.setTexture(*_textures.back());
-    //sprite.setTextureRect(rect);
     _sprites.insert(std::make_pair(obj, sprite));
 }
 
@@ -49,9 +47,6 @@ void SFMLModule::loadAllSprite(std::map<entityType, std::string>& paths)
     for (std::map<entityType, std::string>::iterator it = paths.begin(); it != paths.end(); it++) {
         loadSprite((*it).second, (*it).first);
     }
-   /* loadSprite("../../ressources/sprites/Game/player1.png", P1);
-    loadSprite("../../ressources/sprites/Game/shoot.png", PLAYER_SHOOT);
-    loadSprite("../../ressources/sprites/Game/pirate.png", PIRATE);*/
 }
 
 void SFMLModule::setState(const MenuDrawer::State& state)
@@ -84,7 +79,7 @@ void SFMLModule::init(const sf::Vector2f& scale)
 {
     float x = 1.0f;
     float y = 1.0f;
-    
+
     if (_window.isOpen())
         _window.close();
     _scale = scale;
@@ -97,12 +92,6 @@ void SFMLModule::init(const sf::Vector2f& scale)
     _background.setScale(_scale.x, _scale.y);
     _parallaxShader.setScale(_scale);
     _window.setVerticalSyncEnabled(true);
-   /* _background.setScale(_scale);
-    _menu.setScale(_scale);
-    _text.setScale(_scale);
-    _menu.setText(_text);
-    _pause.setScale(_scale);
-    _pause.setText(_text);*/
 }
 
 void SFMLModule::stop()
@@ -114,13 +103,11 @@ Graphic::Command SFMLModule::eventHandler()
 {
     Graphic::Command command = Graphic::NOTHING;
 
-    while (_window.pollEvent(_event))
-    {
+    while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::KeyPressed) {
             command = _key.traduceKey(_event.key.code);
-            //_event.key.code = sf::Keyboard::O;
         }
-        if (_event.type == sf::Event::Closed) 
+        if (_event.type == sf::Event::Closed)
             command = Graphic::EXIT;
     }
     return (command);
@@ -139,19 +126,12 @@ void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::Entity>>& e
 {
     _window.clear();
     _parallaxShader.parallaxShaderDraw(_window);
-   // _window.draw(_background);
     for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) 
         drawEntity((*it));
-    //drawScore(score);
-    //sprite.setTextureRect(rect)
     _window.display();
 }
-
 void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
 {
-   // float x = (((entity->getPos().x * 28.5) + ((_winpos.x - 800) / 2)) * _scale.x);
-    //float y = (((entity->getPos().y * 19.3) + ((_winpos.y - 600) / 2)) * _scale.y);
-    
     float x = entity->getPos().x;
     float y = entity->getPos().y;
     sf::IntRect rect;
@@ -161,15 +141,10 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
 
     for (std::map<entityType, sf::Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
         if (((it)->first) == entity->getType()) {
-          //  setRect(entity->getHorizon(), (it)->second, (it)->first);
             (it)->second.setPosition(pos);
             anime = entity->getCurrentAnimation();
             rect = entity->getRectAnime(anime);
-    //        if (rect != error)
            (it)->second.setTextureRect(rect);
-     //      if (entity->getType() == BOMB)
-       //         _audio.playSound(Audio::BOMB);
-           // setColor(entity->getId(), (it)->second);
             _window.draw((it)->second);
         }
     }
@@ -194,11 +169,9 @@ const std::string SFMLModule::getPlayerName()
     bool refresh = false;
 
     displayPlayerScene(posConditions, posName, playerZone, posEnter, playerName);
-    while (playerName.find("\n") == std::string::npos)
-    {
+    while (playerName.find("\n") == std::string::npos) {
         refresh = false;
-        while (_window.pollEvent(_event))
-        {
+        while (_window.pollEvent(_event)) {
             if (_event.type == sf::Event::KeyPressed)
                 refresh = _key.traduceLetter(_event.key.code, playerName);
             if (_event.type == sf::Event::Closed)

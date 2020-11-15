@@ -7,7 +7,7 @@
 #include "MenuDrawer.hpp"
 #include <iostream>
 
-MenuDrawer::MenuDrawer(const sf::Vector2f& scale) : _state(HOME), _winpos({1116, 797}), _scale(scale), _text(TextDrawer()), 
+MenuDrawer::MenuDrawer(const sf::Vector2f& scale) : _state(HOME), _winpos({1116, 797}), _scale(scale), _text(TextDrawer()),
 _key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale), _gifDrawer(45, "../../ressources/sprites/gif/frame_", _scale, sf::seconds(0.04f)),
 _audio()
 {
@@ -32,14 +32,14 @@ void MenuDrawer::setButton()
     loadSprite("../../ressources/sprites/New_Button.png", NEW, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});
     loadSprite("../../ressources/sprites/Load_Button.png", JOIN, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});
     loadSprite("../../ressources/sprites/Settings_Button.png", SETTINGS, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});
-    loadSprite("../../ressources/sprites/Quit_Button.png", QUIT, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});  
-    loadSprite("../../ressources/sprites/ready.png", READY, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});   
-    loadSprite("../../ressources/sprites/unready.png", UNREADY, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});    
-    loadSprite("../../ressources/sprites/Home_Square_Button.png", HOME, sf::IntRect(0, 0, 28, 19), {0.35f, 0.35f}); 
-    loadSprite("../../ressources/sprites/play_button.png", GAME, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});    
-    loadSprite("../../ressources/sprites/big_button.png", BIG, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});    
-    loadSprite("../../ressources/sprites/small_button.png", NORMAL, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});       
-    loadSprite("../../ressources/sprites/jumelles.png", VIEW, sf::IntRect(0, 0, 28, 19), {0.35f, 0.35f}); 
+    loadSprite("../../ressources/sprites/Quit_Button.png", QUIT, sf::IntRect(0, 0, 28, 19), {0.5f, 0.5f});
+    loadSprite("../../ressources/sprites/ready.png", READY, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});
+    loadSprite("../../ressources/sprites/unready.png", UNREADY, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});
+    loadSprite("../../ressources/sprites/Home_Square_Button.png", HOME, sf::IntRect(0, 0, 28, 19), {0.35f, 0.35f});
+    loadSprite("../../ressources/sprites/play_button.png", GAME, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});
+    loadSprite("../../ressources/sprites/big_button.png", BIG, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});
+    loadSprite("../../ressources/sprites/small_button.png", NORMAL, sf::IntRect(0, 0, 28, 19), {0.2f, 0.2f});
+    loadSprite("../../ressources/sprites/jumelles.png", VIEW, sf::IntRect(0, 0, 28, 19), {0.35f, 0.35f});
 }
 
 void MenuDrawer::setScale(const sf::Vector2f& scale)
@@ -47,7 +47,7 @@ void MenuDrawer::setScale(const sf::Vector2f& scale)
     _scale = scale;
 }
 
-void MenuDrawer::reSize(void)
+void MenuDrawer::reSize()
 {
     _background.setScale(_scale);
     _parallaxShader.setScale(_scale);
@@ -85,9 +85,9 @@ void MenuDrawer::initPosButton()
     _posButtons.insert(std::make_pair(NEW, pos));
     pos.y += 130 * _scale.y;
     _posButtons.insert(std::make_pair(JOIN, pos));
-    pos.y += 130 * _scale.y;    
+    pos.y += 130 * _scale.y;
     _posButtons.insert(std::make_pair(SETTINGS, pos));
-    pos.y += 130 * _scale.y;    
+    pos.y += 130 * _scale.y;
     _posButtons.insert(std::make_pair(QUIT, pos));
     _posButtons.insert(std::make_pair(READY, posRoom));
     _posButtons.insert(std::make_pair(UNREADY, posRoom));
@@ -120,7 +120,7 @@ void MenuDrawer::loadSprite(const std::string& path, const State& obj, sf::IntRe
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     if (!_textures.back()->loadFromFile(path))
         std::cerr << "ERROR: cannot found " << path << "." << std::endl;
-    (void)rect;    
+    (void)rect;
     _textures.back()->setSmooth(true);
     sprite.setTexture(*_textures.back());
     sprite.setScale(scale.x, scale.y);
@@ -234,22 +234,17 @@ void MenuDrawer::drawHome(sf::RenderWindow& window, const std::string& playerNam
   window.draw(_background);
     for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
         if (checkHome((it)->first) == true) {
-            //setRect(entity->getHorizon(), (it)->second, (it)->first);
             pos = getPosButton((it)->first);
             pos.x *= _scale.x;
             if ((it)->first == VIEW)
-                pos.y *= _scale.y;                
+                pos.y *= _scale.y;
             (it)->second.setPosition(pos);
-            //setColor(entity->getId(), (it)->second);
             window.draw((it)->second);
-          //  std::cout << (it)->second.getGlobalBounds().height << std::endl;
         }
     }
-    
     pos = getPosButton(NEW);
     pos.x -= 80;
     pos.y -= 150;
-   // drawButton(VIEW, defaultVal, window);
     _text.drawPos(pos, wel, window, 45, _scale);
     window.display();
 }
@@ -290,7 +285,7 @@ void MenuDrawer::draw(sf::RenderWindow& window, const std::string& playerName, s
         return;
     }
     if (_state == ROOM || _state == READY || _state == UNREADY)
-        drawRoom(window, entities, clientS, frameTime);   // window()
+        drawRoom(window, entities, clientS, frameTime);
 }
 
 void MenuDrawer::drawSettings(sf::RenderWindow& window)
@@ -354,9 +349,7 @@ void MenuDrawer::drawRect(const sf::Vector2f& pos, sf::RenderWindow& window)
 {
     for (std::map<entityType, sf::Sprite>::iterator it = _players.begin(); it != _players.end(); it++) {
         if ((it)->first == WALL) {
-            //setRect(entity->getHorizon(), (it)->second, (it)->first);
             (it)->second.setPosition(pos);
-            //setColor(entity->getId(), (it)->second);
             window.draw((it)->second); 
         }
     }
@@ -384,11 +377,8 @@ void MenuDrawer::drawState(const State& state, sf::RenderWindow& window, const s
 {
     for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
         if ((it)->first == state) {
-            //setRect(entity->getHorizon(), (it)->second, (it)->first);
             (it)->second.setPosition(pos);
-            //setColor(entity->getId(), (it)->second);
             window.draw((it)->second);
-          //  std::cout << (it)->second.getGlobalBounds().height << std::endl;
         }
     }
 }
@@ -459,8 +449,7 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& ev
     texture.setSmooth(true);
     back.setTexture(texture);
     displayJoinScene(posConditions, posName, zone, posEnter, port, window, back);
-    while (port.find("\n") == std::string::npos)
-    {
+    while (port.find("\n") == std::string::npos) {
         while (window.pollEvent(event)) {
             mouse_pos = sf::Mouse::getPosition(window);
             translated_pos = window.mapPixelToCoords(mouse_pos);

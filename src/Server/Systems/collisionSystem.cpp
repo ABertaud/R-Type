@@ -17,7 +17,6 @@ ECS::collisionSystem::collisionSystem() : ECS::ASystem()
 void ECS::collisionSystem::update(const float dt, ECS::ECSEngine& engine)
 {
     (void)dt;
-    (void)engine;
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 

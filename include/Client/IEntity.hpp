@@ -19,7 +19,7 @@ class IEntity {
         virtual ~IEntity() = default;
         virtual void update(const sf::Vector2f& pos) = 0;
         virtual void update(int x, int y) = 0;
-        virtual entityType getType()const = 0;   // return the type of the object
+        virtual entityType getType()const = 0;
     protected:
     private:
 };

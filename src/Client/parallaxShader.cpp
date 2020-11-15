@@ -20,11 +20,10 @@ ParallaxShader::ParallaxShader(const std::string& path, const sf::Vector2f& scal
     _sprite.setScale(_scale);
     _parallaxShader.loadFromMemory(
         "uniform float offset;"
-
         "void main() {"
         "    gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;"
         "    gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;"
-        "    gl_TexCoord[0].x = gl_TexCoord[0].x + offset;" // magic
+        "    gl_TexCoord[0].x = gl_TexCoord[0].x + offset;"
         "    gl_FrontColor = gl_Color;"
         "}", sf::Shader::Vertex);
 }

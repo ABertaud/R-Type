@@ -47,7 +47,7 @@ public:
     template <typename T>
     std::unique_ptr<T> getInstance(const std::string& name) const
     {
-        std::unique_ptr<T>(*sample)(void);
+        std::unique_ptr<T>(*sample)();
         sample = reinterpret_cast<std::unique_ptr<T>(*)()>(LIBFUNC(_handler, name.c_str()));
         #if defined(_WIN32)
             if (!sample)

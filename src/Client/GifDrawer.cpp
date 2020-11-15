@@ -42,20 +42,14 @@ void GifDrawer::loadSprite(const std::string& path)
 void GifDrawer::update(sf::Time deltaTime, sf::RenderWindow& window)
 {    
     int size = 0;
-    // add delta time
     _currentTime += deltaTime;
-    // if current time is bigger then the frame time advance one frame
     if (_currentTime >= _frameTime) {
-        // reset time, but keep the remainder
         _currentTime = sf::microseconds(_currentTime.asMicroseconds() % _frameTime.asMicroseconds());
-        
-        // get next Frame index
         size = (static_cast<int>(_sprites.size()));
-        if (_index + 1 < size) 
+        if (_index + 1 < size)
             _index++;
-        else   
-            _index = 0; // reset to start        
-            // set the current frame, not reseting the time
+        else
+            _index = 0;
         _currentTime = sf::Time::Zero;
     }
     _sprites[_index].setScale(_scale);

@@ -10,10 +10,10 @@
 Parser::Parser(std::string configFilePath) :_config()
 {
     if (!openFile(configFilePath)) {
-        return; //throw error
+        return;
     }
     if(!linkEntitiesToSprites()) {
-        return; //throw error
+        return;
     }
 }
 

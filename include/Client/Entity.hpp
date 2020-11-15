@@ -20,7 +20,7 @@ class Entity : public Graphic::IEntity {
         sf::Vector2f getPos()const;
         void setscale(const sf::Vector2f& scale);
         void setAnimation(const animationState& anime);
-        int getId(void) const;
+        int getId() const;
         entityType getType() const;
         animationState getCurrentAnimation()const;
         sf::IntRect getRectAnime(const animationState& );
