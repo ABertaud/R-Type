@@ -99,7 +99,7 @@ void ECS::collisionSystem::destroyEntity(const Entity ent, const Entity obstacle
 
 bool ECS::collisionSystem::isExplodable(const entityType type)
 {
-    if (type == entityType::ALIEN_SHOOT || type == entityType::PLAYER_SHOOT)
+    if (type == entityType::SPACESHIP_SHOOT || type == entityType::PLAYER_SHOOT)
         return (true);
     return (false);
 }
