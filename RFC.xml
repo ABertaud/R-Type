@@ -370,6 +370,11 @@
                     do menu commands while its last game isn't finished yet.
                     <vspace blankLines='1'/>
 
+                    135<vspace blankLines='0'/>
+                    The server will send code "135" if the game is finish,
+                    in order to put the players back in the lobby.
+                    <vspace blankLines='1'/>
+
                     <vspace blankLines='3'/>
                     As a routine, the Server will constantly send updates of
                     everything in the game to the client. Every time the client

@@ -58,7 +58,7 @@ void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socke
         }
     }
     game->prepareGame(_clients, _players, socket, buffer, libPath);
-    std::thread gameThread(&gameLoop::run, game, std::ref(_clients), std::ref(_players), std::ref(_state));
+    std::thread gameThread(&gameLoop::run, game, std::ref(_clients), std::ref(_players), std::ref(_state), std::ref(socket));
     gameThread.detach();
 }
 

@@ -51,12 +51,13 @@ void gameLoop::prepareGame(std::vector<clientPtr>& clients, std::vector<std::sha
     createPlayers(clients, players);
 }
 
-void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, Lobby::lobbyState& lobbyState)
+void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, Lobby::lobbyState& lobbyState, const socketPtr& socket)
 {
     static std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     std::chrono::time_point<std::chrono::system_clock> end;
     std::chrono::milliseconds time;
     unsigned int playerIndex = 0;
+    BinaryProtocol::Codec binCodec;
 
     while (*_end == false) {
         end = std::chrono::system_clock::now();
@@ -67,9 +68,13 @@ void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<
         }
     }
     for (auto clt = clients.begin(); clt != clients.end() && playerIndex != players.size(); clt++, playerIndex++) {
-        if (*players.at(playerIndex) != ECS::SPEC)
+        if (*players.at(playerIndex) != ECS::SPEC) {
             (*clt)->setState(Client::INLOBBY);
-        else {
+            socket->async_send_to(boost::asio::buffer(binCodec.serialize(binCodec.createPacket("135"))), (*clt)->getEndpoint(),
+            boost::bind(&gameLoop::handleSend, this, "135",
+            boost::asio::placeholders::error,
+            boost::asio::placeholders::bytes_transferred));
+        } else {
             (*clt)->setState(Client::NONE);
             clients.erase(clt);
             players.erase(players.begin() + playerIndex);
@@ -109,4 +114,11 @@ void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::s
         _engine.addComponent(ent, ECS::Life(3), ECS::LIFE);
         y += 200;
     }
+}
+
+void gameLoop::handleSend(const std::string& message, const boost::system::error_code& error, std::size_t bytesTransferred)
+{
+    (void)message;
+    (void)error;
+    (void)bytesTransferred;
 }
