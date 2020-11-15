@@ -31,10 +31,10 @@ void ufo::init(ECS::ECSEngine& engine)
 
 void ufo::update(const float dt, ECS::ECSEngine& engine)
 {
-    static int time = 0;
-    static int speed = 5;
-    static int zone = 0;
-    static bool way = rand() % 2;
+    _time = 0;
+    _speed = 5;
+    _zone = 0;
+    _way = rand() % 2;
 
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
@@ -45,21 +45,21 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
 
-            if (time % (100 / speed) == 0) {    // plus la velocité monte, plus ca ira souvent dans le if
+            if (_time % (100 / _speed) == 0) {
                 vel._vx = -3;
-                if (way == false) {             //il va descendre
-                    if (zone >= 50)             //il est en bas il change de sens
-                        way = true;
-                    else {                      //il descend
+                if (_way == false) {
+                    if (_zone >= 50)
+                        _way = true;
+                    else {
                         vel._vy = 1;
-                        zone++;
+                        _zone++;
                     }
-                } else {                        //il va monter
-                    if (zone <= - 50)           //il est en haut il change de sens
-                        way = false;
-                    else {                      //il monte
+                } else {
+                    if (_zone <= - 50)
+                        _way = false;
+                    else {
                         vel._vy = -1;
-                        zone--;
+                        _zone--;
                     }
                 }
             }
@@ -75,7 +75,7 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
         _animation++;
     if (_animation == 5)
         _animation = 0;
-    time++;
+    _time++;
 }
 
 #if defined (_WIN32)

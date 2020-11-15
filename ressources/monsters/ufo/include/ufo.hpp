@@ -20,6 +20,10 @@ class ufo : public AMonster
         void update(const float dt, ECS::ECSEngine&);
         ~ufo() = default;
     private:
+    int _time;
+    int _speed;
+    int _zone;
+    bool _way;
 };
 
 #endif /* !UFO_HPP_ */

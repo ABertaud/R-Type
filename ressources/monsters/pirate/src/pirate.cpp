@@ -6,16 +6,6 @@
 */
 
 #include "pirate.hpp"
-#include <iostream>
-#include <memory>
-#include <SFML/Graphics.hpp>
-#include "entityDetails.hpp"
-#include "Position.hpp"
-#include "Dimensions.hpp"
-#include "Velocity.hpp"
-#include "Life.hpp"
-#include <map>
-#include <vector>
 
 pirate::pirate() : AMonster()
 {
@@ -36,22 +26,22 @@ void pirate::init(ECS::ECSEngine& engine)
 
 void pirate::update(const float dt, ECS::ECSEngine& engine)
 {
-    static int time = 0;
-    static int speed = 15;
-    std::vector<ECS::Position> pPos;
+    _time = 0;
+    _speed = 15;
     std::map<unsigned int, ECS::Position> distance;
-    unsigned int value = 0;
-    unsigned int closest = -1;
-    ECS::Position boss(0, 0);
+    _value = 0;
+    _closest = -1;
+    _boss._x = 0;
+    _boss._y = 0;
 
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 
 
-    for (auto& ent: entities) {//ON CHERCHE LES PLAYERS
+    for (auto& ent: entities) {
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
         if (details._type == entityType::P1 || details._type == entityType::P2 || details._type == entityType::P3 || details._type == entityType::P4) {
-            pPos.push_back(engine.getComponent<ECS::Position>(ent, ECS::POSITION));
+            _pPos.push_back(engine.getComponent<ECS::Position>(ent, ECS::POSITION));
         }
     }
 
@@ -60,44 +50,34 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
         if (details._type == entityType::PIRATE && ent == _id) {
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
-            if (time % (100 / (static_cast<int>(speed))) == 0) {
-                //calculer et save la distance de chaque player par rapport au pirate
-                for (const auto& it: pPos) {
-                    value = (it._x - pos._x) * (it._x - pos._x) + (it._y - pos._y) * (it._y - pos._y);
-                    distance.insert(std::make_pair(value, it));
+            if (_time % (100 / _speed) == 0) {
+                for (const auto& it: _pPos) {
+                    _value = (it._x - pos._x) * (it._x - pos._x) + (it._y - pos._y) * (it._y - pos._y);
+                    distance.insert(std::make_pair(_value, it));
                 }
-                //calculer et save la distance de chaque player par rapport au pirate
-
-
-                //rechercher le player le plus proche
                 for (auto& it: distance) {
-                    if (it.first < closest) {
-                        closest = it.first;
-                        boss = it.second;
+                    if (it.first < _closest) {
+                        _closest = it.first;
+                        _boss = it.second;
                     }
                 }
-                //rechercher le player le plus proche
-
-                //mouvement
-                if (boss._x < pos._x) {
+                if (_boss._x < pos._x) {
                     vel._vx = -1;
                     details._state = ANIMATION_0;
                 }
-                else if (boss._x > pos._x) {
+                else if (_boss._x > pos._x) {
                     vel._vx = 1;
                     details._state = ANIMATION_3;
                 } else
                     vel._vx = 0;
-                if (boss._y < pos._y)
+                if (_boss._y < pos._y)
                     vel._vy = -1;
-                else if (boss._y > pos._y)
+                else if (_boss._y > pos._y)
                     vel._vy = 1;
                 else
                     vel._vy = 0;
-                //mouvement
-
-                closest = -1;//reset pour le prochain pirate
-                distance.clear();//reset pour le prochain pirate
+                _closest = -1;
+                distance.clear();
             }
             if (_animation == 0) {
                 details._state = static_cast<animationState>(static_cast<int>(details._state) + 1);

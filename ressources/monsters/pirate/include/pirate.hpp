@@ -9,6 +9,16 @@
 #define PIRATE_HPP_
 
 #include "AMonster.hpp"
+#include <iostream>
+#include <memory>
+#include <SFML/Graphics.hpp>
+#include "entityDetails.hpp"
+#include "Position.hpp"
+#include "Dimensions.hpp"
+#include "Velocity.hpp"
+#include "Life.hpp"
+#include <map>
+#include <vector>
 
 class pirate : public AMonster
 {
@@ -20,6 +30,12 @@ class pirate : public AMonster
         void update(const float dt, ECS::ECSEngine&);
         ~pirate() = default;
     private:
+    int _time;
+    int _speed;
+    std::vector<ECS::Position> _pPos;
+    int _value;
+    int _closest;
+    ECS::Position _boss;
 };
 
 #endif /* !PIRATE_HPP_ */
