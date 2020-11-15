@@ -66,21 +66,21 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
             if (time % (100 / speed) == 0) {// plus la velocité monte, plus ca ira souvent dans le if
 
                 //SE PLACER CORRECTEMENT EN X
-                if (pos._x >= 800)
+                if (pos._x >= 950)
                     vel._vx -= 1;
                 //SE PLACER CORRECTEMENT EN X
                 else {
                     vel._vx = 0;
                     //BOUGER VERS LE HAUT OU LE BAS
                     if (way == true) {//VERS LE BAS
-                        if (pos._y < 600)
+                        if (pos._y < 700)
                             vel._vy = 1;
                         else {
                             way = false;
                             vel._vy = 0;
                         }
                     } else {//VERS LE HAUT
-                        if (pos._y > 250)
+                        if (pos._y > 30)
                             vel._vy = -1;
                         else {
                             way = true;

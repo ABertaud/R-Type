@@ -33,7 +33,7 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
     static int time = 0;
     static int speed = 5;
     static int zone = 0;
-    static bool way = false;//random ?
+    static bool way = true;//random ?
 
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
@@ -43,19 +43,19 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
         if (details._type == entityType::UFO) {
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
-
+        std::cout << zone << "\n";
 
             if (time % (100 / speed) == 0) {    // plus la velocité monte, plus ca ira souvent dans le if
                 vel._vx = -1;
                 if (way == false) {             //il va descendre
-                    if (zone >= 200)            //il est en bas il change de sens
+                    if (zone >= 50)            //il est en bas il change de sens
                         way = true;
                     else {                       //il descend
                         vel._vy = 1;
                         zone++;
                     }
                 } else {                        //il va monter
-                    if (zone <= - 200)          //il est en haut il change de sens
+                    if (zone <= - 50)          //il est en haut il change de sens
                         way = false;
                     else {                      //il monte
                         vel._vy = -1;

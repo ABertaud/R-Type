@@ -27,8 +27,8 @@ public:
     entityType getType()const;
 
 private:
-    State _state;
     entityType _type;
+    State _state;
 };
 
 #endif
