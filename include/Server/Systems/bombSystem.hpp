@@ -22,6 +22,7 @@ namespace ECS {
     private:
         void updateBomb(const float dt, const Entity ent, ECS::ECSEngine& engine, ECS::entityDetails& details);
         void updateShoot(const float dt, const Entity ent, ECS::ECSEngine& engine, ECS::entityDetails& details);
+        void updateSpaceshipShoot(const float dt, const Entity ent, ECS::ECSEngine& engine, ECS::entityDetails& details);
     };
 }
 

@@ -9,7 +9,6 @@
 #include <iostream>
 #include <memory>
 #include "entityDetails.hpp"
-#include "Position.hpp"
 #include "Dimensions.hpp"
 #include "Velocity.hpp"
 #include "Life.hpp"
@@ -94,7 +93,7 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
                 
 
                 if (time % (1000 / speed) == 0) {
-                    //shoot?
+                    createShoot(pos, engine);
                 }
             }
             if (_animation == 0) {
@@ -110,6 +109,16 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
     if (_animation == 5)
         _animation = 0;
     time++;
+}
+
+void spaceship::createShoot(const ECS::Position& pos, ECS::ECSEngine& engine)
+{
+    Entity ent = engine.getNewEntity();
+    engine.addComponent(ent, pos, ECS::POSITION);
+    engine.addComponent(ent, ECS::Dimensions(50, 15), ECS::DIMENSIONS);
+    engine.addComponent(ent, ECS::Velocity(-3, 0), ECS::VELOCITY);
+    engine.addComponent(ent, ECS::entityDetails(SPACESHIP_SHOOT, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
+    engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
 }
 
 #if defined (_WIN32)

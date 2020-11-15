@@ -24,6 +24,8 @@ void ECS::bombSystem::update(const float dt, ECS::ECSEngine& engine)
             updateBomb(dt, ent, engine, details);
         else if (details._type == entityType::PLAYER_SHOOT)
             updateShoot(dt, ent, engine, details);
+        else if (details._type == entityType::SPACESHIP_SHOOT)
+            updateSpaceshipShoot(dt, ent, engine, details);
     }
 }
 
@@ -59,4 +61,21 @@ void ECS::bombSystem::updateShoot(const float dt, const Entity ent, ECS::ECSEngi
     else if (bomb._dt >= 900) {
         details._state = animationState::ANIMATION_3;
     }
+}
+
+void ECS::bombSystem::updateSpaceshipShoot(const float dt, const Entity ent, ECS::ECSEngine& engine, ECS::entityDetails& details)
+{
+    auto& bomb = engine.getComponent<ECS::Bomb>(ent, ECS::BOMB);
+
+    bomb._dt += dt;
+    if (bomb._dt >= 150 && bomb._dt < 300)
+        details._state = animationState::ANIMATION_1;
+    else if (bomb._dt >= 300 && bomb._dt < 450)
+        details._state = animationState::ANIMATION_2;
+    else if (bomb._dt >= 450 && bomb._dt < 600)
+        details._state = animationState::ANIMATION_3;
+    else if (bomb._dt >= 600 && bomb._dt < 750)
+        details._state = animationState::ANIMATION_4;
+    else if (bomb._dt >= 750)
+        details._state = animationState::ANIMATION_5;
 }

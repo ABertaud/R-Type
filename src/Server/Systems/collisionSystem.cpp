@@ -20,8 +20,8 @@ void ECS::collisionSystem::update(const float dt, ECS::ECSEngine& engine)
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 
-    std::vector<entityType> playerCollisionTypes = {entityType::ALIEN_SHOOT, entityType::PIRATE, entityType::SPACESHIP, entityType::UFO};
-    std::vector<entityType> playerShootCollisionTypes = {entityType::ALIEN_SHOOT, entityType::PIRATE, entityType::SPACESHIP, entityType::UFO};
+    std::vector<entityType> playerCollisionTypes = {entityType::ALIEN_SHOOT, entityType::PIRATE, entityType::SPACESHIP, entityType::UFO, entityType::SPACESHIP_SHOOT};
+    std::vector<entityType> playerShootCollisionTypes = {entityType::ALIEN_SHOOT, entityType::PIRATE, entityType::SPACESHIP, entityType::UFO, entityType::SPACESHIP_SHOOT};
 
     for (auto& ent: entities) {
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);

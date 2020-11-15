@@ -9,6 +9,7 @@
 #define SPACESHIP_HPP_
 
 #include "AMonster.hpp"
+#include "Position.hpp"
 
 class spaceship : public AMonster
 {
@@ -20,6 +21,7 @@ class spaceship : public AMonster
         void update(const float dt, ECS::ECSEngine&);
         ~spaceship() = default;
     private:
+        void createShoot(const ECS::Position& pos, ECS::ECSEngine& engine);
 };
 
 #endif /* !SPACESHIP_HPP_ */
