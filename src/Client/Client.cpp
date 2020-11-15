@@ -23,7 +23,7 @@
 #include "ItemSpeed.hpp"
 
 Client::Client(const std::string& ip, unsigned short port, const std::string& configFile)
-: _sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(configFile), _state(NONE)
+: _sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(configFile), _state(NONE), _connexion(), _currentTime(sf::Time::Zero)
 {
     boost::system::error_code err;
 
@@ -115,6 +115,7 @@ void Client::loop(void)
     std::chrono::seconds time;
     Graphic::Command check = Graphic::Command::NOTHING;
     sf::Clock frameClock;
+    sf::Time checkTime(sf::seconds(1));
 
     _entities.push_back(std::shared_ptr<Graphic::Player>(new Graphic::Player(0, P1, false, {100,100}, animationState::ANIMATION_2)));
     while (_sigHandler.isInterrupted() != true) {
@@ -134,8 +135,16 @@ void Client::loop(void)
                 send("210");
                 start = std::chrono::system_clock::now();
             }
+        
         }
-            
+        _currentTime += _connexion.restart();
+        if (_currentTime >= checkTime && _state == INGAME) {
+            _state = NONE;
+            _sfmlModule.getAudio().stopSound(Audio::GAME);
+            _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
+            _sfmlModule.setState(MenuDrawer::State::HOME);
+
+        }
     }
     if (_sigHandler.isInterrupted()) {
         send("200");
@@ -195,6 +204,8 @@ void Client::handleReceive(const boost::system::error_code& ec, std::size_t byte
 {
     BinaryProtocol::Packet p;
 
+    _connexion.restart();
+    _currentTime = sf::Time::Zero;
     if (ec) {
         std::cerr << "ERROR while reading " << bytesTransferred << " bytes on socket" << std::endl;
         return;

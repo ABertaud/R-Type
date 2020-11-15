@@ -65,6 +65,8 @@ class Client : public INetwork
         boost::asio::ip::udp::socket _clientSocket;
         SFMLModule _sfmlModule;
         ClientState _state;
+        sf::Clock _connexion;
+        sf::Time _currentTime;
         boost::thread _thread;
         boost::array<uint8_t, 1024> _recvBuff;
         boost::asio::ip::udp::endpoint _remoteEndpoint;
