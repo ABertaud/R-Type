@@ -364,9 +364,10 @@ void Client::createEntity(int entityId, const entityType& entityType, bool bonus
     _entities.push_back(std::make_shared<Graphic::Wall>(Graphic::Wall(entityId, bonus, entityPos, animation)));
     else if (entityType == OBSTACLE)
     _entities.push_back(std::make_shared<Graphic::Obstacle>(Graphic::Obstacle(entityId, bonus, entityPos, animation)));
-    else if (entityType == PLAYER_SHOOT)
-    _entities.push_back(std::make_shared<Graphic::PlayerShoot>(Graphic::PlayerShoot(entityId, bonus, entityPos, animation)));
-    else if (entityType == ALIEN)
+    else if (entityType == PLAYER_SHOOT) {
+        _entities.push_back(std::make_shared<Graphic::PlayerShoot>(Graphic::PlayerShoot(entityId, bonus, entityPos, animation)));
+        _sfmlModule.getAudio().playSound(Audio::SHOOT);
+    } else if (entityType == ALIEN)
     _entities.push_back(std::make_shared<Graphic::Alien>(Graphic::Alien(entityId, bonus, entityPos, animation)));
     else if (entityType == ALIEN_SHOOT)
     _entities.push_back(std::make_shared<Graphic::AlienShoot>(Graphic::AlienShoot(entityId, bonus, entityPos, animation)));

@@ -4,14 +4,14 @@
 ** File description:
 ** dirReader.hpp
 */
-
 #ifndef dirReader_HPP_
 #define dirReader_HPP_
-
 #include <string>
 #include <vector>
+//#include <dirent.h>
+#include <boost/filesystem.hpp>
+#include <boost/range/iterator_range.hpp>
 #include "Error.hpp"
-
 class dirReader {
     public:
         dirReader(const std::string& name);
@@ -23,5 +23,4 @@ class dirReader {
         std::string _path;
         void pushLibPath(const std::string& name, std::vector<std::string>& libPaths);
 };
-
 #endif /* !dirReader_HPP_ */

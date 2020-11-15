@@ -123,8 +123,6 @@ Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Grap
         if (_event.type == sf::Event::KeyPressed) {
             command = _key.traduceKey(_event.key.code);
             //_event.key.code = sf::Keyboard::O;
-            if (command == Graphic::Command::SHOOT)
-                _audio.playSound(Audio::SHOOT);
         }
         if (_event.type == sf::Event::Closed) 
             command = Graphic::EXIT;
