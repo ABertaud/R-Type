@@ -10,6 +10,10 @@
 
 
 struct posVector {
+    posVector() = default;
+    posVector(const posVector& other) = default;
+    posVector& operator=(const posVector& other) = default;
+    ~posVector() = default;
     float x;
     float y;
 };
