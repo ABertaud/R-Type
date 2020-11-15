@@ -83,7 +83,7 @@ private:
     const sf::Vector2f& posEnter, const std::string& port, sf::RenderWindow& window,  const sf::Sprite& back);
     const std::string enterScene(sf::RenderWindow& window, sf::Event& event, const State& state);
     sf::RectangleShape createRectangleShape(const sf::Vector2f& size, const sf::Vector2f& pos, const sf::Color& color);
-    void drawRoom(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&players, const ClientState& clientS, sf::Time &frameTime);
+    void drawRoom(sf::RenderWindow& window, const std::vector<std::shared_ptr<Players>>&players, const ClientState& clientS, sf::Time &frameTime);
     void drawPlayerRoom(const std::shared_ptr<Players>& player, sf::RenderWindow& window);
     void loadSpriteSize(const std::string& path, const entityType& obj, sf::IntRect, const posVector& scale);
     void drawRect(const sf::Vector2f& , sf::RenderWindow& window);

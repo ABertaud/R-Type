@@ -114,7 +114,7 @@ void SFMLModule::stop()
     _window.close();
 }
 
-Graphic::Command SFMLModule::eventHandler(const std::vector<std::shared_ptr<Graphic::Entity>>& entityArray)
+Graphic::Command SFMLModule::eventHandler()
 {
     Graphic::Command command = Graphic::NOTHING;
 
@@ -134,7 +134,7 @@ Graphic::Command SFMLModule::game(const std::vector<std::shared_ptr<Graphic::Ent
 {
     Graphic::Command ret;
 
-    ret = eventHandler(entityArray);
+    ret = eventHandler();
     drawGame(entityArray);
     return ret;
 }

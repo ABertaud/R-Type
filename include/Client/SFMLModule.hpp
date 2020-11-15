@@ -27,7 +27,7 @@ public:
         ~SFMLModule();
         void init(const sf::Vector2f& scale);
         void stop();
-        Graphic::Command eventHandler(const std::vector<std::shared_ptr<Graphic::Entity>>& entityArray);
+        Graphic::Command eventHandler();
         void drawGame(const std::vector<std::shared_ptr<Graphic::Entity>>&);
         MenuDrawer::State Menu(const std::string& name, const std::vector<std::shared_ptr<Players>>&, const ClientState& , sf::Clock &frameClock);
         const std::string getPlayerName();

@@ -109,6 +109,7 @@ void MenuDrawer::loadSpriteSize(const std::string& path, const entityType& obj, 
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     if (!_textures.back()->loadFromFile(path))
         std::cerr << "ERROR: cannot found " << path << "." << std::endl;
+    (void)rect;
     _textures.back()->setSmooth(true);
     sprite.setTexture(*_textures.back());
     sprite.setScale(scale.x * _scale.x, scale.y *_scale.y);
@@ -123,6 +124,7 @@ void MenuDrawer::loadSprite(const std::string& path, const State& obj, sf::IntRe
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     if (!_textures.back()->loadFromFile(path))
         std::cerr << "ERROR: cannot found " << path << "." << std::endl;
+    (void)rect;    
     _textures.back()->setSmooth(true);
     sprite.setTexture(*_textures.back());
     sprite.setScale(scale.x, scale.y);
@@ -292,7 +294,7 @@ void MenuDrawer::draw(sf::RenderWindow& window, const std::string& playerName, s
         return;
     }
     if (_state == ROOM || _state == READY || _state == UNREADY)
-        drawRoom(window, playerName, event, entities, clientS, frameTime);   // window()
+        drawRoom(window, entities, clientS, frameTime);   // window()
 }
 
 void MenuDrawer::drawSettings(sf::RenderWindow& window)
@@ -419,7 +421,7 @@ void MenuDrawer::drawButton(const State& state, const sf::Vector2f& pos, sf::Ren
     }
 }
 
-void MenuDrawer::drawRoom(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>&Players, const ClientState& clientS, sf::Time &frameTime)
+void MenuDrawer::drawRoom(sf::RenderWindow& window, const std::vector<std::shared_ptr<Players>>&Players, const ClientState& clientS, sf::Time &frameTime)
 {
     float x = (_winpos.x / 2 + 250) * _scale.x;
     float y = (_winpos.y / 6 - 100) * _scale.y;
@@ -427,8 +429,6 @@ void MenuDrawer::drawRoom(sf::RenderWindow& window, const std::string& playerNam
     sf::Vector2f defaultVal(-1, -1);
 
     window.clear();
-   // _parallaxShader.parallaxShaderDraw(window);
-   // window.draw(_background);
     _gifDrawer.update(frameTime , window);
     drawButton(HOME, defaultVal, window);
     drawButton(GAME, defaultVal, window);
