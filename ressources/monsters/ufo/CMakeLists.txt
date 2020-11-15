@@ -18,6 +18,29 @@ include_directories(${INCLUDE_SHARED_MONSTERS_DIR})
 include_directories(${INCLUDE_ENGINE_DIR})
 include_directories(${INCLUDE_COMPONENTS_DIR})
 
-file(GLOB_RECURSE SOURCES ${SRCS_DIR}/*.cpp ${SRCS_SHARED_DIR}/*.cpp ${SOURCE_ENGINE_DIR}/*.cpp {PROJECT_SOURCE_DIR}/../../../src/Shared/Error.cpp ${SOURCE_SHARED_MONSTERS_DIR}/*.cpp ${SOURCE_COMPONENTS_DIR}/*.cpp)
+# -------------------------------- SERVER SOURCES -------------------------------- #
+set(SRCS_SERVER ${SRCS_COMPONENTS_DIR}/Bomb.cpp
+                ${SRCS_COMPONENTS_DIR}/Dimensions.cpp
+                ${SRCS_COMPONENTS_DIR}/entityDetails.cpp
+                ${SRCS_COMPONENTS_DIR}/Life.cpp
+                ${SRCS_COMPONENTS_DIR}/Player.cpp
+                ${SRCS_COMPONENTS_DIR}/Position.cpp
+                ${SRCS_COMPONENTS_DIR}/Velocity.cpp
+                ${SRCS_ENGINE_DIR}/ASystem.cpp
+                ${SRCS_ENGINE_DIR}/ECSEngine.cpp
+                ${SRCS_ENGINE_DIR}/EntityManager.cpp
+                ${SRCS_ENGINE_DIR}/Filter.cpp
+                ${SRCS_ENGINE_DIR}/StorageManager.cpp
+                ${SRCS_ENGINE_DIR}/SystemManager.cpp
+)
+
+# -------------------------------- SHARED SOURCES -------------------------------- #
+set(SRCS_SHARED ${SRCS_SHARED_MONSTERS_DIR}/Error.cpp
+)
+
+# -------------------------------- PIRATE SOURCES -------------------------------- #
+set(SRCS ${SRCS_DIR}/Ufo.cpp
+         ${SRCS_SHARED_DIR}/AMonster.cpp
+)
 # Create shared library
-add_library(ufo_monster SHARED ${SOURCES})
+add_library(ufo_monster SHARED ${SRCS} ${SRCS_SHARED} ${SRCS_SERVER})
