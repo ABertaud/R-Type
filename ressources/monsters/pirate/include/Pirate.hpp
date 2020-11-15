@@ -20,15 +20,15 @@
 #include <map>
 #include <vector>
 
-class pirate : public AMonster
+class Pirate : public AMonster
 {
     public:
-        pirate();
-        pirate(const pirate& other) = default;
-        pirate& operator=(const pirate& other) = default;
+        Pirate();
+        Pirate(const Pirate& other) = default;
+        Pirate& operator=(const Pirate& other) = default;
         void init(ECS::ECSEngine&);
         void update(const float dt, ECS::ECSEngine&);
-        ~pirate() = default;
+        ~Pirate() = default;
     private:
     int _time;
     int _speed;

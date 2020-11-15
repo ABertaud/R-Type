@@ -5,14 +5,14 @@
 ** pirate.cpp
 */
 
-#include "pirate.hpp"
+#include "Pirate.hpp"
 
-pirate::pirate() : AMonster(), _time(0), _speed(15), _value(0), _closest(-1), _boss(0, 0)
+Pirate::Pirate() : AMonster(), _time(0), _speed(15), _value(0), _closest(-1), _boss(0, 0)
 {
 
 }
 
-void pirate::init(ECS::ECSEngine& engine)
+void Pirate::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
@@ -24,7 +24,7 @@ void pirate::init(ECS::ECSEngine& engine)
     engine.addComponent(ent, ECS::entityDetails(entityType::PIRATE, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }
 
-void pirate::update(const float dt, ECS::ECSEngine& engine)
+void Pirate::update(const float dt, ECS::ECSEngine& engine)
 {
     std::map<unsigned int, ECS::Position> distance;
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
@@ -94,14 +94,14 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
     extern "C"  __declspec(dllexport)
     void *entryPoint()
     {
-        return (new std::unique_ptr<pirate>(new pirate));
+        return (new std::unique_ptr<Pirate>(new Pirate));
     }
 
 #else
 
     extern "C" std::unique_ptr<IMonster> entryPoint()
     {
-        return (std::make_unique<pirate>());
+        return (std::make_unique<Pirate>());
     }
 
 #endif

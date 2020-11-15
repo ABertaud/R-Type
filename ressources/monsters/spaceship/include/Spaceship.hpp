@@ -11,15 +11,15 @@
 #include "AMonster.hpp"
 #include "Position.hpp"
 
-class spaceship : public AMonster
+class Spaceship : public AMonster
 {
     public:
-        spaceship();
-        spaceship(const spaceship& other) = default;
-        spaceship& operator=(const spaceship& other) = default;
+        Spaceship();
+        Spaceship(const Spaceship& other) = default;
+        Spaceship& operator=(const Spaceship& other) = default;
         void init(ECS::ECSEngine&);
         void update(const float dt, ECS::ECSEngine&);
-        ~spaceship() = default;
+        ~Spaceship() = default;
     private:
         void createShoot(const ECS::Position& pos, ECS::ECSEngine& engine);
         int _time;

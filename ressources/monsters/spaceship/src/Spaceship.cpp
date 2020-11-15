@@ -5,7 +5,7 @@
 ** spaceship.cpp
 */
 
-#include "spaceship.hpp"
+#include "Spaceship.hpp"
 #include <iostream>
 #include <memory>
 #include "entityDetails.hpp"
@@ -14,12 +14,12 @@
 #include "Life.hpp"
 #include "Bomb.hpp"
 
-spaceship::spaceship() : AMonster(), _time(0), _speed(5), _way(rand() % 2), _firstBuf(false), _secondBuf(false)
+Spaceship::Spaceship() : AMonster(), _time(0), _speed(5), _way(rand() % 2), _firstBuf(false), _secondBuf(false)
 {
 
 }
 
-void spaceship::init(ECS::ECSEngine& engine)
+void Spaceship::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
@@ -32,7 +32,7 @@ void spaceship::init(ECS::ECSEngine& engine)
     engine.addComponent(ent, ECS::entityDetails(entityType::SPACESHIP, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }
 
-void spaceship::update(const float dt, ECS::ECSEngine& engine)
+void Spaceship::update(const float dt, ECS::ECSEngine& engine)
 {
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
@@ -91,7 +91,7 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
     _time++;
 }
 
-void spaceship::createShoot(const ECS::Position& pos, ECS::ECSEngine& engine)
+void Spaceship::createShoot(const ECS::Position& pos, ECS::ECSEngine& engine)
 {
     Entity ent = engine.getNewEntity();
     engine.addComponent(ent, pos, ECS::POSITION);
@@ -106,14 +106,14 @@ void spaceship::createShoot(const ECS::Position& pos, ECS::ECSEngine& engine)
 extern "C"  __declspec(dllexport)
 void* entryPoint()
 {
-    return (new std::unique_ptr<spaceship>(new spaceship));
+    return (new std::unique_ptr<Spaceship>(new Spaceship));
 }
 
 #else
 
 extern "C" std::unique_ptr<IMonster> entryPoint()
 {
-    return (std::make_unique<spaceship>());
+    return (std::make_unique<Spaceship>());
 }
 
 #endif

@@ -10,15 +10,15 @@
 
 #include "AMonster.hpp"
 
-class ufo : public AMonster
+class Ufo : public AMonster
 {
     public:
-        ufo();
-        ufo(const ufo& other) = default;
-        ufo& operator=(const ufo& other) = default;
+        Ufo();
+        Ufo(const Ufo& other) = default;
+        Ufo& operator=(const Ufo& other) = default;
         void init(ECS::ECSEngine&);
         void update(const float dt, ECS::ECSEngine&);
-        ~ufo() = default;
+        ~Ufo() = default;
     private:
     int _time;
     int _speed;

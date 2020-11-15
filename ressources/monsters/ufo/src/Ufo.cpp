@@ -5,7 +5,7 @@
 ** ufo.cpp
 */
 
-#include "ufo.hpp"
+#include "Ufo.hpp"
 #include <iostream>
 #include <memory>
 #include "entityDetails.hpp"
@@ -14,12 +14,12 @@
 #include "Velocity.hpp"
 #include "Life.hpp"
 
-ufo::ufo() : AMonster(), _time(0), _speed(5), _zone(0), _way(rand() % 2)
+Ufo::Ufo() : AMonster(), _time(0), _speed(5), _zone(0), _way(rand() % 2)
 {
 
 }
 
-void ufo::init(ECS::ECSEngine& engine)
+void Ufo::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
@@ -31,7 +31,7 @@ void ufo::init(ECS::ECSEngine& engine)
     engine.addComponent(ent, ECS::entityDetails(entityType::UFO, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
 }
 
-void ufo::update(const float dt, ECS::ECSEngine& engine)
+void Ufo::update(const float dt, ECS::ECSEngine& engine)
 {
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
@@ -79,14 +79,14 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
 extern "C"  __declspec(dllexport)
 void* entryPoint()
 {
-    return (new std::unique_ptr<ufo>(new ufo));
+    return (new std::unique_ptr<Ufo>(new Ufo));
 }
 
 #else
 
 extern "C" std::unique_ptr<IMonster> entryPoint()
 {
-    return (std::make_unique<ufo>());
+    return (std::make_unique<Ufo>());
 }
 
 #endif
