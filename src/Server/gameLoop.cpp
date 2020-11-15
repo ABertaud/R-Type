@@ -94,7 +94,7 @@ void gameLoop::update(const float dt)
 void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players)
 {
     int x = 50;
-    int y = 200;
+    int y = 100;
 
     std::map<ECS::playerNumber, ECS::Dimensions> pDimensions = {
         {ECS::P1, ECS::Dimensions(33, 20)},

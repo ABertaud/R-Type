@@ -21,6 +21,8 @@ class AMonster : public IMonster
         virtual ~AMonster() = default;
     protected:
         ECS::Filter _filter;
+        Entity _id;
+        unsigned int _animation;
     private:
 };
 

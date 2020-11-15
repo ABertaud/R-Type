@@ -1,9 +1,13 @@
+
+
+
+
 O.G Working Group                                            C. Benjamin
 Internet-Draft                                                 H. Adrian
-Expires: May 18, 2021                                          B. Arthur
+Expires: May 19, 2021                                          B. Arthur
                                                              V. Matthias
                                                            Epitech, Inc.
-                                                       November 14, 2020
+                                                       November 15, 2020
 
 
                             R-Type Protocol
@@ -29,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 18, 2021.
+   This Internet-Draft will expire on May 19, 2021.
 
 Copyright Notice
 
@@ -49,7 +53,7 @@ Copyright Notice
 
 
 
-Benjamin, et al.          Expires May 18, 2021                  [Page 1]
+Benjamin, et al.          Expires May 19, 2021                  [Page 1]
 
 Internet-Draft               R-Type Protocol               November 2020
 
@@ -105,7 +109,7 @@ Internet-Draft               R-Type Protocol               November 2020
 
 
 
-Benjamin, et al.          Expires May 18, 2021                  [Page 2]
+Benjamin, et al.          Expires May 19, 2021                  [Page 2]
 
 Internet-Draft               R-Type Protocol               November 2020
 
@@ -161,7 +165,7 @@ Internet-Draft               R-Type Protocol               November 2020
 
 
 
-Benjamin, et al.          Expires May 18, 2021                  [Page 3]
+Benjamin, et al.          Expires May 19, 2021                  [Page 3]
 
 Internet-Draft               R-Type Protocol               November 2020
 
@@ -217,7 +221,7 @@ Internet-Draft               R-Type Protocol               November 2020
 
 
 
-Benjamin, et al.          Expires May 18, 2021                  [Page 4]
+Benjamin, et al.          Expires May 19, 2021                  [Page 4]
 
 Internet-Draft               R-Type Protocol               November 2020
 
@@ -273,7 +277,7 @@ Internet-Draft               R-Type Protocol               November 2020
 
 
 
-Benjamin, et al.          Expires May 18, 2021                  [Page 5]
+Benjamin, et al.          Expires May 19, 2021                  [Page 5]
 
 Internet-Draft               R-Type Protocol               November 2020
 
@@ -329,7 +333,7 @@ Internet-Draft               R-Type Protocol               November 2020
 
 
 
-Benjamin, et al.          Expires May 18, 2021                  [Page 6]
+Benjamin, et al.          Expires May 19, 2021                  [Page 6]
 
 Internet-Draft               R-Type Protocol               November 2020
 
@@ -378,14 +382,14 @@ Internet-Draft               R-Type Protocol               November 2020
    The server will send code "666" if a player is trying to do menu
    commands while its last game isn't finished yet.
 
+   135
+   The server will send code "135" if the game is finish, in order to
+   put the players back in the lobby.
 
 
 
 
-
-
-
-Benjamin, et al.          Expires May 18, 2021                  [Page 7]
+Benjamin, et al.          Expires May 19, 2021                  [Page 7]
 
 Internet-Draft               R-Type Protocol               November 2020
 
@@ -441,4 +445,4 @@ Authors' Addresses
 
 
 
-Benjamin, et al.          Expires May 18, 2021                  [Page 8]
+Benjamin, et al.          Expires May 19, 2021                  [Page 8]

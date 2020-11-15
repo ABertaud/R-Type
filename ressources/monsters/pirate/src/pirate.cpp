@@ -26,6 +26,7 @@ void pirate::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
+    _id = ent;
     engine.addComponent(ent, ECS::Position(rand() % 700 + 300, 0), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(0, 0), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(33, 34), ECS::DIMENSIONS);
@@ -56,7 +57,7 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
 
     for (auto& ent: entities) {
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
-        if (details._type == entityType::PIRATE) {
+        if (details._type == entityType::PIRATE && ent == _id) {
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
             if (time % (100 / (static_cast<int>(speed))) == 0) {
@@ -78,11 +79,14 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
                 //rechercher le player le plus proche
 
                 //mouvement
-                if (boss._x < pos._x)
+                if (boss._x < pos._x) {
                     vel._vx = -1;
-                else if (boss._x > pos._x)
+                    details._state = ANIMATION_0;
+                }
+                else if (boss._x > pos._x) {
                     vel._vx = 1;
-                else
+                    details._state = ANIMATION_3;
+                } else
                     vel._vx = 0;
                 if (boss._y < pos._y)
                     vel._vy = -1;
@@ -95,9 +99,20 @@ void pirate::update(const float dt, ECS::ECSEngine& engine)
                 closest = -1;//reset pour le prochain pirate
                 distance.clear();//reset pour le prochain pirate
             }
+            if (_animation == 0) {
+                details._state = static_cast<animationState>(static_cast<int>(details._state) + 1);
+                if ((vel._vx < 0) && details._state == ANIMATION_2)
+                    details._state = ANIMATION_0;
+                else if ((vel._vx >= 0) && details._state == ANIMATION_5)
+                    details._state = ANIMATION_3;
+                _animation = 1;
+            }
         }
     }
-    time++;
+    if (_animation > 0)
+        _animation++;
+    if (_animation == 5)
+        _animation = 0;
 }
 
 #if defined (_WIN32)

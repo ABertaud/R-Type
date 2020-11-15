@@ -7,7 +7,7 @@
 
 #include "AMonster.hpp"
 
-AMonster::AMonster()
+AMonster::AMonster() : _animation(0)
 {
     
 }

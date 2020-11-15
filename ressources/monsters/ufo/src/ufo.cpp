@@ -22,6 +22,7 @@ void ufo::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
+    _id = ent;
     engine.addComponent(ent, ECS::Position(1116, rand() % 700 + 100), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(0, 20), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(33, 37), ECS::DIMENSIONS);
@@ -40,7 +41,7 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
 
     for (auto& ent: entities) {
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
-        if (details._type == entityType::UFO) {
+        if (details._type == entityType::UFO && ent == _id) {
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
 
@@ -62,8 +63,18 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
                     }
                 }
             }
+            if (_animation == 0) {
+                details._state = static_cast<animationState>(static_cast<int>(details._state) + 1);
+                if (details._state == ANIMATION_9)
+                    details._state = ANIMATION_0;
+                _animation = 1;
+            }
         }
     }
+    if (_animation > 0)
+        _animation++;
+    if (_animation == 5)
+        _animation = 0;
     time++;
 }
 

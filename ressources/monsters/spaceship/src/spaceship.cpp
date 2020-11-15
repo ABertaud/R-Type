@@ -24,6 +24,7 @@ void spaceship::init(ECS::ECSEngine& engine)
 {
     auto ent = engine.getNewEntity();
 
+    _id = ent;
     engine.addComponent(ent, ECS::Position(1116, rand() % 400 + 200), ECS::POSITION);
     engine.addComponent(ent, ECS::Velocity(0, 0), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(65, 66), ECS::DIMENSIONS);
@@ -46,7 +47,7 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
 
     for (auto& ent: entities) {
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
-        if (details._type == entityType::SPACESHIP) {
+        if (details._type == entityType::SPACESHIP && ent == _id) {
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
             auto& hp = engine.getComponent<ECS::Life>(ent, ECS::LIFE);
@@ -96,8 +97,18 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
                     //shoot?
                 }
             }
+            if (_animation == 0) {
+                details._state = static_cast<animationState>(static_cast<int>(details._state) + 1);
+                if (details._state == ANIMATION_5)
+                    details._state = ANIMATION_0;
+                _animation = 1;
+            }
         }
     }
+    if (_animation > 0)
+        _animation++;
+    if (_animation == 5)
+        _animation = 0;
     time++;
 }
 
