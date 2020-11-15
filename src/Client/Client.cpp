@@ -68,6 +68,7 @@ void Client::start(void)
 void Client::stop(void)
 {
     send("200");
+    send("200");
     _sfmlModule.stop();
     _thread.detach();
     _ioService.stop();
@@ -135,8 +136,10 @@ void Client::loop(void)
         }
             
     }
-    if (_sigHandler.isInterrupted())
+    if (_sigHandler.isInterrupted()) {
         send("200");
+        send("200");    
+    }
 }
 
 int Client::checkMenuState(const MenuDrawer::State& stateMenu)
