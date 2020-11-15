@@ -17,7 +17,9 @@ extern bool isInterrupt;
 class SignalHandler {
     public:
         SignalHandler();
-        ~SignalHandler()=default;
+        SignalHandler(const SignalHandler& other) = default;
+        SignalHandler& operator=(const SignalHandler& other) = default;
+        ~SignalHandler() = default;
         bool isInterrupted();
     private:
         static void signal_callback_handler(int signum);
