@@ -21,8 +21,8 @@ void ECS::collisionSystem::update(const float dt, ECS::ECSEngine& engine)
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 
-    std::vector<entityType> playerCollisionTypes = {entityType::ALIEN_SHOOT};
-    std::vector<entityType> playerShootCollisionTypes = {entityType::ALIEN_SHOOT};
+    std::vector<entityType> playerCollisionTypes = {entityType::ALIEN_SHOOT, entityType::PIRATE};
+    std::vector<entityType> playerShootCollisionTypes = {entityType::ALIEN_SHOOT, entityType::PIRATE};
 
     for (auto& ent: entities) {
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
@@ -91,6 +91,7 @@ void ECS::collisionSystem::destroyEntity(const Entity ent, const Entity obstacle
         detailsObs._toUpdate = false;
     if (isExplodable(detailsEnt._type))
         detailsEnt._toUpdate = false;
+    std::cout << "destroy" << std::endl;
 }
 
 bool ECS::collisionSystem::isExplodable(const entityType type)
@@ -109,7 +110,6 @@ ECS::Position ECS::collisionSystem::findIntersection(const Position& playerPos, 
     int y6 = std::min(playerMaxpos._y, entMaxPos._y); 
   
     if (x5 > x6 || y5 > y6) { 
-        std::cout << "No intersection" << std::endl;
         return (Position(-1, -1));
     }
     return (Position((x5 + x6) / 2, (y5 + y6) / 2));

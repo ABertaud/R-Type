@@ -10,7 +10,6 @@
 
 enum entityType
 {
-    BACKGROUND,
     P1,
     P2,
     P3,
@@ -28,6 +27,7 @@ enum entityType
     PIRATE_SHOOT,
     BOMB,
     EXPLOSION,
+    BACKGROUND,
 };
 
 // enum animationState

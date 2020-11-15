@@ -78,9 +78,6 @@ void gameLoop::run(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<
         }
     }
     lobbyState = Lobby::FREE;
-    for (auto& ent : _engine.getEntites())
-        _engine.removeEntity(ent);
-    std::cout << "end" << std::endl;
 }
 
 void gameLoop::update(const float dt)
@@ -95,10 +92,10 @@ void gameLoop::createPlayers(std::vector<clientPtr>& clients, std::vector<std::s
     int y = 200;
 
     std::map<ECS::playerNumber, ECS::Dimensions> pDimensions = {
-        {ECS::P1, ECS::Dimensions(166, 20)},
-        {ECS::P2, ECS::Dimensions(166, 20)},
-        {ECS::P3, ECS::Dimensions(166, 20)},
-        {ECS::P4, ECS::Dimensions(166, 20)},
+        {ECS::P1, ECS::Dimensions(33, 20)},
+        {ECS::P2, ECS::Dimensions(33, 20)},
+        {ECS::P3, ECS::Dimensions(33, 20)},
+        {ECS::P4, ECS::Dimensions(33, 20)},
     };
 
     for (auto it : Zipper::zip(clients, players)) {
