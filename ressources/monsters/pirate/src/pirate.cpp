@@ -7,7 +7,7 @@
 
 #include "pirate.hpp"
 
-pirate::pirate() : AMonster()
+pirate::pirate() : AMonster(), _time(0), _speed(15), _value(0), _closest(-1), _boss(0, 0)
 {
 
 }
@@ -26,14 +26,7 @@ void pirate::init(ECS::ECSEngine& engine)
 
 void pirate::update(const float dt, ECS::ECSEngine& engine)
 {
-    _time = 0;
-    _speed = 15;
     std::map<unsigned int, ECS::Position> distance;
-    _value = 0;
-    _closest = -1;
-    _boss._x = 0;
-    _boss._y = 0;
-
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 

@@ -14,7 +14,7 @@
 #include "Life.hpp"
 #include "Bomb.hpp"
 
-spaceship::spaceship() : AMonster()
+spaceship::spaceship() : AMonster(), _time(0), _speed(5), _way(rand() % 2), _firstBuf(false), _secondBuf(false)
 {
 
 }
@@ -34,13 +34,6 @@ void spaceship::init(ECS::ECSEngine& engine)
 
 void spaceship::update(const float dt, ECS::ECSEngine& engine)
 {
-    static int time = 0;
-    static int speed = 5;
-    static bool way = rand() % 2;//mettre un random pour changer si on commence par partir vers le haut ou le bas ?
-    static bool firstBuf = false;
-    static bool secondBuf = false;
-
-
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 
@@ -50,49 +43,36 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
             auto& hp = engine.getComponent<ECS::Life>(ent, ECS::LIFE);
-
-
-            //SA VITESSE MONTE QUAND IL A PEU DE PV
-            if (hp._hp < 10 && firstBuf == false) {
-                speed *= 2;
-                firstBuf = true;
+            if (hp._hp < 10 && _firstBuf == false) {
+                _speed *= 2;
+                _firstBuf = true;
             }
-            if (hp._hp < 3 && secondBuf == false) {
-                speed *= 2;
-                secondBuf = true;
+            if (hp._hp < 3 && _secondBuf == false) {
+                _speed *= 2;
+                _secondBuf = true;
             }
-            //SA VITESSE MONTE QUAND IL A PEU DE PV
-
-            if (time % (100 / speed) == 0) {
-
-                //SE PLACER CORRECTEMENT EN X
+            if (_time % (100 / _speed) == 0) {
                 if (pos._x >= 950)
                     vel._vx -= 1;
-                //SE PLACER CORRECTEMENT EN X
                 else {
                     vel._vx = 0;
-                    //BOUGER VERS LE HAUT OU LE BAS
-                    if (way == true) {//VERS LE BAS
+                    if (_way == true) {
                         if (pos._y < 700)
                             vel._vy = 1;
                         else {
-                            way = false;
+                            _way = false;
                             vel._vy = 0;
                         }
-                    } else {//VERS LE HAUT
+                    } else {
                         if (pos._y > 30)
                             vel._vy = -1;
                         else {
-                            way = true;
+                            _way = true;
                             vel._vy = 0;
                         }
                     }
-                    //BOUGER VERS LE HAUT OU LE BAS
                 }
-
-                
-
-                if (time % (1000 / speed) == 0) {
+                if (_time % (1000 / _speed) == 0) {
                     createShoot(pos, engine);
                 }
             }
@@ -108,7 +88,7 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
         _animation++;
     if (_animation == 5)
         _animation = 0;
-    time++;
+    _time++;
 }
 
 void spaceship::createShoot(const ECS::Position& pos, ECS::ECSEngine& engine)

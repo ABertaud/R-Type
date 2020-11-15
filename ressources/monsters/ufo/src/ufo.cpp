@@ -13,7 +13,7 @@
 #include "Dimensions.hpp"
 #include "Velocity.hpp"
 
-ufo::ufo() : AMonster()
+ufo::ufo() : AMonster(), _time(0), _speed(5), _zone(0), _way(rand() % 2)
 {
 
 }
@@ -31,11 +31,6 @@ void ufo::init(ECS::ECSEngine& engine)
 
 void ufo::update(const float dt, ECS::ECSEngine& engine)
 {
-    _time = 0;
-    _speed = 5;
-    _zone = 0;
-    _way = rand() % 2;
-
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
 
@@ -44,7 +39,6 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
         if (details._type == entityType::UFO && ent == _id) {
             auto& pos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
-
             if (_time % (100 / _speed) == 0) {
                 vel._vx = -3;
                 if (_way == false) {

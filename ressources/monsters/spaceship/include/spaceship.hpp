@@ -22,6 +22,11 @@ class spaceship : public AMonster
         ~spaceship() = default;
     private:
         void createShoot(const ECS::Position& pos, ECS::ECSEngine& engine);
+        int _time;
+        int _speed;
+        bool _way;
+        bool _firstBuf;
+        bool _secondBuf;
 };
 
 #endif /* !SPACESHIP_HPP_ */
