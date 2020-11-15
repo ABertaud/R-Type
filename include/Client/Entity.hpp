@@ -16,7 +16,7 @@ class Entity : public Graphic::IEntity {
         Entity(int id, const entityType& type, bool bonus, const sf::Vector2f& pos, const animationState& anime);
         Entity(const Entity& other) = default;
         Entity& operator=(const Entity& other) = default;
-        virtual ~Entity();
+        ~Entity() = default;
         sf::Vector2f getPos()const;
         void setscale(const sf::Vector2f& scale);
         void setAnimation(const animationState& anime);

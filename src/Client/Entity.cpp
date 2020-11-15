@@ -14,10 +14,6 @@ _pos(pos), _bonus(bonus), _scale({1, 1}), _currentAnimation(anime)
 
 }
 
-Graphic::Entity::~Entity()
-{
-}
-
 void Graphic::Entity::update(const sf::Vector2f& pos)
 {
     _pos = pos;

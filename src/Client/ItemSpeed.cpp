@@ -15,10 +15,6 @@ Graphic::Entity(id, ITEMSPEED, bonus, test, anime)
     _animation.insert(std::make_pair(ANIMATION_0, rect));
 }
 
-Graphic::ItemSpeed::~ItemSpeed()
-{
-}
-
 entityType Graphic::ItemSpeed::getType() const
 {
     return _type;

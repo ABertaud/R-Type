@@ -16,7 +16,7 @@ class ItemSpeed : public Graphic::Entity {
         ItemSpeed(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
         ItemSpeed(const ItemSpeed& other) = default;
         ItemSpeed& operator=(const ItemSpeed& other) = default;
-        ~ItemSpeed();
+        ~ItemSpeed() = default;
         entityType getType()const;
     private:
     protected:

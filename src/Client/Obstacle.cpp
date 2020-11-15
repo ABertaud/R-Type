@@ -13,9 +13,6 @@ Graphic::Entity(id, OBSTACLE, bonus, test, anime)
 {
 }
 
-Graphic::Obstacle::~Obstacle()
-{}
-
 entityType Graphic::Obstacle::getType() const
 {
     return _type;

@@ -16,7 +16,7 @@ class Obstacle : public Graphic::Entity {
         Obstacle(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
         Obstacle(const Obstacle& other) = default;
         Obstacle& operator=(const Obstacle& other) = default;
-        ~Obstacle();
+        ~Obstacle() = default;
         entityType getType()const;
     private:
     protected:
