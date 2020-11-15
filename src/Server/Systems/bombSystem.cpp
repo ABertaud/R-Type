@@ -32,11 +32,17 @@ void ECS::bombSystem::updateBomb(const float dt, const Entity ent, ECS::ECSEngin
     auto& bomb = engine.getComponent<ECS::Bomb>(ent, ECS::BOMB);
 
     bomb._dt += dt;
-    if (bomb._dt >= 300)
+    if (bomb._dt >= 60 && bomb._dt < 120)
         details._state = animationState::ANIMATION_1;
-    else if (bomb._dt >= 600)
+    else if (bomb._dt >= 120 && bomb._dt < 180)
         details._state = animationState::ANIMATION_2;
-    else if (bomb._dt >= 900) {
+    else if (bomb._dt >= 180 && bomb._dt < 240)
+        details._state = animationState::ANIMATION_3;
+    else if (bomb._dt >= 240 && bomb._dt < 300)
+        details._state = animationState::ANIMATION_4;
+    else if (bomb._dt >= 360 && bomb._dt < 420)
+        details._state = animationState::ANIMATION_5;
+    else if (bomb._dt >= 480) {
         // engine.removeEntity(ent);
         details._toUpdate = false;
     }

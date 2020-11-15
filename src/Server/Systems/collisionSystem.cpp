@@ -118,9 +118,7 @@ ECS::Position ECS::collisionSystem::findIntersection(const Position& playerPos, 
 void ECS::collisionSystem::createBomb(Position& pos, ECS::ECSEngine& engine)
 {
     Entity ent = engine.getNewEntity();
-    pos._x += 100;
 
-    std::cout << "bomb created" << std::endl;
     engine.addComponent(ent, pos, ECS::POSITION);
     engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
     engine.addComponent(ent, ECS::entityDetails(entityType::BOMB, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
