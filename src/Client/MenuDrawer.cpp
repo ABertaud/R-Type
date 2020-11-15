@@ -142,7 +142,8 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& e
                 return (it)->first;
             if (checkSettings((it)->first) == true && _state == SETTINGS)
                 return (it)->first;
-
+            if ((it)->first == HOME && _state == WAITING)
+                return (it)->first;
             }
     }
     return _state;
@@ -268,6 +269,7 @@ void MenuDrawer::draw(sf::RenderWindow& window, const std::string& playerName, s
         window.clear();
         _parallaxShader.parallaxShaderDraw(window);
         window.draw(_background);
+        drawButton(HOME, defaultVal, window);
         window.display();
     }
     if (_state == VIEW) {
