@@ -33,7 +33,7 @@ class Client : public INetwork
         Client& operator=(const Client& other) = default;
         void start(void);
         void stop(void);
-        typedef void(Client::*hsmFunction)(std::string&);
+        typedef void(Client::*hsmFunction)(const std::string&);
     private:
         void send(const std::string& str);
         void startReceive(void);
@@ -41,17 +41,18 @@ class Client : public INetwork
         int checkMenuState(const MenuDrawer::State& state);
         int checkGameState(const Graphic::Command& com);
         void handleReceive(const boost::system::error_code&, std::size_t);
-        void handleServerMessage(std::string& update);
-        void handleUpdateMenu(std::string& update);
-        void handleUpdateGame(std::string& update);
-        void handleFine(std::string& update);
-        void handleInvalidCommand(std::string& update);
-        void handleGhostRoom(std::string& update);
-        void handleFullRoom(std::string& update);
-        void handleTooFast(std::string& update);
-        void handleJoinLobby(std::string& update);
-        void handleStartGame(std::string& update);
-        void handleBusy(std::string& update);
+        void handleServerMessage(const std::string&);
+        void handleUpdateMenu(const std::string&);
+        void handleUpdateGame(const std::string&);
+        void handleFine(const std::string&);
+        void handleInvalidCommand(const std::string&);
+        void handleGhostRoom(const std::string&);
+        void handleFullRoom(const std::string&);
+        void handleTooFast(const std::string&);
+        void handleJoinLobby(const std::string&);
+        void handleStartGame(const std::string&);
+        void handleBusy(const std::string&);
+        void handleEnd(const std::string&);
         void setState(const ClientState&);
         void createEntity(int entityId, const entityType& entityType, bool bonus, const sf::Vector2f& entityPos, const animationState& animation);
         void updateEntity(int entityId, const sf::Vector2f& entityPos, const animationState &) const;

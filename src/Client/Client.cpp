@@ -34,6 +34,7 @@ Client::Client(const std::string& ip, unsigned short port, const std::string& co
     _serverResponse.insert(std::make_pair(100, &Client::handleUpdateGame));
     _serverResponse.insert(std::make_pair(110, &Client::handleUpdateMenu));
     _serverResponse.insert(std::make_pair(111, &Client::handleFine));
+    _serverResponse.insert(std::make_pair(135, &Client::handleEnd));
     _serverResponse.insert(std::make_pair(222, &Client::handleInvalidCommand));
     _serverResponse.insert(std::make_pair(333, &Client::handleGhostRoom));
     _serverResponse.insert(std::make_pair(444, &Client::handleFullRoom));
@@ -204,7 +205,7 @@ void Client::handleReceive(const boost::system::error_code& ec, std::size_t byte
     startReceive();
 }
 
-void Client::handleServerMessage(std::string& update)
+void Client::handleServerMessage(const std::string& update)
 {
     int code = std::atoi(update.c_str());
 
@@ -213,7 +214,7 @@ void Client::handleServerMessage(std::string& update)
             (this->*(it->second))(update);
 }
 
-void Client::handleUpdateMenu(std::string& update)
+void Client::handleUpdateMenu(const std::string& update)
 {
     Players::State state1(static_cast<Players::State>(std::atoi(update.substr(6, 1).c_str())));
     Players::State state2(static_cast<Players::State>(std::atoi(update.substr(10, 1).c_str())));
@@ -233,8 +234,10 @@ void Client::handleUpdateMenu(std::string& update)
 }
 
 
-void Client::handleUpdateGame(std::string& update)
+void Client::handleUpdateGame(const std::string& updateRoutine)
 {
+    std::string update(updateRoutine);
+
     entityType type = (static_cast<entityType>(std::atoi(update.substr(update.find_first_of(" ") + 1, update.find_last_of(" ") - update.find_first_of(" ")).c_str())));
     int id = std::atoi(update.substr(update.find_last_of(" ") + 1, update.find_first_of("|") + 1 - update.find_last_of(" ")).c_str());
     animationState animation = (static_cast<animationState>(std::atoi(update.substr(update.find_first_of("|") + 1, update.find_last_of("|") - update.find_first_of("|")).c_str())));
@@ -255,31 +258,31 @@ void Client::handleUpdateGame(std::string& update)
        destroyEntity(id);
 }
 
-void Client::handleFine(std::string& update)
+void Client::handleFine(const std::string& update)
 {
     (void)update;
     std::cout << "code received" << std::endl;
 }
 
-void Client::handleInvalidCommand(std::string& update)
+void Client::handleInvalidCommand(const std::string& update)
 {
     (void)update;
     std::cout << "code received" << std::endl;
 }
 
-void Client::handleGhostRoom(std::string& update)
+void Client::handleGhostRoom(const std::string& update)
 {
     (void)update;
     _sfmlModule.setState(MenuDrawer::State::HOME);
 }
 
-void Client::handleFullRoom(std::string& update)
+void Client::handleFullRoom(const std::string& update)
 {
     (void)update;
     _sfmlModule.setState(MenuDrawer::State::HOME);
 }
 
-void Client::handleTooFast(std::string& update)
+void Client::handleTooFast(const std::string& update)
 {
     (void)update;
     std::cout << "code received 10" << std::endl;
@@ -287,7 +290,7 @@ void Client::handleTooFast(std::string& update)
 }
 
 
-void Client::handleJoinLobby(std::string& update)
+void Client::handleJoinLobby(const std::string& update)
 {
     (void)update;
     std::cout << "code received 20" << std::endl;
@@ -295,7 +298,7 @@ void Client::handleJoinLobby(std::string& update)
     _sfmlModule.setState(MenuDrawer::State::ROOM);
 }
 
-void Client::handleStartGame(std::string& update)
+void Client::handleStartGame(const std::string& update)
 {
     (void)update;
     std::cout << "code received 21" << std::endl;
@@ -306,10 +309,19 @@ void Client::handleStartGame(std::string& update)
     _sfmlModule.setState(MenuDrawer::State::GAME);
 }
 
-void Client::handleBusy(std::string& update)
+void Client::handleBusy(const std::string& update)
 {
     (void)update;
     std::cout << "code received" << std::endl;
+}
+
+void Client::handleEnd(const std::string& update)
+{
+    (void)update;
+    _state = INLOBBY;
+    _sfmlModule.setState(MenuDrawer::State::ROOM);
+    _entities.clear();
+    std::cout << "code received A" << std::endl;
 }
 
 void Client::send(const std::string& str)
