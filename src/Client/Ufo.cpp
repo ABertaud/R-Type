@@ -11,7 +11,7 @@
 Graphic::Ufo::Ufo(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
 Graphic::Entity(id, UFO, bonus, test, anime)
 {
-    sf::IntRect rect(2, 0, 33, 37);
+    sf::IntRect rect(0, 0, 33, 37);
 
     _animation.insert(std::make_pair(ANIMATION_0, rect));
     rect.left += 33;

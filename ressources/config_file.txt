@@ -11,7 +11,8 @@ player_shoot=../../ressources/sprites/Game/shoot.png
 [MONSTER]
 alien=test
 pirate=../../ressources/sprites/Game/pirate.png
-spaceship=test
+spaceship=../../ressources/sprites/Game/spaceship.png
+ufo=../../ressources/sprites/Game/ufo.png
 
 [SPECIAL_MONSTER]
 ufo=test
