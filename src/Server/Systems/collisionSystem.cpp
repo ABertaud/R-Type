@@ -28,6 +28,7 @@ void ECS::collisionSystem::update(const float dt, ECS::ECSEngine& engine)
         auto& details = engine.getComponent<ECS::entityDetails>(ent, ECS::ENTITY_DETAILS);
         if (engine.getStorage(ECS::PLAYER)->hasComponent(ent) == true) {
             checkCollision(ent, entities, engine, playerCollisionTypes);
+            checkBonusCollision(ent, engine);
         } else if (details._type == PLAYER_SHOOT) {
             checkCollision(ent, entities, engine, playerShootCollisionTypes);
             if (engine.getComponent<ECS::Position>(ent, ECS::POSITION)._x >= 2000)
@@ -75,10 +76,14 @@ bool ECS::collisionSystem::isPossibleCollision(const entityType type, std::vecto
 void ECS::collisionSystem::looseHp(const Entity ent, const Entity obstacle, ECS::ECSEngine& engine)
 {
     if (engine.getStorage(ECS::LIFE)->hasComponent(obstacle)) {
-        engine.getComponent<ECS::Life>(obstacle, ECS::LIFE)._hp -= 1;
+        auto& life = engine.getComponent<ECS::Life>(obstacle, ECS::LIFE);
+        if (life._hp != 0)
+            life._hp -= 1;
     }
     if (engine.getStorage(ECS::LIFE)->hasComponent(ent)) {
-        engine.getComponent<ECS::Life>(ent, ECS::LIFE)._hp -= 1;
+        auto& life = engine.getComponent<ECS::Life>(ent, ECS::LIFE);
+        if (life._hp != 0)
+            life._hp -= 1;
     }
 }
 
@@ -122,4 +127,31 @@ void ECS::collisionSystem::createBomb(Position& pos, ECS::ECSEngine& engine)
     engine.addComponent(ent, pos, ECS::POSITION);
     engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
     engine.addComponent(ent, ECS::entityDetails(entityType::BOMB, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
+}
+
+void ECS::collisionSystem::checkBonusCollision(const Entity ent, ECS::ECSEngine& engine)
+{
+    auto& playerPos = engine.getComponent<ECS::Position>(ent, ECS::POSITION);
+    auto& playerVel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
+    auto& playerDim = engine.getComponent<ECS::Dimensions>(ent, ECS::DIMENSIONS);
+
+    Position playerPosMax(playerPos._x + static_cast<int>(playerDim._x), playerPos._y + static_cast<int>(playerDim._y));
+    int posXMax = 0;
+    int posYMax = 0;
+    std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
+    for (auto& enti : entities) {
+        auto& details = engine.getComponent<ECS::entityDetails>(enti, ECS::ENTITY_DETAILS);
+        if (details._type == ITEMSPEED) {
+            auto& pos = engine.getComponent<ECS::Position>(enti, ECS::POSITION);
+            auto& dim = engine.getComponent<ECS::Dimensions>(enti, ECS::DIMENSIONS);
+            posXMax = pos._x + static_cast<int>(dim._x);
+            posYMax = pos._y + static_cast<int>(dim._y);
+            Position interPos = findIntersection(playerPos, playerPosMax, pos, Position(posXMax, posYMax));
+            if (interPos._x != -1) {
+                details._toUpdate = false;
+                playerVel._vx += 5;
+                playerVel._vy += 5;
+            }
+        }
+    }
 }

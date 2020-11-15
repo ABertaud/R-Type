@@ -30,26 +30,35 @@ void ECS::eventSystem::update(const float dt, ECS::ECSEngine& engine)
 
     for (auto& ent : entities) {
         ECS::Player& player = engine.getComponent<ECS::Player>(ent, ECS::PLAYER);
-        if (_buffer->isDataAvailable(player._uuid) == true)
-            handleEvent(_buffer->getData(player._uuid), engine, ent, player);
+        handleEvent(engine, ent, player);
     }
 }
 
-void ECS::eventSystem::handleEvent(std::vector<std::string>& events, ECS::ECSEngine& engine, const Entity entity, ECS::Player& player)
+void ECS::eventSystem::handleEvent(ECS::ECSEngine& engine, const Entity entity, ECS::Player& player)
 {
-    std::string event(events.front());
+    std::string event("");
+    static int shoot = 0;
 
-    if (std::strcmp(event.c_str(), "Off") == 0) {
-        // engine.removeEntity(entity);
-        engine.getComponent<ECS::entityDetails>(entity, ECS::ENTITY_DETAILS)._toUpdate = false;
-    } else if (std::strcmp(event.c_str(), "Shoot") == 0)
-        createShoot(engine, entity);
-    else {
-        for (auto it = _moves.begin(); it != _moves.end(); ++it)
-            if (std::strcmp(event.c_str(), it->first.c_str()) == 0)
-                player._direction = it->second;
+    if (_buffer->isDataAvailable(player._uuid) == true) {
+        auto& events = _buffer->getData(player._uuid);
+        event = (events.front());
+        if (std::strcmp(event.c_str(), "Off") == 0) {
+            // engine.removeEntity(entity);
+            engine.getComponent<ECS::entityDetails>(entity, ECS::ENTITY_DETAILS)._toUpdate = false;
+        } else if (std::strcmp(event.c_str(), "Shoot") == 0 && shoot == 0) {
+            createShoot(engine, entity);
+            shoot = 1;
+        } else {
+            for (auto it = _moves.begin(); it != _moves.end(); ++it)
+                if (std::strcmp(event.c_str(), it->first.c_str()) == 0)
+                    player._direction = it->second;
+        }
+        events.erase(events.begin());
     }
-    events.erase(events.begin());
+    if (shoot > 0)
+        shoot++;
+    if (shoot == 20)
+        shoot = 0;
 }
 
 void ECS::eventSystem::createShoot(ECS::ECSEngine& engine, const Entity entity)

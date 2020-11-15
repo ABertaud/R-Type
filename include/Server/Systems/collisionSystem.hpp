@@ -34,6 +34,7 @@ namespace ECS {
         bool isPossibleCollision(const entityType type, std::vector<entityType>& types);
         bool isExplodable(const entityType type);
         Position findIntersection(const Position& playerPos, const Position& playerMaxpos, const Position& entPos, const Position& entMaxPos) const;
+        void checkBonusCollision(const Entity ent, ECS::ECSEngine& engine);
     };
 }
 

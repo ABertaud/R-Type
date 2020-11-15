@@ -20,6 +20,7 @@ namespace ECS {
         void update(const float dt, ECSEngine& engine);
         ~winSystem() = default;
     private:
+        void createBonus(const Entity ent, ECS::ECSEngine& engine);
         std::shared_ptr<bool> _end;
     };
 }
