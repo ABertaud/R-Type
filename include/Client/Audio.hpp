@@ -21,7 +21,7 @@ class Audio {
         SHOOT,
         DAMAGE,
         BUTTON,
-        EXPLOSION,
+        BOMB,
         STARTGAME,
         PLAYERNAME,
         READY,

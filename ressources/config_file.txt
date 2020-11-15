@@ -31,5 +31,5 @@ meteorite=test
 [BACKGROUND]
 background=test
 
-[EXPLOSION]
-explosion=../../ressources/sprites/Game/explosion.png
+[bomb]
+bomb=../../ressources/sprites/Game/bomb.png

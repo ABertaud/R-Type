@@ -19,7 +19,7 @@
 #include "SpaceshipShoot.hpp"
 #include "Pirate.hpp"
 #include "PirateShoot.hpp"
-#include "Explosion.hpp"
+#include "Bomb.hpp"
 
 Client::Client(const std::string& ip, unsigned short port, const std::string& configFile)
 : _sigHandler(), _binCodec(), _ioService(), _clientSocket(_ioService), _sfmlModule(configFile), _state(NONE)
@@ -352,8 +352,8 @@ void Client::createEntity(int entityId, const entityType& entityType, bool bonus
     _entities.push_back(std::make_shared<Graphic::Pirate>(Graphic::Pirate(entityId, bonus, entityPos, animation)));
     else if (entityType == PIRATE_SHOOT)
     _entities.push_back(std::make_shared<Graphic::PirateShoot>(Graphic::PirateShoot(entityId, bonus, entityPos, animation)));
-    else if (entityType == EXPLOSION)
-    _entities.push_back(std::make_shared<Graphic::Explosion>(Graphic::Explosion(entityId, bonus, entityPos, animation)));
+    else if (entityType == BOMB)
+    _entities.push_back(std::make_shared<Graphic::Bomb>(Graphic::Bomb(entityId, bonus, entityPos, animation)));
 }
 
 void Client::updateEntity(int entityId, const sf::Vector2f& entityPos, const animationState &anime) const

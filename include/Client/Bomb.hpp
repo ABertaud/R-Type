@@ -2,19 +2,19 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-501-NAN-5-1-rtype-arthur.bertaud
 ** File description:
-** Explosion.hpp
+** bomb.hpp
 */
 
-#ifndef EXPLOSION_HPP_
-#define EXPLOSION_HPP_
+#ifndef BOMB_HPP_
+#define BOMB_HPP_
 
 #include "Entity.hpp"
 
 namespace Graphic {
-class Explosion : public Graphic::Entity {
+class Bomb : public Graphic::Entity {
     public:
-        Explosion(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
-        ~Explosion();
+        Bomb(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
+        ~Bomb();
         entityType getType()const;
     private:
     protected:

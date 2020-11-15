@@ -21,7 +21,7 @@ _audio()
     _background.setTexture(*_textures.back());
     _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);    
     _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
-    _audio.addSound("../../ressources/sounds/explosion.wav", false, Audio::EXPLOSION);    
+   // _audio.addSound("../../ressources/sounds/bomb.wav", false, Audio::BOMB);    
     _audio.addSound("../../ressources/sounds/startGame.ogg", false, Audio::STARTGAME);    
     _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);       
 }
@@ -173,8 +173,8 @@ void SFMLModule::drawEntity(std::shared_ptr<Graphic::Entity> entity)
             rect = entity->getRectAnime(anime);
     //        if (rect != error)
            (it)->second.setTextureRect(rect);
-           if (entity->getType() == EXPLOSION)
-                _audio.playSound(Audio::EXPLOSION);
+     //      if (entity->getType() == BOMB)
+       //         _audio.playSound(Audio::BOMB);
            // setColor(entity->getId(), (it)->second);
             _window.draw((it)->second);
         }

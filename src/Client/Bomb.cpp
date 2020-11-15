@@ -2,14 +2,14 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-501-NAN-5-1-rtype-arthur.bertaud
 ** File description:
-** Explosion
+** bomb
 */
 
-#include "Explosion.hpp"
+#include "Bomb.hpp"
 #include <iostream>
 
-Graphic::Explosion::Explosion(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
-Graphic::Entity(id, ALIEN_SHOOT, bonus, test, anime)
+Graphic::Bomb::Bomb(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
+Graphic::Entity(id, BOMB, bonus, test, anime)
 {
     sf::IntRect rect(0, 0, 36, 30);
 
@@ -26,11 +26,11 @@ Graphic::Entity(id, ALIEN_SHOOT, bonus, test, anime)
     _animation.insert(std::make_pair(ANIMATION_5, rect));
 }
 
-Graphic::Explosion::~Explosion()
+Graphic::Bomb::~Bomb()
 {
 }
 
-entityType Graphic::Explosion::getType() const
+entityType Graphic::Bomb::getType() const
 {
     return _type;
 }
