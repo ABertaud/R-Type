@@ -18,7 +18,9 @@ class ParallaxShader {
         sf::Shader _parallaxShader;
     public:
         ParallaxShader(const std::string& , const sf::Vector2f& scale);
-        ~ParallaxShader();
+        ParallaxShader(const ParallaxShader& other) = default;
+        ParallaxShader& operator=(const ParallaxShader& other) = default;
+        ~ParallaxShader() = default;
         void setScale(const sf::Vector2f& );
         void parallaxShaderDraw(sf::RenderWindow& window);
 };

@@ -24,7 +24,9 @@ public:
     };
 public:
         SFMLModule(const std::string& path);
-        ~SFMLModule();
+        SFMLModule(const SFMLModule&) = default;
+        SFMLModule& operator=(const SFMLModule&) = default;
+        ~SFMLModule() = default;
         void init(const sf::Vector2f& scale);
         void stop();
         Graphic::Command eventHandler();

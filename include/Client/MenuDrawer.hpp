@@ -42,7 +42,9 @@ public:
     };
 public:
     MenuDrawer(const sf::Vector2f& scale);
-    ~MenuDrawer();
+    MenuDrawer(const MenuDrawer&) = default;
+    MenuDrawer& operator=(const MenuDrawer&) = default;
+    ~MenuDrawer() = default;
     void draw(sf::RenderWindow& window, const std::string& playerName, sf::Event& event, const std::vector<std::shared_ptr<Players>>& players, const ClientState& clientS, sf::Time &frameTime);
     State handleMenu(sf::RenderWindow& window, sf::Event& event);
     void setScale(const sf::Vector2f& );

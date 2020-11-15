@@ -23,10 +23,6 @@ TextDrawer::TextDrawer()
     }
 }
 
-TextDrawer::~TextDrawer()
-{
-}
-
 void TextDrawer::draw(sf::Vector2f pos, const std::string& to_print, sf::RenderWindow& window, const sf::Color& color)
 {
     _text.setString(to_print);

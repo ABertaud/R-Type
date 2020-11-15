@@ -19,7 +19,9 @@ class keyTraducer
 {
 public:
     keyTraducer();
-    ~keyTraducer();
+    keyTraducer(const keyTraducer& other) = default;
+    keyTraducer& operator=(const keyTraducer& other) = default;
+    ~keyTraducer() = default;
     bool traduceLetter(const sf::Keyboard::Key& key, std::string& );
     Graphic::Command traduceKey(const sf::Keyboard::Key& key);
 

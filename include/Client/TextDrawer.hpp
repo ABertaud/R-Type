@@ -20,7 +20,9 @@ class TextDrawer
 {
 public:
     TextDrawer();
-    ~TextDrawer();
+    TextDrawer(const TextDrawer&) = default;
+    TextDrawer& operator=(const TextDrawer&) = default;
+    ~TextDrawer() = default;
     void draw(sf::Vector2f, const std::string& , sf::RenderWindow& , const sf::Color& color = sf::Color::White);
     void setScale(const sf::Vector2f& scale);
     void drawSize(sf::Vector2f pos, const std::string& to_print, sf::RenderWindow& window, int size, const sf::Color& color= sf::Color::Black);

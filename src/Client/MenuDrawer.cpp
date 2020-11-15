@@ -22,10 +22,6 @@ _audio()
     _audio.addSound("../../ressources/sounds/ready.wav", false, Audio::READY);
 }
 
-MenuDrawer::~MenuDrawer()
-{
-}
-
 void MenuDrawer::setButton()
 {
     loadSpriteSize("../../ressources/sprites/rectangle.png", WALL, sf::IntRect(0, 0, 28, 19), {2, 2});

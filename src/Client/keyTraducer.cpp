@@ -58,10 +58,6 @@ keyTraducer::keyTraducer()
     _inputs.insert(std::make_pair(sf::Keyboard::Tab, Graphic::Command::SHOOT));
 }
 
-keyTraducer::~keyTraducer()
-{
-}
-
 bool keyTraducer::traduceLetter(const sf::Keyboard::Key& key, std::string& c)
 {
     if ((c.length() == 8) && (key != sf::Keyboard::Enter) && (key != sf::Keyboard::Backspace))

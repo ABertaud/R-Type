@@ -29,10 +29,6 @@ ParallaxShader::ParallaxShader(const std::string& path, const sf::Vector2f& scal
         "}", sf::Shader::Vertex);
 }
 
-ParallaxShader::~ParallaxShader()
-{
-}
-
 void ParallaxShader::setScale(const sf::Vector2f& scale)
 {
     _scale = scale;

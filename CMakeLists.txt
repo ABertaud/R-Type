@@ -39,7 +39,6 @@ find_package(Threads)
 # -------------------------------- CLIENT SOURCES -------------------------------- #
 set (SRCS_CLIENT ${SRCS_CLIENT_DIR}/Alien.cpp
                  ${SRCS_CLIENT_DIR}/AlienShoot.cpp
-                 ${SRCS_CLIENT_DIR}/Animation.cpp
                  ${SRCS_CLIENT_DIR}/Audio.cpp
                  ${SRCS_CLIENT_DIR}/Background.cpp
                  ${SRCS_CLIENT_DIR}/Bomb.cpp

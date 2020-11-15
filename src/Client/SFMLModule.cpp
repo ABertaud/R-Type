@@ -26,10 +26,6 @@ _audio()
     _audio.addSound("../../ressources/sounds/playerName.wav", false, Audio::PLAYERNAME);       
 }
 
-SFMLModule::~SFMLModule()
-{
-}
-
 void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
 {
     sf::Sprite sprite;
