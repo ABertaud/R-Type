@@ -10,7 +10,7 @@
 SFMLModule::SFMLModule(const std::string& path)  : _parser(path), _winpos({1116, 797}),
 _scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()),
 _menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/sprites/Game/BackgroundGame.png", _scale)
-#if defined(UNIX)
+#ifndef _WIN32 
 ,_audio()
 #endif
 {
@@ -21,7 +21,7 @@ _menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/spr
     _textures.push_back(std::shared_ptr<sf::Texture>(new sf::Texture));
     _textures.back()->loadFromFile("../../ressources/sprites/player_background.png");
     _background.setTexture(*_textures.back());
-    #if defined (UNIX)
+    #ifndef _WIN32 
         _audio.addSound("../../ressources/sounds/gameLoop.ogg", true, Audio::GAME);
         _audio.addSound("../../ressources/sounds/shoot.wav", false, Audio::SHOOT);
         _audio.addSound("../../ressources/sounds/startGame.ogg", false, Audio::STARTGAME);
@@ -42,7 +42,7 @@ void SFMLModule::loadSprite(const std::string& path, const entityType& obj)
 }
 
 
-#if defined(UNIX)
+#ifndef _WIN32 
     Audio& SFMLModule::getAudio()
     {
         return _audio;

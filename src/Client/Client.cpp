@@ -56,7 +56,7 @@ void Client::start()
     startReceive();
     _thread = boost::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
     _sfmlModule.init(sf::Vector2f(1, 1));
-    #if defined (UNIX)
+    #ifndef _WIN32 
         _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
     #endif
     _clientName = _sfmlModule.getPlayerName();
@@ -64,7 +64,7 @@ void Client::start()
         _sfmlModule.stop();
         return;
     }
-    #if defined (UNIX)
+    #ifndef _WIN32 
         _sfmlModule.getAudio().playSound(Audio::PLAYERNAME);
     #endif
     loop();
@@ -143,7 +143,7 @@ void Client::loop()
         _currentTime += _connexion.restart();
         if (_currentTime >= checkTime && _state == INGAME) {
             _state = NONE;
-            #if defined (UNIX)
+            #ifndef _WIN32 
                 _sfmlModule.getAudio().stopSound(Audio::GAME);
                 _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
             #endif
@@ -322,7 +322,7 @@ void Client::handleStartGame(const std::string& update)
     (void)update;
     std::cout << "Game started: Good luck !" << std::endl;
     _state = INGAME;
-    #if defined (UNIX)
+    #ifndef _WIN32 
         _sfmlModule.getMenuDrawer().getAudio().stopSound(Audio::MENU);
         _sfmlModule.getAudio().playSound(Audio::STARTGAME);
         _sfmlModule.getAudio().playSound(Audio::GAME);
@@ -339,7 +339,7 @@ void Client::handleBusy(const std::string& update)
 void Client::handleEnd(const std::string& update)
 {
     (void)update;
-    #if defined (UNIX)
+    #ifndef _WIN32 
         _sfmlModule.getAudio().stopSound(Audio::GAME);
         _sfmlModule.getMenuDrawer().getAudio().playSound(Audio::MENU);
     #endif
@@ -374,7 +374,7 @@ void Client::createEntity(int entityId, const entityType& entityType, bool bonus
     _entities.push_back(std::make_shared<Graphic::Obstacle>(Graphic::Obstacle(entityId, bonus, entityPos, animation)));
     else if (entityType == PLAYER_SHOOT) {
         _entities.push_back(std::make_shared<Graphic::PlayerShoot>(Graphic::PlayerShoot(entityId, bonus, entityPos, animation)));
-        #if defined (UNIX)
+        #ifndef _WIN32 
             _sfmlModule.getAudio().playSound(Audio::SHOOT);
         #endif
     } else if (entityType == ALIEN)

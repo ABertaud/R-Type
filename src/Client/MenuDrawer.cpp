@@ -9,7 +9,7 @@
 
 MenuDrawer::MenuDrawer(const sf::Vector2f& scale) : _state(HOME), _winpos({1116, 797}), _scale(scale), _text(TextDrawer()),
 _key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/background_final.png", _scale), _gifDrawer(45, "../../ressources/sprites/gif/frame_", _scale, sf::seconds(0.04f))
-#if defined(UNIX)
+#ifndef _WIN32 
 ,_audio()
 #endif
 {
@@ -19,7 +19,7 @@ _key(keyTraducer()), _roomName(""), _parallaxShader("../../ressources/sprites/ba
     _back.setSmooth(true);
     _background.setTexture(_back);
     _background.setScale(_scale.x, _scale.y);
-    #if defined (UNIX)
+    #ifndef _WIN32 
         _audio.addSound("../../ressources/sounds/button.ogg", false, Audio::BUTTON);
         _audio.addSound("../../ressources/sounds/rtype.ogg", true, Audio::MENU);
         _audio.addSound("../../ressources/sounds/ready.wav", false, Audio::READY);
@@ -135,7 +135,7 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& e
         if ((it)->second.getGlobalBounds().contains(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
             if (checkRoom((it)->first) == true && _state == ROOM)
                 return (it)->first;
-            #if defined (UNIX)
+            #ifndef _WIN32 
                 _audio.playSound(Audio::BUTTON);
             #endif
             if (checkView((it)->first) == true && _state == VIEW)
@@ -198,19 +198,19 @@ bool MenuDrawer::checkSettings(const State& state)
 bool MenuDrawer::checkRoom(const State& state)
 {
     if (state == READY) {
-        #if defined (UNIX)
+        #ifndef _WIN32 
             _audio.playSound(Audio::READY);
         #endif
         return true;
     }
     if (state == UNREADY) {
-        #if defined (UNIX)
+        #ifndef _WIN32 
                 _audio.playSound(Audio::READY);
         #endif
         return true;
     }
     if (state == HOME || state == GAME) {
-        #if defined (UNIX)
+        #ifndef _WIN32 
                 _audio.playSound(Audio::BUTTON);
         #endif
         return true;
@@ -488,7 +488,7 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& ev
     return (port);
 }
 
-#if defined (UNIX)
+#ifndef _WIN32 
     Audio &MenuDrawer::getAudio()
     {
         return _audio;
