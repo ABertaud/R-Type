@@ -13,9 +13,6 @@ Graphic::Entity(id, WALL, bonus, test, anime)
 {
 }
 
-Graphic::Wall::~Wall()
-{}
-
 entityType Graphic::Wall::getType() const
 {
     return _type;

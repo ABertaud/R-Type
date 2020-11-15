@@ -11,10 +11,6 @@ Audio::Audio()
 {
 }
 
-Audio::~Audio()
-{
-}
-
 void Audio::addSound(const std::string& path, bool loop, const audioType &type)
 {
     sf::Sound sound;

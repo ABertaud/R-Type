@@ -14,7 +14,9 @@ namespace Graphic {
 class Bomb : public Graphic::Entity {
     public:
         Bomb(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
-        ~Bomb();
+        Bomb(const Bomb& other) = default;
+        Bomb& operator=(const Bomb& other) = default;
+        ~Bomb() = default;
         entityType getType()const;
     private:
     protected:

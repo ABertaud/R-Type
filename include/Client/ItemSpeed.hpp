@@ -14,6 +14,8 @@ namespace Graphic {
 class ItemSpeed : public Graphic::Entity {
     public:
         ItemSpeed(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
+        ItemSpeed(const ItemSpeed& other) = default;
+        ItemSpeed& operator=(const ItemSpeed& other) = default;
         ~ItemSpeed();
         entityType getType()const;
     private:

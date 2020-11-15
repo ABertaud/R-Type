@@ -24,9 +24,6 @@ Graphic::Entity(id, SPACESHIP, bonus, test, anime)
     _animation.insert(std::make_pair(ANIMATION_4, rect));
 }
 
-Graphic::Spaceship::~Spaceship()
-{}
-
 entityType Graphic::Spaceship::getType() const
 {
     return _type;

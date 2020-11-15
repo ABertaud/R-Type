@@ -22,9 +22,6 @@ Graphic::Entity(id, PLAYER_SHOOT, bonus, test, anime)
     _animation.insert(std::make_pair(ANIMATION_3, rect));
 }
 
-Graphic::PlayerShoot::~PlayerShoot()
-{}
-
 entityType Graphic::PlayerShoot::getType() const
 {
     return _type;

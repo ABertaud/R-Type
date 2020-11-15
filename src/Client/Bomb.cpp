@@ -25,10 +25,6 @@ Graphic::Entity(id, BOMB, bonus, test, anime)
     _animation.insert(std::make_pair(ANIMATION_5, rect));
 }
 
-Graphic::Bomb::~Bomb()
-{
-}
-
 entityType Graphic::Bomb::getType() const
 {
     return _type;

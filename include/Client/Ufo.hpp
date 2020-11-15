@@ -14,7 +14,9 @@ namespace Graphic {
 class Ufo : public Graphic::Entity {
     public:
         Ufo(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
-        ~Ufo();
+        Ufo(const Ufo& other) = default;
+        Ufo& operator=(const Ufo& other) = default;
+        ~Ufo() = default;
         entityType getType()const;
     private:
     protected:

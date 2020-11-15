@@ -14,7 +14,9 @@ namespace Graphic {
 class AlienShoot : public Graphic::Entity {
     public:
         AlienShoot(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
-        ~AlienShoot();
+        AlienShoot(const AlienShoot& other) = default;
+        AlienShoot& operator=(const AlienShoot& other) = default;
+        ~AlienShoot() = default;
         entityType getType()const;
     private:
     protected:

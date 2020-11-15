@@ -49,7 +49,3 @@ std::map<entityType, std::string> Parser::getPaths() const
 {
     return _paths;
 }
-
-Parser::~Parser()
-{
-}

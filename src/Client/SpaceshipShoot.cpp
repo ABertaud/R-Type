@@ -28,9 +28,6 @@ Graphic::Entity(id, SPACESHIP_SHOOT, bonus, test, anime)
 
 }
 
-Graphic::SpaceshipShoot::~SpaceshipShoot()
-{}
-
 entityType Graphic::SpaceshipShoot::getType() const
 {
     return _type;

@@ -14,6 +14,8 @@ namespace Graphic {
 class Obstacle : public Graphic::Entity {
     public:
         Obstacle(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
+        Obstacle(const Obstacle& other) = default;
+        Obstacle& operator=(const Obstacle& other) = default;
         ~Obstacle();
         entityType getType()const;
     private:

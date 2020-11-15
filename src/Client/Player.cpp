@@ -23,10 +23,6 @@ Graphic::Entity(id, type, bonus, test, anime)
     _animation.insert(std::make_pair(ANIMATION_4, rect));
 }
 
-Graphic::Player::~Player()
-{
-}
-
 entityType Graphic::Player::getType() const
 {
     return _type;

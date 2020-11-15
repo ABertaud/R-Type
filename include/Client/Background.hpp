@@ -14,7 +14,9 @@ namespace Graphic {
 class Background : public Graphic::Entity {
     public:
         Background(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
-        ~Background();
+        Background(const Background& other) = default;
+        Background& operator=(const Background& other) = default;
+        ~Background() = default;
         entityType getType()const;
     private:
     protected:

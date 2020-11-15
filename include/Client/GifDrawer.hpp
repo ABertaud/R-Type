@@ -26,7 +26,9 @@ class GifDrawer {
         void loadSprite(const std::string& path);
     public:
         GifDrawer(int nb, const std::string &path, const sf::Vector2f& scale, const sf::Time& frameTime);
-        ~GifDrawer();
+        GifDrawer(const GifDrawer& other) = default;
+        GifDrawer& operator=(const GifDrawer& other) = default;
+        ~GifDrawer() = default;
         void update(sf::Time deltaTime, sf::RenderWindow& window);
         void setScale(const sf::Vector2f& scale);
 };

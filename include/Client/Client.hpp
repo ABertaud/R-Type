@@ -28,9 +28,9 @@ class Client : public INetwork
 {
     public:
         Client(const std::string& ip, unsigned short port, const std::string& configFile = "../../ressources/config_file.txt");
-        ~Client()=default;
         Client(const Client& other) = default;
         Client& operator=(const Client& other) = default;
+        ~Client() = default;
         void start();
         void stop();
         typedef void(Client::*hsmFunction)(const std::string&);

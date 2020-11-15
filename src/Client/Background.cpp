@@ -13,9 +13,6 @@ Graphic::Entity(id, BACKGROUND, bonus, test, anime)
 {
 }
 
-Graphic::Background::~Background()
-{}
-
 entityType Graphic::Background::getType() const
 {
     return _type;

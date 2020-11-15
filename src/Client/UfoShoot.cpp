@@ -13,9 +13,6 @@ Graphic::Entity(id, UFO_SHOOT, bonus, test, anime)
 {
 }
 
-Graphic::UfoShoot::~UfoShoot()
-{}
-
 entityType Graphic::UfoShoot::getType() const
 {
     return _type;

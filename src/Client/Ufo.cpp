@@ -30,9 +30,6 @@ Graphic::Entity(id, UFO, bonus, test, anime)
     _animation.insert(std::make_pair(ANIMATION_8, rect));
 }
 
-Graphic::Ufo::~Ufo()
-{}
-
 entityType Graphic::Ufo::getType() const
 {
     return _type;

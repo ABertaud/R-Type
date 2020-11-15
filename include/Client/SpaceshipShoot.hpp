@@ -14,7 +14,9 @@ namespace Graphic {
 class SpaceshipShoot : public Graphic::Entity {
     public:
         SpaceshipShoot(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
-        ~SpaceshipShoot();
+        SpaceshipShoot(const SpaceshipShoot& other) = default;
+        SpaceshipShoot& operator=(const SpaceshipShoot& other) = default;
+        ~SpaceshipShoot() = default;
         entityType getType()const;
     private:
     protected:

@@ -14,7 +14,9 @@ namespace Graphic {
 class PirateShoot : public Graphic::Entity {
     public:
         PirateShoot(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
-        ~PirateShoot();
+        PirateShoot(const PirateShoot& other) = default;
+        PirateShoot& operator=(const PirateShoot& other) = default;
+        ~PirateShoot() = default;
         entityType getType()const;
     private:
     protected:

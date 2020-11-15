@@ -18,10 +18,6 @@ _currentTime(sf::Time::Zero),  _frameTime(frameTime)
     }
 }
 
-GifDrawer::~GifDrawer()
-{
-}
-
 void GifDrawer::setScale(const sf::Vector2f& scale)
 {
     _scale = scale;

@@ -11,10 +11,6 @@ Players::Players(const entityType& type, const State& state) : _type(type), _sta
 {
 }
 
-Players::~Players()
-{
-}
-
 void Players::setState(const State& state)
 {
     _state = state;

@@ -21,7 +21,9 @@ public:
     };
 public:
     Players(const entityType& type, const State& state = OFF);
-    ~Players();
+    Players(const Players& other) = default;
+    Players& operator=(const Players& other) = default;
+    ~Players() = default;
     void setState(const State&);
     State getState()const;
     entityType getType()const;

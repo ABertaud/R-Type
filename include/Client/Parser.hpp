@@ -18,10 +18,12 @@
 class Parser {
     public:
         Parser(std::string configFilePath = "../../ressources/config_file.txt");
+        Parser(const Parser& other) = default;
+        Parser& operator=(const Parser& other) = default;
         bool openFile(std::string configFilePath);
         bool linkEntitiesToSprites();
         std::map<entityType, std::string> getPaths() const;
-        ~Parser();
+        ~Parser() = default;
     protected:
         std::ifstream _config;
         std::map<entityType, std::string> _paths;

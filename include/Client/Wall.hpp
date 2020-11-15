@@ -14,7 +14,9 @@ namespace Graphic {
 class Wall : public Graphic::Entity {
     public:
         Wall(int id, bool bonus, const sf::Vector2f& test, const animationState& anime);
-        ~Wall();
+        Wall(const Wall& other) = default;
+        Wall& operator=(const Wall& other) = default;
+        ~Wall() = default;
         entityType getType()const;
     private:
     protected:

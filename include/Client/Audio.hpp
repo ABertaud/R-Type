@@ -32,7 +32,9 @@ class Audio {
         std::map<audioType, sf::Sound> _sounds;
     public:
         Audio();
-        ~Audio();
+        Audio(const Audio& other) = default;
+        Audio& operator=(const Audio& other) = default;
+        ~Audio() = default;
         void addSound(const std::string& path, bool loop, const audioType &type);
         void playSound(const audioType& type);
         void stopSound(const audioType& type);

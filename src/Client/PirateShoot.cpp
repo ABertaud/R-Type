@@ -13,9 +13,6 @@ Graphic::Entity(id, PIRATE_SHOOT, bonus, test, anime)
 {
 }
 
-Graphic::PirateShoot::~PirateShoot()
-{}
-
 entityType Graphic::PirateShoot::getType() const
 {
     return _type;
