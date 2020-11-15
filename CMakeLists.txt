@@ -46,6 +46,7 @@ set (SRCS_CLIENT ${SRCS_CLIENT_DIR}/Alien.cpp
                  ${SRCS_CLIENT_DIR}/Client.cpp
                  ${SRCS_CLIENT_DIR}/Entity.cpp
                  ${SRCS_CLIENT_DIR}/GifDrawer.cpp
+                 ${SRCS_CLIENT_DIR}/ItemSpeed.cpp
                  ${SRCS_CLIENT_DIR}/keyTraducer.cpp
                  ${SRCS_CLIENT_DIR}/main.cpp
                  ${SRCS_CLIENT_DIR}/MenuDrawer.cpp
