@@ -20,7 +20,6 @@ int main(int ac, char **av)
 
     try {
         pathHandler hdl(pathType::DIR);
-        // DLLoader loader("lib/libsample_monster.so");
         if (ac > 2)
             throw ErrorNbArgs();
         else if (ac == 2)
@@ -29,8 +28,6 @@ int main(int ac, char **av)
             throw ErrorDirPath();
         dirReader dir(hdl.getPath());
         dir.findLibraries();
-        // IMonster *monster = loader.getInstance<IMonster>("entryPoint");
-        // delete(monster);
         boost::asio::io_context ioContext;
         std::unique_ptr<INetwork> server = std::make_unique<udpServer>(ioContext, hdl.getPath());
         server->start();
@@ -38,6 +35,5 @@ int main(int ac, char **av)
         std::cerr << err.what() << std::endl;
         return (84);
     }
-    // findLoader(lib)->getInstance<IMonster>("entryPoint");
     return (0);    
 }

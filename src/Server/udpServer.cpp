@@ -243,28 +243,22 @@ void udpServer::parserInGameState(clientPtr& clt, std::string& buffer)
     
     std::string command = buffer.substr(0, start);
     if (std::strcmp(command.c_str(), "200") == 0) {
-        // send("111");
         findLobby(clt).removeClient(clt);
         _buffer->addData(clt->getUuid(), "Off");
     }
     else if (std::strcmp(command.c_str(), "104") == 0) {
-        // send("111");
         _buffer->addData(clt->getUuid(), "Up");
     }
     else if (std::strcmp(command.c_str(), "103") == 0) {
-        // send("111");
         _buffer->addData(clt->getUuid(), "Down");
     }
     else if (std::strcmp(command.c_str(), "101") == 0) {
-        // send("111");
         _buffer->addData(clt->getUuid(), "Right");
     }
     else if (std::strcmp(command.c_str(), "102") == 0) {
-        // send("111");
         _buffer->addData(clt->getUuid(), "Left");
     }
     else if (std::strcmp(command.c_str(), "105") == 0) {
-        // send("111");
         _buffer->addData(clt->getUuid(), "Shoot");
     } else
         send("222");

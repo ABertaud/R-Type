@@ -43,7 +43,6 @@ void ECS::eventSystem::handleEvent(ECS::ECSEngine& engine, const Entity entity, 
         auto& events = _buffer->getData(player._uuid);
         event = (events.front());
         if (std::strcmp(event.c_str(), "Off") == 0) {
-            // engine.removeEntity(entity);
             engine.getComponent<ECS::entityDetails>(entity, ECS::ENTITY_DETAILS)._toUpdate = false;
         } else if (std::strcmp(event.c_str(), "Shoot") == 0 && shoot == 0) {
             createShoot(engine, entity);

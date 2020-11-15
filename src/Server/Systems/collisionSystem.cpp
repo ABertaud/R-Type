@@ -96,7 +96,6 @@ void ECS::collisionSystem::destroyEntity(const Entity ent, const Entity obstacle
         detailsObs._toUpdate = false;
     if (isExplodable(detailsEnt._type))
         detailsEnt._toUpdate = false;
-    std::cout << "destroy" << std::endl;
 }
 
 bool ECS::collisionSystem::isExplodable(const entityType type)
