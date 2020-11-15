@@ -26,14 +26,14 @@ void ufo::init(ECS::ECSEngine& engine)
     engine.addComponent(ent, ECS::Velocity(0, 20), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(150, 150), ECS::DIMENSIONS);
     engine.addComponent(ent, ECS::entityDetails(entityType::UFO, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
-    std::cout << "ufo" << std::endl;
 }
 
 void ufo::update(const float dt, ECS::ECSEngine& engine)
 {
     static int time = 0;
-    static int initial = 597;
-    static bool way = false;
+    static int speed = 5;
+    static int zone = 0;
+    static bool way = false;//random ?
 
     std::vector<Entity> entities = _filter.filterEntities(engine.getStorage(ECS::componentType::POSITION), engine.getEntites());
     entities = _filter.filterEntities(engine.getStorage(ECS::componentType::VELOCITY), entities);
@@ -45,18 +45,22 @@ void ufo::update(const float dt, ECS::ECSEngine& engine)
             auto& vel = engine.getComponent<ECS::Velocity>(ent, ECS::VELOCITY);
 
 
-            if (time % (100 / (static_cast<int>(vel._vy))) == 0) {// plus la velocité monte, plus ca ira souvent dans le if
-                pos._x -= 1;
+            if (time % (100 / speed) == 0) {    // plus la velocité monte, plus ca ira souvent dans le if
+                vel._vx = -1;
                 if (way == false) {             //il va descendre
-                    if (pos._y >= initial + 200)//il est en bas il change de sens
+                    if (zone >= 200)            //il est en bas il change de sens
                         way = true;
-                    else                        //il descend
-                        pos._y += 1;
+                    else {                       //il descend
+                        vel._vy = 1;
+                        zone++;
+                    }
                 } else {                        //il va monter
-                    if (pos._y <= initial - 200)//il est en haut il change de sens
+                    if (zone <= - 200)          //il est en haut il change de sens
                         way = false;
-                    else                        //il monte
-                        pos._y -= 1;
+                    else {                      //il monte
+                        vel._vy = -1;
+                        zone--;
+                    }
                 }
             }
         }

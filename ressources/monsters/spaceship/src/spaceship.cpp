@@ -25,17 +25,17 @@ void spaceship::init(ECS::ECSEngine& engine)
     auto ent = engine.getNewEntity();
 
     engine.addComponent(ent, ECS::Position(1116, 340), ECS::POSITION);
-    engine.addComponent(ent, ECS::Velocity(0, 5), ECS::VELOCITY);
+    engine.addComponent(ent, ECS::Velocity(0, 0), ECS::VELOCITY);
     engine.addComponent(ent, ECS::Dimensions(250, 250), ECS::DIMENSIONS);
     engine.addComponent(ent, ECS::Life(20), ECS::LIFE);
     engine.addComponent(ent, ECS::Bomb(), ECS::BOMB);
     engine.addComponent(ent, ECS::entityDetails(entityType::SPACESHIP, animationState::ANIMATION_0), ECS::ENTITY_DETAILS);
-    std::cout << "spaceship" << std::endl;
 }
 
 void spaceship::update(const float dt, ECS::ECSEngine& engine)
 {
     static int time = 0;
+    static int speed = 5;
     static bool way = true;//mettre un random pour changer si on commence par partir vers le haut ou le bas ?
     static bool firstBuf = false;
     static bool secondBuf = false;
@@ -54,40 +54,45 @@ void spaceship::update(const float dt, ECS::ECSEngine& engine)
 
             //SA VITESSE MONTE QUAND IL A PEU DE PV
             if (hp._hp < 10 && firstBuf == false) {
-                vel._vy *= 2;
+                speed *= 2;
                 firstBuf = true;
             }
             if (hp._hp < 3 && secondBuf == false) {
-                vel._vy *= 2;
+                speed *= 2;
                 secondBuf = true;
             }
             //SA VITESSE MONTE QUAND IL A PEU DE PV
 
-            if (time % (100 / (static_cast<int>(vel._vy))) == 0) {// plus la velocité monte, plus ca ira souvent dans le if
+            if (time % (100 / speed) == 0) {// plus la velocité monte, plus ca ira souvent dans le if
 
                 //SE PLACER CORRECTEMENT EN X
                 if (pos._x >= 800)
-                    pos._x -= 1;
+                    vel._vx -= 1;
                 //SE PLACER CORRECTEMENT EN X
                 else {
+                    vel._vx = 0;
                     //BOUGER VERS LE HAUT OU LE BAS
                     if (way == true) {//VERS LE BAS
                         if (pos._y < 600)
-                            pos._y += 1;
-                        else
+                            vel._vy = 1;
+                        else {
                             way = false;
+                            vel._vy = 0;
+                        }
                     } else {//VERS LE HAUT
                         if (pos._y > 250)
-                            pos._y -= 1;
-                        else
+                            vel._vy = -1;
+                        else {
                             way = true;
+                            vel._vy = 0;
+                        }
                     }
                     //BOUGER VERS LE HAUT OU LE BAS
                 }
 
                 
 
-                if (time % (1000 / (static_cast<int>(vel._vy))) == 0) {//plus la velocité monte, plus ca ira souvent dans le if
+                if (time % (1000 / speed) == 0) {
                     //shoot?
                 }
             }
