@@ -18,7 +18,7 @@ namespace ECS {
         Dimensions() = default;
         Dimensions(const unsigned int x, const unsigned int y);
         Dimensions(const Dimensions& other) = default;
-        Dimensions& operator=(const Dimensions& other) = default; 
+        Dimensions& operator=(const Dimensions& other) = default;
         ~Dimensions() = default;
         unsigned int _x;
         unsigned int _y;

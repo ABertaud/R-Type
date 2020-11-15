@@ -49,7 +49,7 @@ void Lobby::startGame(const std::shared_ptr<boost::asio::ip::udp::socket>& socke
     for (auto clt = _clients.begin(); clt != _clients.end(); clt++, playerIndex++) {
         if (*_players.at(playerIndex) == ECS::SPEC) {
             _clients.erase(clt);
-        } else { 
+        } else {
             socket->async_send_to(boost::asio::buffer(binCodec.serialize(binCodec.createPacket(toSend))), (*clt)->getEndpoint(),
             boost::bind(&Lobby::handleSend, this, toSend,
             boost::asio::placeholders::error,
@@ -84,7 +84,7 @@ void Lobby::removeClient(const clientPtr& client)
 bool Lobby::isRoomFull()
 {
     if (_available.size() <= 0)
-        return (true);    
+        return (true);
     return (false);
 }
 

@@ -37,7 +37,7 @@ ErrorNoMonsters::ErrorNoMonsters() : Error("Error: there is no monsters availabl
 }
 
 ErrorConfigPath::ErrorConfigPath(): ErrorArgs("Error: the file given as argument isn't valid.")
-{ 
+{
 }
 
 ECS::ErrorECS::ErrorECS(const std::string& err) : Error(err)

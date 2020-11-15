@@ -7,7 +7,7 @@
 
 #include "pathHandler.hpp"
 #include "boost/filesystem.hpp"
-  
+
 pathHandler::pathHandler(const pathType& type)
 {
     if (type == pathType::REGULAR_FILE)

@@ -135,7 +135,6 @@ void Client::loop()
                 send("210");
                 start = std::chrono::system_clock::now();
             }
-        
         }
         _currentTime += _connexion.restart();
         if (_currentTime >= checkTime && _state == INGAME) {
@@ -148,7 +147,7 @@ void Client::loop()
     }
     if (_sigHandler.isInterrupted()) {
         send("200");
-        send("200");    
+        send("200");
     }
 }
 

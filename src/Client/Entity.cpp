@@ -8,7 +8,7 @@
 #include "Entity.hpp"
 
 
-Graphic::Entity::Entity(int id, const entityType& type, bool bonus, const sf::Vector2f& pos, const animationState& anime) : _id(id), _type(type), 
+Graphic::Entity::Entity(int id, const entityType& type, bool bonus, const sf::Vector2f& pos, const animationState& anime) : _id(id), _type(type),
 _pos(pos), _bonus(bonus), _scale({1, 1}), _currentAnimation(anime)
 {
 

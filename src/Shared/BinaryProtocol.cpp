@@ -36,7 +36,7 @@ std::vector<uint8_t> BinaryProtocol::Codec::serialize(const Packet& input)
     std::size_t str_size = input._message.size();
     int index = 0;
     std::vector<uint8_t> output;
-    unsigned int packet_size = sizeof(input._magicNumber) + 
+    unsigned int packet_size = sizeof(input._magicNumber) +
         (str_size * (sizeof(char) * sizeof(str_size)));
 
     output.resize(packet_size);

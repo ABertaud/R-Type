@@ -30,7 +30,7 @@ bool Parser::openFile(std::string configFilePath)
 bool Parser::linkEntitiesToSprites()
 {
     std::string line(""), code(""), path("");
-    
+
     while (std::getline(_config, line, '\n')) {
         if (line.find("=") != line.npos) {
             code = line.substr(0, line.find("="));

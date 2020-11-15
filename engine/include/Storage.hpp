@@ -26,7 +26,6 @@ namespace ECS {
         void linkEntityToComponent(Entity entityID, const T& component)
         {
             Entity newIndex = _size;
-            
             _entityToIndex[entityID] = newIndex;
             _indexToEntity[newIndex] = entityID;
             _componentArray[newIndex] = component;

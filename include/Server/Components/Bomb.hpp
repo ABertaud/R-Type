@@ -14,7 +14,7 @@ namespace ECS {
     struct Bomb : public IComponents {
         Bomb();
         Bomb(const Bomb& other) = default;
-        Bomb& operator=(const Bomb& other) = default; 
+        Bomb& operator=(const Bomb& other) = default;
         ~Bomb() = default;
         float _dt;
     };

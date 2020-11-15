@@ -22,7 +22,6 @@ _buffer(std::make_shared<Buffer>()), _libPath(libPath), _sigHandler(), _t(ioCont
     _parser.insert(std::make_pair(Client::INGAME, &udpServer::parserInGameState));
     startReceive();
     _t.async_wait(boost::bind(&udpServer::serverEndHandler, this, boost::asio::placeholders::error));
-    
 }
 
 void udpServer::startReceive()
@@ -118,7 +117,6 @@ void udpServer::parserNoneState(clientPtr& clt, std::string& buffer)
     std::size_t start = buffer.find(" ");
     std::size_t second_space = buffer.substr(start + 1, buffer.length()).find(" ");
 
-    
     std::string command = buffer.substr(0, start);
     std::string firstArg = buffer.substr(start + 1, second_space);
 
@@ -155,7 +153,6 @@ void udpServer::parserInLobbyState(clientPtr& clt, std::string& buffer)
     std::size_t start = buffer.find(" ");
     std::size_t second_space = buffer.substr(start + 1, buffer.length()).find(" ");
 
-    
     std::string command = buffer.substr(0, start);
     std::string firstArg = buffer.substr(start + 1, second_space);
 
@@ -173,7 +170,7 @@ void udpServer::parserInLobbyState(clientPtr& clt, std::string& buffer)
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
     } else
-        send("222");  
+        send("222");
 }
 
 void udpServer::routineMenu(std::vector<clientPtr>& clients, std::vector<std::shared_ptr<ECS::playerNumber>>& players, std::queue<ECS::playerNumber>& available)
@@ -205,7 +202,6 @@ void udpServer::parserReadyState(clientPtr& clt, std::string& buffer)
 {
     buffer.erase(std::remove(buffer.begin(), buffer.end(), '\n'), buffer.end());
     std::size_t start = buffer.find(" ");
-    
     std::string command = buffer.substr(0, start);
 
     if (std::strcmp(command.c_str(), "205") == 0) {
@@ -228,7 +224,7 @@ void udpServer::parserReadyState(clientPtr& clt, std::string& buffer)
         findLobby(clt).removeClient(clt);
         clt->setState(Client::NONE);
     } else
-        send("222");  
+        send("222");
 }
 
 void udpServer::parserInGameState(clientPtr& clt, std::string& buffer)
@@ -240,7 +236,7 @@ void udpServer::parserInGameState(clientPtr& clt, std::string& buffer)
     buffer.erase(std::remove(buffer.begin(), buffer.end(), '\n'), buffer.end());
     std::size_t start = buffer.find(" ");
 
-    
+
     std::string command = buffer.substr(0, start);
     if (std::strcmp(command.c_str(), "200") == 0) {
         findLobby(clt).removeClient(clt);

@@ -32,5 +32,5 @@ int main(int ac, char **av)
         std::cerr << err.what() << std::endl;
         return (84);
     }
-    return (0);    
+    return (0);
 }

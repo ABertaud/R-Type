@@ -26,7 +26,7 @@ namespace ECS {
         collisionSystem& operator=(const collisionSystem& other) = default;
         void update(const float dt, ECSEngine& engine);
         ~collisionSystem() = default;
-    private: 
+    private:
         void checkCollision(const Entity ent, std::vector<Entity>& entities, ECS::ECSEngine& engine, std::vector<entityType>& CollisionTypes);
         void createBomb(Position& pos, ECS::ECSEngine& engine);
         void looseHp(const Entity ent, const Entity obstacle, ECS::ECSEngine& engine);

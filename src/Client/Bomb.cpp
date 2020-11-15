@@ -7,7 +7,7 @@
 
 #include "Bomb.hpp"
 
-Graphic::Bomb::Bomb(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
+Graphic::Bomb::Bomb(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) :
 Graphic::Entity(id, BOMB, bonus, test, anime)
 {
     sf::IntRect rect(0, 0, 36, 30);

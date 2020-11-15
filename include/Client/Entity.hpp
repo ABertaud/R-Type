@@ -34,7 +34,6 @@ class Entity : public Graphic::IEntity {
         sf::Vector2f _scale;
         animationState _currentAnimation;
         std::map <animationState, sf::IntRect> _animation;
-        
 };
 }
 

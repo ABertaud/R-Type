@@ -56,7 +56,6 @@ public:
        std::vector<std::shared_ptr<sf::Texture>> _textures;
        sf::Event _event;
        sf::Sprite _background;
-       
        void loadSprite(const std::string& path, const entityType& obj);
        void loadAllSprite(std::map<entityType, std::string>& paths);
        void drawEntity(std::shared_ptr<Graphic::Entity>);

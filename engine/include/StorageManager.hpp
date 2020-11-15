@@ -17,10 +17,10 @@ namespace ECS {
         public:
             StorageManager();
             StorageManager(const StorageManager& other) = default;
-            StorageManager& operator=(const StorageManager& other) = default; 
+            StorageManager& operator=(const StorageManager& other) = default;
             ~StorageManager() = default;
             template <typename T>
-            T &findStorage(const componentType& type) 
+            T &findStorage(const componentType& type)
             {
                 return (static_cast<T&>(*_storages[type]));
             }

@@ -32,7 +32,7 @@
         <keyword>R-Type Protocol</keyword>
         <keyword>RTP</keyword>
         <abstract>
-            <t>This memo presents the way of using the 
+            <t>This memo presents the way of using the
             R-Type Protocol as the interaction between the client
             side and the server side for commands and reply
             codes. Request for Comments (RFC) series.</t>
@@ -108,7 +108,7 @@
                         /----------\              /----------\
                         |          |  [Commands]  |          |
                         |  Client  | <----------> |  Server  |
-                        |    RTP   |    [Reply]   |    RTP   |                    
+                        |    RTP   |    [Reply]   |    RTP   |
                         \----------/              \----------/
 
                         ]]></artwork>
@@ -128,7 +128,7 @@
                         string: &#60;"string"&#62;<vspace blankLines='0'/>
                         <list style="">
                             <t>
-                                The String type is a character pointer of not defined 
+                                The String type is a character pointer of not defined
                                 size. Its content depends on the command before this argument type.
                             </t>
                         </list>
@@ -160,7 +160,7 @@
                     <vspace blankLines='2'/>NONE :
                     <list style="">
                         <t>
-                            When the User is in NONE state, he can either create 
+                            When the User is in NONE state, he can either create
                             a game by sending code<vspace blankLines='0'/>
                             "201 &#60;NAME&#62;" to the server. the &#60;NAME&#62;
                             will be the name of the Lobby.<vspace blankLines='0'/>
@@ -339,7 +339,7 @@
 
                     <vspace blankLines='3'/>
                     As a routine menu, the Server will send updates of
-                    menu informations to the client. To activate the routine the 
+                    menu informations to the client. To activate the routine the
                     client must send the code "210" to the Server. Each time this
                     code is received, a menu routine will be send to the client.
                     <vspace blankLines='1'/>

@@ -20,7 +20,7 @@ namespace ECS {
             Filter& operator=(const Filter& other) = default;
             std::vector<Entity> filterEntities(const std::shared_ptr<IStorage>& storage, std::vector<Entity>& entities);
             template <typename T>
-            T& findComponent(const componentType& type, std::unordered_map<componentType, std::shared_ptr<IStorage>>& components) 
+            T& findComponent(const componentType& type, std::unordered_map<componentType, std::shared_ptr<IStorage>>& components)
             {
                 return (static_cast<T&>(*components[type]));
             }

@@ -44,7 +44,7 @@ target_include_directories(unit_tests_client PRIVATE ${INCLUDES_SHARED_DIR})
 target_include_directories(unit_tests_client PRIVATE SYSTEM ${INCLUDES_SHARED_MONSTERS_DIR})
 target_link_libraries(unit_tests_client criterion)
 target_link_libraries(unit_tests_client ${CONAN_LIBS})
-target_link_libraries(unit_tests_client ${CMAKE_THREAD_LIBS_INIT})      
+target_link_libraries(unit_tests_client ${CMAKE_THREAD_LIBS_INIT})
 add_test(first unit_tests_client)
 
 add_executable(unit_tests_server ${TESTS_SERVER} ${SRCS_SERVER})
@@ -60,7 +60,7 @@ target_include_directories(unit_tests_server PRIVATE SYSTEM ${INCLUDE_SYSTEMS_DI
 target_include_directories(unit_tests_server PRIVATE SYSTEM ${INCLUDE_ENGINE_DIR})
 target_include_directories(unit_tests_server PRIVATE SYSTEM ${INCLUDES_SHARED_MONSTERS_DIR})
 target_link_libraries(unit_tests_server criterion)
-target_link_libraries(unit_tests_server ${CONAN_LIBS})      
+target_link_libraries(unit_tests_server ${CONAN_LIBS})
 target_link_libraries(unit_tests_server ${CMAKE_THREAD_LIBS_INIT})
 add_test(second unit_tests_server)
 

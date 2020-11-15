@@ -40,7 +40,7 @@ void GifDrawer::loadSprite(const std::string& path)
 }
 
 void GifDrawer::update(sf::Time deltaTime, sf::RenderWindow& window)
-{    
+{
     int size = 0;
     _currentTime += deltaTime;
     if (_currentTime >= _frameTime) {

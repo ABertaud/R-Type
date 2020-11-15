@@ -8,7 +8,7 @@
 #include "PlayerShoot.hpp"
 #include <iostream>
 
-Graphic::PlayerShoot::PlayerShoot(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
+Graphic::PlayerShoot::PlayerShoot(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) :
 Graphic::Entity(id, PLAYER_SHOOT, bonus, test, anime)
 {
     sf::IntRect rect(0, 0, 50, 15);

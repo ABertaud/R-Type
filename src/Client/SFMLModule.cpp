@@ -7,8 +7,8 @@
 
 #include "SFMLModule.hpp"
 
-SFMLModule::SFMLModule(const std::string& path)  : _parser(path), _winpos({1116, 797}), 
-_scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()), 
+SFMLModule::SFMLModule(const std::string& path)  : _parser(path), _winpos({1116, 797}),
+_scale({1, 1}), _key(keyTraducer()), _scene(MENU), _text(TextDrawer()),
 _menu(MenuDrawer(_scale)), _roomName(""),  _parallaxShader("../../ressources/sprites/Game/BackgroundGame.png", _scale),
 _audio()
 {
@@ -85,7 +85,7 @@ void SFMLModule::init(const sf::Vector2f& scale)
     _scale = scale;
     if (_scale.x <= x && _scale.y <= y)
         _window.create(sf::VideoMode(_winpos.x, _winpos.y), "R-Type", sf::Style::Close | sf::Style::Titlebar | sf::Style::Default);
-    else 
+    else
         _window.create(sf::VideoMode(_winpos.x * _scale.x, _winpos.y * _scale.y), "R-Type", sf::Style::Close | sf::Style::Titlebar | sf::Style::Default);
     _menu.setScale(_scale);
     _menu.reSize();
@@ -126,7 +126,7 @@ void SFMLModule::drawGame(const std::vector<std::shared_ptr<Graphic::Entity>>& e
 {
     _window.clear();
     _parallaxShader.parallaxShaderDraw(_window);
-    for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++) 
+    for (std::vector<std::shared_ptr<Graphic::Entity>>::const_iterator it = entityArray.begin(); it != entityArray.end(); it++)
         drawEntity((*it));
     _window.display();
 }

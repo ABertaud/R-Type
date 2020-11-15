@@ -12,7 +12,7 @@ class ParallaxShader {
     private:
         float _offset;
         sf::Vector2f _scale;
-        sf::Clock _clock; 
+        sf::Clock _clock;
         sf::Texture _texture;
         sf::Sprite _sprite;
         sf::Shader _parallaxShader;

@@ -15,7 +15,7 @@ namespace ECS {
         Position() = default;
         Position(const int x, const int y);
         Position(const Position& other) = default;
-        Position& operator=(const Position& other) = default; 
+        Position& operator=(const Position& other) = default;
         ~Position() = default;
         int _x;
         int _y;

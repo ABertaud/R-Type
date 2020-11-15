@@ -74,8 +74,6 @@ void MenuDrawer::initPosButton()
     float x_room = (_winpos.x - 307) * _scale.x;
     float y_room = (_winpos.y / 6 + 8) * _scale.y;
     sf::Vector2f posBack((_winpos.x - 100) * _scale.x, (_winpos.y - 135) * _scale.y);
-    
-
     sf::Vector2f pos(x, y);
     sf::Vector2f posRoom(x_room, y_room);
     sf::Vector2f posSet(x_settings, y_settings);
@@ -135,7 +133,7 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& e
                 return (it)->first;
             _audio.playSound(Audio::BUTTON);
             if (checkView((it)->first) == true && _state == VIEW)
-                return (it)->first;  
+                return (it)->first;
             if (checkHome((it)->first) == true && _state == HOME)
                 return (it)->first;
             if (checkSettings((it)->first) == true && _state == SETTINGS)
@@ -149,17 +147,17 @@ MenuDrawer::State MenuDrawer::clickButton(sf::RenderWindow& window, sf::Event& e
 
 MenuDrawer::State MenuDrawer::handleMenu(sf::RenderWindow& window, sf::Event& event)
 {
-    sf::Vector2i mouse_pos = sf::Mouse::getPosition(window); 
+    sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
     sf::Vector2f translated_pos = window.mapPixelToCoords(mouse_pos);
     sf::Color color(128, 128, 128);
 
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) 
+        if (event.type == sf::Event::Closed)
             _state = QUIT;
         if (event.type == sf::Event::MouseButtonPressed)
             _state = clickButton(window, event);
         for (std::map<State, sf::Sprite>::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
-            if ((it)->second.getGlobalBounds().contains(translated_pos)) 
+            if ((it)->second.getGlobalBounds().contains(translated_pos))
                (it)->second.setColor(color);
             else
                (it)->second.setColor(sf::Color::White);
@@ -274,7 +272,7 @@ void MenuDrawer::draw(sf::RenderWindow& window, const std::string& playerName, s
     }
     if (_state == HOME)
         drawHome(window, playerName);
-    if (_state == SETTINGS) 
+    if (_state == SETTINGS)
         drawSettings(window);
     if (_state == NEW) {
         _roomName = enterScene(window, event, CREATE);
@@ -311,7 +309,7 @@ std::string MenuDrawer::getPlayerName(const entityType& type)
         return std::string("player 3");
     if (type == P4)
         return std::string("player 4");
-    return std::string("");    
+    return std::string("");
 }
 
 void MenuDrawer::drawPlayerRoom(const std::shared_ptr<Players>& player, sf::RenderWindow& window)
@@ -326,7 +324,6 @@ void MenuDrawer::drawPlayerRoom(const std::shared_ptr<Players>& player, sf::Rend
     sf::Vector2f pos(x, y);
     sf::Vector2f posIcon(x_icon, y_icon);
     sf::Vector2f posText(x_text, y_text);
-    
     for (std::map<entityType, sf::Sprite>::iterator it = _players.begin(); it != _players.end(); it++) {
         if ((it)->first == player->getType() && player->getState() != Players::OFF) {
             drawRect(pos, window);
@@ -350,7 +347,7 @@ void MenuDrawer::drawRect(const sf::Vector2f& pos, sf::RenderWindow& window)
     for (std::map<entityType, sf::Sprite>::iterator it = _players.begin(); it != _players.end(); it++) {
         if ((it)->first == WALL) {
             (it)->second.setPosition(pos);
-            window.draw((it)->second); 
+            window.draw((it)->second);
         }
     }
 }
@@ -370,7 +367,7 @@ void MenuDrawer::drawIconStat(const State& state, sf::RenderWindow& window, sf::
         texture.loadFromFile("../../ressources/sprites/X_Button.png");
     texture.setSmooth(true);
     go.setTexture(texture);
-    window.draw(go);    
+    window.draw(go);
 }
 
 void MenuDrawer::drawState(const State& state, sf::RenderWindow& window, const sf::Vector2f& pos)
@@ -438,7 +435,7 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& ev
     sf::RectangleShape zone(createRectangleShape(sf::Vector2f(340, 70), sf::Vector2f((_winpos.x /3)  * _scale.x, (_winpos.y /2)  * _scale.y), sf::Color(255, 255, 255, 50)));
     sf::Texture texture;
     sf::Sprite back;
-    sf::Vector2i mouse_pos; 
+    sf::Vector2i mouse_pos;
     sf::Vector2f translated_pos;
     sf::Color color(128, 128, 128);
 
@@ -459,7 +456,7 @@ const std::string MenuDrawer::enterScene(sf::RenderWindow& window, sf::Event& ev
                 _state = QUIT;
                 return ("closssssssse");
             }
-            if (back.getGlobalBounds().contains(translated_pos)) 
+            if (back.getGlobalBounds().contains(translated_pos))
                back.setColor(color);
             else
                back.setColor(sf::Color::White);

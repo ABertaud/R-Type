@@ -30,7 +30,7 @@ namespace ECS {
         Player() = default;
         Player(const playerNumber player, const boost::uuids::uuid& uuid);
         Player(const Player& other) = default;
-        Player& operator=(const Player& other) = default; 
+        Player& operator=(const Player& other) = default;
         ~Player() = default;
         playerNumber _player;
         currentMovement _direction;

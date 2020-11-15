@@ -7,7 +7,7 @@
 
 #include "ItemSpeed.hpp"
 
-Graphic::ItemSpeed::ItemSpeed(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) : 
+Graphic::ItemSpeed::ItemSpeed(int id, bool bonus, const sf::Vector2f& test, const animationState& anime) :
 Graphic::Entity(id, ITEMSPEED, bonus, test, anime)
 {
     sf::IntRect rect(0, 0, 16, 16);

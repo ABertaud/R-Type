@@ -16,7 +16,7 @@
 #include "IEntity.hpp"
 
 class Parser {
-    public:    
+    public:
         Parser(std::string configFilePath = "../../ressources/config_file.txt");
         bool openFile(std::string configFilePath);
         bool linkEntitiesToSprites();

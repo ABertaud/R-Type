@@ -18,7 +18,7 @@ namespace ECS {
         Life() = default;
         Life(const unsigned int hp);
         Life(const Life& other) = default;
-        Life& operator=(const Life& other) = default; 
+        Life& operator=(const Life& other) = default;
         ~Life() = default;
         unsigned int _hp;
     };

@@ -8,5 +8,5 @@
 #include "entityDetails.hpp"
 
 ECS::entityDetails::entityDetails(const entityType type, const animationState state) : _type(type), _state(state), _toUpdate(true)
-{    
+{
 }

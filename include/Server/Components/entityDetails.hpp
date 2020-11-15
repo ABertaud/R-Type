@@ -16,7 +16,7 @@ namespace ECS {
         entityDetails() = default;
         entityDetails(const entityType type, const animationState state);
         entityDetails(const entityDetails& other) = default;
-        entityDetails& operator=(const entityDetails& other) = default; 
+        entityDetails& operator=(const entityDetails& other) = default;
         ~entityDetails() = default;
         entityType _type;
         animationState _state;

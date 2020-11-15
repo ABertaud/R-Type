@@ -106,13 +106,12 @@ bool ECS::collisionSystem::isExplodable(const entityType type)
 
 ECS::Position ECS::collisionSystem::findIntersection(const Position& playerPos, const Position& playerMaxpos, const Position& entPos, const Position& entMaxPos) const
 {
-    int x5 = std::max(playerPos._x, entPos._x); 
-    int y5 = std::max(playerPos._y, entPos._y); 
-  
-    int x6 = std::min(playerMaxpos._x, entMaxPos._x); 
-    int y6 = std::min(playerMaxpos._y, entMaxPos._y); 
-  
-    if (x5 > x6 || y5 > y6) { 
+    int x5 = std::max(playerPos._x, entPos._x);
+    int y5 = std::max(playerPos._y, entPos._y);
+    int x6 = std::min(playerMaxpos._x, entMaxPos._x);
+    int y6 = std::min(playerMaxpos._y, entMaxPos._y);
+
+    if (x5 > x6 || y5 > y6) {
         return (Position(-1, -1));
     }
     return (Position((x5 + x6) / 2, (y5 + y6) / 2));

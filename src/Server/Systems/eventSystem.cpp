@@ -63,7 +63,6 @@ void ECS::eventSystem::handleEvent(ECS::ECSEngine& engine, const Entity entity, 
 void ECS::eventSystem::createShoot(ECS::ECSEngine& engine, const Entity entity)
 {
     ECS::Position& pos = engine.getComponent<ECS::Position>(entity, ECS::POSITION);
-    
     Entity ent = engine.getNewEntity();
     engine.addComponent(ent, pos, ECS::POSITION);
     engine.addComponent(ent, ECS::Dimensions(50, 15), ECS::DIMENSIONS);
